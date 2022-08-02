@@ -5,57 +5,36 @@ import java.util.Arrays;
 
 public class SpinningRotor implements Rotor {
     int size;
+    int notch=3;
     int pos;
 
-    /*
-    * A 3
-    * B 4
-    * C 5
-    * A 0
-    * B 1
-    * C 2
-    *
-    *
-    *
-    *
-    * */
-    Letter[] leftArr = {    new Letter("F", 2),
-                            new Letter("C", 5),
-                            new Letter("A", 3),
-                            new Letter("E", 1),
-                            new Letter("B", 4),
-                            new Letter("D", 0)  };
+    Letter[] leftArr;
+    Letter[] rightArr;
 
-    Letter[] rightArr = {   new Letter("D", 5),
-                            new Letter("E", 3),
-                            new Letter("F", 0),
-                            new Letter("A", 2),
-                            new Letter("B", 4),
-                            new Letter("C", 1)  };
+    public SpinningRotor(Letter[] rightArr ,Letter[] leftArr,int pos,int notch ) {
+        this.leftArr=leftArr;
+        this.rightArr=rightArr;
+        this.pos=pos;
+        this.notch=notch;
+        size = 6;
+    }
+    public int getPos(){return pos;}
 
-
-
-    public int my_decode(int index) {
-
-      //  decode: left <- right
-        int ind = (index + pos) % size;
-
-
-        int theTwinIndex = rightArr[ind].myTwinIndex;
-        int res = (theTwinIndex - pos) % size;
-
-        if(res < 0){
-            return res+size;
-        }
-        return res;
+    public int getSize() {
+        return size;
     }
 
+    public Letter[] getLeftArr(){
+        return leftArr;
+    }
 
+    public Letter[] getRightArr(){
+        return rightArr;
+    }
 
-
-
-    public SpinningRotor() { pos = 0; size = 6;}
-
+    public boolean isNotch(){
+        return pos==notch;
+    }
     public void print(){
 
         int ind = pos;
@@ -88,6 +67,10 @@ public class SpinningRotor implements Rotor {
         leftArr=l;
 */
         pos++;
+        if(pos==size){
+            pos=0;
+        }
+
     }
 
     public void setRotor(String left, String right){
@@ -135,6 +118,9 @@ public class SpinningRotor implements Rotor {
         if (res < 0) {
 
             res += size;
+        }
+        if(pos==notch){
+            System.out.print("spin!");
         }
 
         return res;
