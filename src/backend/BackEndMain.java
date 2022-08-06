@@ -1,7 +1,7 @@
 package backend;
 
 import Machine.Machine;
-import jaxb.schema.generated.CTEEnigma;
+import enigma.jaxb.schema.generated.CTEEnigma;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
