@@ -1,44 +1,78 @@
 package Machine;
 
+import java.util.ArrayList;
+
 public class Machine {
 
     private PlugBoard plugBoard;
-    private SpinningRotor[] activeRotors;
+    private ArrayList<SpinningRotor> activeRotors=new ArrayList<> ();
+
+    private SpinningRotor[] rotors;
     private int numberOfActiveRotors;
-    private Reflector reflector;
+
+    private  Reflector[] reflectors;
+    private Reflector activeReflector;
+
 
     public Machine() {}
 
+    public Machine(PlugBoard plugBoard,SpinningRotor[] activeRotors,Reflector[] reflectors) {
+        this.plugBoard = plugBoard;
+        this.rotors=activeRotors;
+        this.reflectors = reflectors;
+        this.activeReflector=reflectors[0];
+
+
+    }
+
     // ************ the machine setting's functions ************
+    public void addActiveRotor(int index){
+        this.activeRotors.add(rotors[index]);
+        numberOfActiveRotors++;
+    }
     public void setActiveRotors(SpinningRotor[] arr, int size){
 
         this.numberOfActiveRotors = size;
-        this.activeRotors = arr;
+        this.rotors = arr;
     }
     public void setReflector(Reflector ref) {
 
-        this.reflector = ref;
+        this.activeReflector = ref;
     }
     public void setPlugBoard(PlugBoard p){
-
         this.plugBoard = p;
     }
 
+    public PlugBoard getPlugBoard() {
+        return plugBoard;
+    }
+
+    public ArrayList<SpinningRotor> getActiveRotors() {
+        return activeRotors;
+    }
+
+    public Reflector getActiveReflector() {
+        return activeReflector;
+    }
 
     // ************ the machine action's functions ************
     public void moveRotorsByNotch() {
 
-        boolean inNotch = activeRotors[0].move();
+        boolean inNotch = activeRotors.get(0).move();
 
         for(int i=1 ; i<numberOfActiveRotors ; i++) {
 
-            if (inNotch) {  inNotch = activeRotors[i].move(); }
+            if (inNotch) {  inNotch = activeRotors.get(i).move(); }
             else         {  break; }
         }
     }
     public int getFromPlugBoard(int ind){
 
         return plugBoard.decode(ind, true);
+    }
+
+    public void PrintRotorsState(){
+        activeRotors.forEach(r->System.out.print(r.getPos()+","));
     }
     public int decodeLetter(int index){
 
@@ -48,19 +82,19 @@ public class Machine {
 
         // step 1: go throw the rotors the first time: left <- right
         for (int i=0; i < numberOfActiveRotors; i++) {
-            res = activeRotors[i].decode(res,false);
+            res = activeRotors.get(i).decode(res,false);
         }
 
         //////////////////////////////////////////////////////////
 
         // step 2: go throw the reflector
-        res = reflector.decode(res,false);
+        res = activeReflector.decode(res,false);
 
         //////////////////////////////////////////////////////////
 
         // step 3: go throw the rotors the second time: left -> right
         for (int i = numberOfActiveRotors - 1 ; i >= 0 ; i--) {
-            res = activeRotors[i].decode(res,true);
+            res = activeRotors.get(i).decode(res,true);
         }
 
         return res;

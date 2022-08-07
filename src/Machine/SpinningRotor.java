@@ -4,10 +4,14 @@ package Machine;
 public class SpinningRotor implements Rotor {
 
     int size, pos, id;
-    String notch;
+    int notch;
     Letter[] leftArr, rightArr;
 
-    public SpinningRotor(Letter[] rightArr ,Letter[] leftArr, String leftNotch, int id) {
+    public int getId() {
+        return id;
+    }
+
+    public SpinningRotor(Letter[] rightArr , Letter[] leftArr, int leftNotch, int id) {
 
         this.leftArr=leftArr; this.rightArr=rightArr;
         notch=leftNotch; pos=0; size = 6;
@@ -31,11 +35,11 @@ public class SpinningRotor implements Rotor {
     }
 
     // ******************** Rotors setters *********************
-    public void setRotor(String left, String right){
+    public void setRotor(String left){
 
         for(int i = 0; i< size ;i++ ){
 
-            if(leftArr[i].letter.equals(left) || rightArr[i].letter.equals(right)){
+            if(leftArr[i].letter.equals(left) ){
 
                 pos = i;
                 return;
@@ -51,8 +55,7 @@ public class SpinningRotor implements Rotor {
 
         pos++;
         if( pos == size) { pos = 0;}
-
-        return leftArr[pos].letter.equals(notch);
+        return (pos==notch);
     }
     @Override
     public int decode(int index, boolean dir) {
@@ -71,5 +74,19 @@ public class SpinningRotor implements Rotor {
         if (res < 0) {  res += size;  }
 
         return res;
+    }
+
+
+    public void print(){
+
+        int ind = pos;
+        for(int i = 0; i < size; i++) {
+
+            System.out.println(i+": " +leftArr[ind % size].letter + " " + rightArr[ind % size].letter );
+            ind++;
+        }
+
+        System.out.println(" ");
+
     }
 }

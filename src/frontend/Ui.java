@@ -1,10 +1,14 @@
 package frontend;
 
+import backend.BackEndMain;
+
+import javax.xml.bind.JAXBException;
 import java.util.Scanner;
 
 public class Ui {
 
-    Scanner userInput =new Scanner(System.in);;
+    Scanner userInput =new Scanner(System.in);
+    BackEndMain backend = new BackEndMain();
 
     String[] menuOptions=new String[]{
             "load Machine settings via XML file",
@@ -45,6 +49,8 @@ public class Ui {
         int answer =this.getUserMenuInput();
         while(answer!=7){
             menuSwitch(answer);
+            this.showMenu();
+            answer =this.getUserMenuInput();
         }
 
     }
@@ -54,19 +60,36 @@ public class Ui {
         String path =userInput.nextLine()+userInput.nextLine();
 //        --------- sends input to backend- if all good return empty string--------
 //        --------- otherwise returns string with given error and ui address the issue to the user -------
+        try {
+            String res = backend.setXmlData(path);
+            if(res=="ok"){
+                System.out.println("you just done uploading the file!"+res);
+            }else{
+                System.out.println("ERROR: "+res);
+            }
+
+            return;
+        } catch (Exception e) {
+            System.out.println("ERROR: "+e.getMessage());
+        }
 //        return "that a bad file"
-        return;
+
 
     }
 
     public void menuSwitch(int menuItem){
         switch(menuItem) {
-            case 0:
+            case 1:
                 inputXML();
-
                 break;
+            case 5:
+                String toDecode =userInput.nextLine()+userInput.nextLine();
+
+            System.out.println(backend.DecodeString(toDecode.toUpperCase()));
+            break;
             default:
                 System.out.println("NOPE");
+                break;
         }
         return;
     }
@@ -75,7 +98,7 @@ public class Ui {
 
     public void showMenu(){
     for(int i=0;i<menuOptions.length;i++){
-        System.out.println(i+": "+menuOptions[i]);
+        System.out.println(i+1+": "+menuOptions[i]);
     }
 }
 }
