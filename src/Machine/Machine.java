@@ -26,14 +26,28 @@ public class Machine {
     }
 
     // ************ the machine setting's functions ************
+
+
+    public SpinningRotor getRotor(int id) throws Exception {
+
+        for(int i=1 ; i<numberOfActiveRotors ; i++) {
+            if(rotors[i].getId()==id){
+                return rotors[i];
+            }
+        }
+        throw new Exception("rotor was not found");
+
+
+    }
+
     public void addActiveRotor(int index){
         this.activeRotors.add(rotors[index]);
         numberOfActiveRotors++;
     }
-    public void setActiveRotors(SpinningRotor[] arr, int size){
+    public void setActiveRotors(ArrayList<SpinningRotor> arr, int size){
 
         this.numberOfActiveRotors = size;
-        this.rotors = arr;
+        this.activeRotors = arr;
     }
     public void setReflector(Reflector ref) {
 

@@ -52,8 +52,11 @@ public class Ui {
             this.showMenu();
             answer =this.getUserMenuInput();
         }
+        
+    
 
     }
+    
     
     public void inputXML(){
         System.out.println("please enter a pull path to your XML file");
@@ -67,7 +70,10 @@ public class Ui {
             }else{
                 System.out.println("ERROR: "+res);
             }
-
+            int[] rotorsId = new int[]{1,3};
+            String[] rotorPostions = new String[]{"D","C"};
+            backend.setRotorsViaUser(rotorsId,rotorPostions);
+            System.out.println("");
             return;
         } catch (Exception e) {
             System.out.println("ERROR: "+e.getMessage());

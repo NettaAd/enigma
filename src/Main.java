@@ -9,25 +9,7 @@ import frontend.Ui;
 
 public class Main {
 
-/*    public static void printRotors(SpinningRotor one, SpinningRotor two) {
 
-        int ind = one.getPos();
-
-        Letter[] r_one = one.getRightArr();
-        Letter[] l_one = one.getLeftArr();
-        Letter[] r_two = two.getRightArr();
-        Letter[] l_two = two.getLeftArr();
-
-        for(int i = 0; i < 6; i++) {
-
-            System.out.println( l_two[ind % 6].theLetter() + " " + r_two[ind % 6].theLetter()+"  |  "+l_one[ind % 6].theLetter() + " " + r_one[ind % 6].theLetter()+"  :"+i);
-            ind++;
-        }
-
-        System.out.println(" ");
-
-    }
-*/
     public static void main(String[] args) {
 
         Ui front = new Ui();

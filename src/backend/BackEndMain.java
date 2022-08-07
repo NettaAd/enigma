@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import Machine.Letter;
@@ -120,6 +122,23 @@ ABC abc;
 //        TODO----set the machine to the random settings we just made and add it to the deafult state in the backend
 
         return "";
+    }
+
+    //<45,27,94><AO!><III><A|Z,D|E>
+    public void setRotorsViaUser (int[] rotorsId,String[] posSet){
+        ArrayList<SpinningRotor> newRotors = new ArrayList<SpinningRotor>();
+        for (int i=0;i<rotorsId.length;i++){
+            try {
+                SpinningRotor r = myEnigma.getRotor(rotorsId[i]);
+                r.setRotor(posSet[i]);
+                newRotors.add(r);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        myEnigma.setActiveRotors(newRotors,rotorsId.length);
+
+
     }
 
     public String DecodeString(String rawString){
