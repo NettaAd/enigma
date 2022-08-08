@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="edbc126b-eb45-418b-88f3-34383b65193a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Machine/ABC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Machine/ABC.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Machine/Machine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Machine/Machine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Machine/PlugBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Machine/PlugBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Machine/SpinningRotor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Machine/SpinningRotor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/backend/BackEndMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/BackEndMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/Ui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Ui.java" afterDir="false" />
@@ -33,12 +36,18 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/studying/code/java/enigma real/src&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\studying\code\java\enigma real\src" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Machine.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Machine.Main" />
@@ -78,7 +87,9 @@
       <workItem from="1659479818804" duration="2413000" />
       <workItem from="1659484385100" duration="10880000" />
       <workItem from="1659772408975" duration="7138000" />
-      <workItem from="1659866377433" duration="13346000" />
+      <workItem from="1659866377433" duration="15170000" />
+      <workItem from="1659944667101" duration="21364000" />
+      <workItem from="1659980428213" duration="2227000" />
     </task>
     <servers />
   </component>
@@ -97,20 +108,6 @@
     </option>
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/frontend/Ui.java</url>
-          <line>75</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/backend/BackEndMain.java</url>
-          <line>131</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="enigma.jaxb.schema.generated.CTERotor" memberName="notch" />

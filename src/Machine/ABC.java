@@ -5,15 +5,20 @@ public class ABC {
 
     public ABC(char[] chars) {
 
-        this.chars =String.valueOf(chars);
+        this.chars = String.valueOf(chars);
     }
 
-    public boolean checkifInAbc(String s){
+    public int getSize(){
+
+        return chars.length();
+    }
+    public boolean checkInAbc(String s){
 
         char[] charArr = s.toCharArray();
-        for (int i=0;i<s.length();i++){
 
-            if(chars.indexOf(charArr[i])==-1){
+        for (int i=0;i<s.length();i++) {
+
+            if(chars.indexOf(charArr[i]) == -1) {
                 return false;
             }
         }

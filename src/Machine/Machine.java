@@ -5,45 +5,69 @@ import java.util.ArrayList;
 public class Machine {
 
     private PlugBoard plugBoard;
-    private ArrayList<SpinningRotor> activeRotors=new ArrayList<> ();
-
-    private SpinningRotor[] rotors;
+    private ArrayList<SpinningRotor> activeRotors;
     private int numberOfActiveRotors;
+    private SpinningRotor[] rotors;
+    private Reflector[] reflectors;
 
-    private  Reflector[] reflectors;
     private Reflector activeReflector;
 
 
     public Machine() {}
-
     public Machine(PlugBoard plugBoard,SpinningRotor[] activeRotors,Reflector[] reflectors) {
+
+        this.activeRotors = new ArrayList<> ();
         this.plugBoard = plugBoard;
         this.rotors=activeRotors;
         this.reflectors = reflectors;
         this.activeReflector=reflectors[0];
-
-
     }
 
-    // ************ the machine setting's functions ************
 
-
+    // ************ the machine getter's functions ************
     public SpinningRotor getRotor(int id) throws Exception {
 
-        for(int i=1 ; i<numberOfActiveRotors ; i++) {
-            if(rotors[i].getId()==id){
+        for ( int i = 0 ; i < rotors.length ; i++ ) {
+
+            if ( rotors[i].getId() == id ) {
+
                 return rotors[i];
             }
         }
         throw new Exception("rotor was not found");
-
-
     }
+    public int getReflectorsSize(){
+        return reflectors.length;
+    }
+    public void addActiveRotor(int index) {
 
-    public void addActiveRotor(int index){
         this.activeRotors.add(rotors[index]);
         numberOfActiveRotors++;
     }
+
+
+    public PlugBoard getPlugBoard() {
+
+        return plugBoard;
+    }
+    public ArrayList<SpinningRotor> getActiveRotors() {
+
+        return activeRotors;
+    }
+    public Reflector getActiveReflector() {
+
+        return activeReflector;
+    }
+
+    public int getNumberOfActiveRotors() {
+        return activeRotors.size();
+    }
+    public int getNumberOfRotors() {
+        return rotors.length;
+    }
+
+    // ************ the machine setter's functions ************
+
     public void setActiveRotors(ArrayList<SpinningRotor> arr, int size){
 
         this.numberOfActiveRotors = size;
@@ -54,22 +78,20 @@ public class Machine {
         this.activeReflector = ref;
     }
     public void setPlugBoard(PlugBoard p){
+
         this.plugBoard = p;
     }
 
-    public PlugBoard getPlugBoard() {
-        return plugBoard;
-    }
-
-    public ArrayList<SpinningRotor> getActiveRotors() {
-        return activeRotors;
-    }
-
-    public Reflector getActiveReflector() {
-        return activeReflector;
+    public Reflector[] getReflectors() {
+        return reflectors;
     }
 
     // ************ the machine action's functions ************
+    public void PrintRotorsState(){
+
+        activeRotors.forEach(r->System.out.print( r.getPos() + ","));
+    }
+
     public void moveRotorsByNotch() {
 
         boolean inNotch = activeRotors.get(0).move();
@@ -83,10 +105,6 @@ public class Machine {
     public int getFromPlugBoard(int ind){
 
         return plugBoard.decode(ind, true);
-    }
-
-    public void PrintRotorsState(){
-        activeRotors.forEach(r->System.out.print(r.getPos()+","));
     }
     public int decodeLetter(int index){
 

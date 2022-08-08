@@ -12,6 +12,11 @@ public class PlugBoard implements Rotor {
 
         for (int i: abc) { plugs.put(i, i); }
     }
+
+    public HashMap<Integer, Integer> getPlugs() {
+        return plugs;
+    }
+
     public void PlugIn(int a, int b){
 
         plugs.put(a,b);

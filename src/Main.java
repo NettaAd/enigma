@@ -9,13 +9,12 @@ import frontend.Ui;
 
 public class Main {
 
-
     public static void main(String[] args) {
 
         Ui front = new Ui();
         front.runApp();
 
-//        BackEndMain go = new BackEndMain();
+        //        BackEndMain go = new BackEndMain();
 //        try{
 //            go.setXmlData();
 //        }catch(Exception e){
@@ -100,5 +99,7 @@ public class Main {
 //            int res = mac.act(abc.toIndex(c));
 //            System.out.print(abc.toLetter(res));
 //        }
- }
+    }
+
+
 }

@@ -11,6 +11,8 @@ public class SpinningRotor implements Rotor {
         return id;
     }
 
+
+
     public SpinningRotor(Letter[] rightArr , Letter[] leftArr, int leftNotch, int id) {
 
         this.leftArr=leftArr; this.rightArr=rightArr;
@@ -25,6 +27,11 @@ public class SpinningRotor implements Rotor {
 
         return pos;
     }
+
+    public int getNotch() {
+        return notch;
+    }
+
     public Letter[] getLeftArr(){
 
         return leftArr;
@@ -35,11 +42,11 @@ public class SpinningRotor implements Rotor {
     }
 
     // ******************** Rotors setters *********************
-    public void setRotor(String left){
+    public void setRotor(String right){
 
         for(int i = 0; i< size ;i++ ){
 
-            if(leftArr[i].letter.equals(left) ){
+            if(rightArr[i].letter.equals(right) ){
 
                 pos = i;
                 return;
@@ -62,7 +69,7 @@ public class SpinningRotor implements Rotor {
 
         //  dir = true:  left -> right
         //  dir = false: left <- right
-        
+
         int ind, theTwinIndex, res;
         ind = (index + pos) % size;
 
