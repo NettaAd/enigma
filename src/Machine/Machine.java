@@ -9,7 +9,6 @@ public class Machine {
     private int numberOfActiveRotors;
     private SpinningRotor[] rotors;
     private Reflector[] reflectors;
-
     private Reflector activeReflector;
 
 
@@ -36,19 +35,18 @@ public class Machine {
         }
         throw new Exception("rotor was not found");
     }
-    public int getReflectorsSize(){
-        return reflectors.length;
-    }
     public void addActiveRotor(int index) {
 
         this.activeRotors.add(rotors[index]);
         numberOfActiveRotors++;
     }
-
-
     public PlugBoard getPlugBoard() {
 
         return plugBoard;
+    }
+    public ArrayList<Integer> getWantedPlugs(){
+
+        return plugBoard.getWantedPlugs();
     }
     public ArrayList<SpinningRotor> getActiveRotors() {
 
@@ -81,16 +79,11 @@ public class Machine {
 
         this.plugBoard = p;
     }
-
     public Reflector[] getReflectors() {
         return reflectors;
     }
 
     // ************ the machine action's functions ************
-    public void PrintRotorsState(){
-
-        activeRotors.forEach(r->System.out.print( r.getPos() + ","));
-    }
 
     public void moveRotorsByNotch() {
 
