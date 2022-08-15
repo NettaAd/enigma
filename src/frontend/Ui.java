@@ -96,6 +96,7 @@ public class Ui {
 
         System.out.println();
     }
+
     public int getUserIntInputSafe() {
 
         while ( true ) {
@@ -109,6 +110,19 @@ public class Ui {
                 System.out.print("That's not a whole number.\n");
             }
         }
+    }
+
+    public boolean checkIfNumber(String k) {
+            try {
+
+                Integer.parseInt(k);
+                return true;
+            }
+            catch(NumberFormatException ne) {
+
+                return false;
+            }
+
     }
     public int getUserMenuInput() {
 
@@ -268,7 +282,7 @@ public class Ui {
         String[] activePos = new String[size + 1];
         activePos = getRotorsPos(size, activeId, activePos);
 
-        backend.setRotorsViaUser(activeId, activePos);
+      //  backend.setRotorsViaUser(activeId, activePos);
 
         System.out.println("Your active rotors are:");
         for( int i = 0 ; i <= size ; i++) {
@@ -283,13 +297,11 @@ public class Ui {
         System.out.println("The available reflectors are: ");
         for(int i = 0 ; i < backend.getReflectors().length ; i++) {
 
-            System.out.println((i+1) + ": " + backend.getReflectors()[i].getId());
+            System.out.println(( i + 1 ) + ": " + backend.getReflectors()[i].getId());
         }
 
         System.out.println("Pick reflector via ID: ");
         int refId = this.getUserIntInputSafe() - 1;
-
-        //  TODO---fix this shitty code later, your past and completely fucked self..
 
         backend.setReflectorViaUser(backend.getReflectors()[refId].getId());
         System.out.println("Your active reflector is: " + backend.getReflectors()[refId].getId());
@@ -326,18 +338,141 @@ public class Ui {
         }
     }
     //~~~~~~~~~~~~~~~~~~~
+
+    public boolean checkID(String[] rotorsId) {
+
+        int rotorsNum = backend.getAmountOfRotors();
+        int activeRotorAmount = rotorsId.length;
+        ArrayList<Integer> seenRotorsId = new ArrayList<>();
+
+        // check if the active rotors amount is valid
+        if (!backend.checkInRotorsRange(activeRotorAmount)) {
+
+            System.out.println("You only got " + rotorsNum + " rotors!");
+            System.out.println("Please try again");
+            return false;
+        }
+        if(activeRotorAmount < 2) {
+
+            System.out.println("There have to be at least 2 rotors! ");
+            System.out.println("Please try again");
+            return false;
+        }
+
+        for (String s : rotorsId) {
+
+            int id = Integer.parseInt(s);
+
+            if (seenRotorsId.contains(id)) {
+
+                System.out.println("The id: " + id + " is already picked, try again: ");
+                return false;
+            }
+
+            if (!backend.isRotorExist(id)) {
+
+                System.out.println("The id: " + id + " is not a valid, try again: ");
+                return false;
+            }
+            seenRotorsId.add(id);
+        }
+        return true;
+    }
+    public boolean checkPos(char[] rotorsPos) {
+
+        for(int i = 0; i< rotorsPos.length ; i++){
+
+            String c = rotorsPos[i] + "";
+
+            if(!backend.getAbc().checkInAbc(c)) {
+
+                System.out.println(c + " is not in the ABC! ");
+                System.out.println("Please try again");
+
+                return false; // todo say each chars are invalid
+            }
+        }
+        return true;
+    }
+
     public void getMachineSettings() {
 
-        getRotors();
+        // get rotors like 23,45,16 (one string, with ,)
+        int rotorsNum = backend.getAmountOfRotors();
+        System.out.println("Please enter the id of the rotors of your choice, separated by ',' (For example: 23,526,231). " );
+        System.out.println("There are " + rotorsNum + " rotors available.");
+
+//        String rotorsIdString = userInput.nextLine();
+        String rotorsIdString = userInput.nextLine();
+        System.out.println("");
+        String[] rotorsId = rotorsIdString.split(",");
+        while(true){
+            try{
+
+                for(String i : rotorsId){
+                    if(!checkIfNumber(i)){
+                        throw new Exception("shit");
+                    }
+                }
+                break;
+            }catch(Exception e){
+                 rotorsIdString = userInput.nextLine();
+                System.out.println("");
+                 rotorsId = rotorsIdString.split(",");
+                continue;
+            }
+        }
+
+
+
+        while (!checkID(rotorsId)) {
+            rotorsIdString = userInput.nextLine();
+            rotorsId = rotorsIdString.split(",");
+        }
+
+
+        int activeRotorsAmount = rotorsId.length;
+        int[] activeRotorsId =  new int[activeRotorsAmount];
+        for(int i = 0 ; i < activeRotorsAmount ; i++){
+
+            activeRotorsId[i] = Integer.parseInt(rotorsId[i]);
+        }
+
+        System.out.println();
+
+        // -----------------------------------------------------------
+        // get pos (right arr of the rotor) like AC4B (one string, without any spaces)
+
+        System.out.println("Please enter the init the rotors positions (characters in ABC).");
+        System.out.println("They must be entered without spaces (for example: AB3D).");
+
+        String rotorsPosString = userInput.nextLine();
+        char[] rotorsPos = rotorsPosString.toCharArray();
+
+        while(!checkPos(rotorsPos)){
+
+            rotorsPosString = userInput.nextLine();
+            rotorsPos = rotorsPosString.toCharArray();
+        }
+
+        System.out.println();
+        backend.setRotorsViaUser(activeRotorsId, rotorsPos);
+
+        System.out.println("Your active rotors are:");
+        for( int i = 0 ; i < backend.getAmountOfActiveRotors() ; i++) {
+
+            System.out.println((i+1) + ": id = " + activeRotorsId[i] + ", set pos = " + rotorsPos[i] );
+        }
+        System.out.println();
+
+
+//   C:\Users\yigal\IdeaProjects\blabla\enigma\src\ex1-sanity-small.xml
+
+        //getRotors();
         //   TODO-->TESTS AND ERROR HANDLING
         getReflector();
         getPlugs();
 
-        if(!firstSet){
-
-            firstSet = true;
-            backend.setFirstMachine();
-        }
         System.out.println();
     }
 

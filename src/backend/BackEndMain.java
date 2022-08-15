@@ -118,9 +118,8 @@ public class BackEndMain {
 
         myEnigma.setPlugBoard(p);
     }
-    public void setRotorsViaUser (int[] rotorsId, String[] posSet) {
+    public void setRotorsViaUser (int[] rotorsId, char[] posSet) {
 
-        // <45,27,94><AO!><III><A|Z,D|E>
         ArrayList<SpinningRotor> newRotors = new ArrayList<>();
 
         for (int i = 0 ; i < rotorsId.length ; i++) {
@@ -129,8 +128,10 @@ public class BackEndMain {
 
                 int id = rotorsId[i];
                 SpinningRotor rotor = myEnigma.getRotor(id);
-                rotor.setRotor(posSet[i]);
-                rotorsInitState[i] = posSet[i];
+
+                String currPos = posSet[i] + "";
+                rotor.setRotor(currPos);
+                rotorsInitState[i] = currPos;
 
                 newRotors.add(rotor);
             }
@@ -167,14 +168,14 @@ public class BackEndMain {
 
         usedId = new ArrayList<>();
         int[] activeRotorsId = new int[activeRotorsAmount];
-        String[] activeRotorsSetPos = new String[activeRotorsAmount];
+        char[] activeRotorsSetPos = new char[activeRotorsAmount];
 
         for(int i = 0; i < activeRotorsAmount ; i++) {
 
             activeRotorsId[i] = randID(activeRotorsAmount);
 
             int letter = rand.nextInt(abc.getSize());
-            activeRotorsSetPos[i] = abc.toLetter(letter) + "";
+            activeRotorsSetPos[i] = abc.toLetter(letter);
         }
 
         setRotorsViaUser(activeRotorsId, activeRotorsSetPos);
@@ -449,6 +450,7 @@ public class BackEndMain {
             CTEEnigma rotors = deserializeFrom(inputStream);
 
             int amountOfRotors = rotors.getCTEMachine().getRotorsCount();
+            int logical_rotors_size = amountOfRotors-1;
             int amountOfReflectors = rotors.getCTEMachine().getCTEReflectors().getCTEReflector().size();
             int abcLength = rotors.getCTEMachine().getABC().trim().length();
             int PositionsSize = rotors.getCTEMachine().getCTERotors().getCTERotor().get(0).getCTEPositioning().toArray().length;
@@ -465,14 +467,14 @@ public class BackEndMain {
 
             }
             reflectors = new Reflector[amountOfReflectors];
-            SpinningRotor[] machineRotors =new SpinningRotor[amountOfRotors + 1];
+            SpinningRotor[] machineRotors =new SpinningRotor[amountOfRotors];
 
             abc = new ABC(rotors.getCTEMachine().getABC().trim().toCharArray());
 
             // ---------------------init rotors---------------------
-            rotorsInitState = new String[amountOfRotors + 1];
+            rotorsInitState = new String[amountOfRotors];
 
-            for( int i = 0 ; i <= amountOfRotors ; i++ ) {
+            for( int i = 0 ; i < amountOfRotors; i++ ) {
 
                 CTERotor currPos = rotors.getCTEMachine().getCTERotors().getCTERotor().get(i);
                 if(checkNotch(currPos.getNotch(),currPos.getCTEPositioning().size())==INCORRECT){
@@ -618,9 +620,9 @@ public class BackEndMain {
     }
     public int checkRotorsID(SpinningRotor[] all, int size){
 
-        int[] arr = new int[size+1];
+        int[] arr = new int[size];
         // init
-        for ( int i = 0 ; i < size + 1 ; i++) {
+        for ( int i = 0 ; i < size; i++) {
 
             arr[i] = 0;
         }
@@ -635,7 +637,7 @@ public class BackEndMain {
                 return INCORRECT;
         }
 
-        for ( int i = 1; i < size + 1 ; i++) {
+        for ( int i = 0; i < size; i++) {
 
             if( arr[i] == 0)
                 return INCORRECT;
