@@ -250,7 +250,7 @@ public class BackEndMain {
 
         if ( myEnigma.getActiveRotors().size() == 0 ) {
 
-            return  "no active rotors at the moment...";
+            return  "no settings were set, please choose command 3 or 4 before trying to decode";
         }
         String settings = getFormatStats();
         char[] string = rawString.toCharArray();
@@ -543,7 +543,7 @@ public class BackEndMain {
                         }
                     }
                 }
-                rotorsInitState[i]=String.valueOf(abc.toLetter(0));
+//                rotorsInitState[i]=String.valueOf(right[i].theLetter());
                 SpinningRotor rotor = new SpinningRotor(right, left, currPos.getNotch()-1 , currPos.getId());
                 machineRotors[i] = rotor;
 
@@ -590,9 +590,6 @@ public class BackEndMain {
             PlugBoard plugBoard = new PlugBoard(plugInit);
 
             myEnigma = new Machine(plugBoard,machineRotors,reflectors);
-            myEnigma.addActiveRotor(0);
-            myEnigma.addActiveRotor(1);
-            myEnigma.addActiveRotor(2);
         }
 
         catch (Exception e) {
