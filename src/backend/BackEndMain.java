@@ -664,7 +664,7 @@ public class BackEndMain {
 
         int[] arr = new int[size];
         // init
-        for ( int i = 0 ; i < size + 1 ; i++) {
+        for ( int i = 0 ; i < size ; i++) {
 
             arr[i] = 0;
         }

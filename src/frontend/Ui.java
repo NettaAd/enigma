@@ -385,7 +385,7 @@ public class Ui {
 
             String c = rotorsPos[i] + "";
 
-            if(!backend.getAbc().checkInAbc(c)) {
+            if(!backend.getAbc().checkInAbc(c).isEmpty()) {
 
                 System.out.println(c + " is not in the ABC! ");
                 System.out.println("Please try again");
