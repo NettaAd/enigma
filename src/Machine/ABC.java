@@ -1,5 +1,7 @@
 package Machine;
 
+import java.util.ArrayList;
+
 public class ABC {
     String chars;
 
@@ -12,17 +14,17 @@ public class ABC {
 
         return chars.length();
     }
-    public boolean checkInAbc(String s){
-
+    public ArrayList<Character> checkInAbc(String s){
+        ArrayList<Character> badLetters = new ArrayList<>();
         char[] charArr = s.toCharArray();
 
         for (int i=0;i<s.length();i++) {
 
-            if(chars.indexOf(charArr[i]) == -1) {
-                return false;
+            if(chars.indexOf(charArr[i]) == -1 && badLetters.indexOf(charArr[i])==-1 ) {
+                badLetters.add(charArr[i]);
             }
         }
-        return true;
+        return badLetters;
     }
 
     public char toLetter(int input){

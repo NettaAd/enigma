@@ -1,6 +1,6 @@
 package backend;
 
-import Machine.Machine;
+import Machine.*;
 import enigma.jaxb.schema.generated.CTEEnigma;
 import enigma.jaxb.schema.generated.CTEReflect;
 import enigma.jaxb.schema.generated.CTEReflector;
@@ -16,12 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-
-import Machine.Letter;
-import  Machine.SpinningRotor;
-import Machine.Reflector;
-import Machine.PlugBoard;
-import Machine.ABC;
 
 public class BackEndMain {
 
@@ -80,7 +74,10 @@ public class BackEndMain {
         return myEnigma.getWantedPlugs();
     }
     public String getFirstSettings(){
-        return firstSettings;
+        return  "<" + this.activeRotorsInitDisplay()         + "> "  +
+                "<" + this.activeRotorsInitPosDisplay()      + "> "  +
+                "<" + this.activeReflectorDisplay()      + "> "  +
+                "<" + this.activePlugBoardStateDisplay() + ">" ;
     }
 
     ///////////////////////       setters       ///////////////////////
@@ -147,7 +144,6 @@ public class BackEndMain {
     public void setFirstMachine(){
 
         firstSettings = getFormatStats();
-        this.first = this.myEnigma;
     }
 
     ///////////////////////       4 random       ///////////////////////
@@ -249,17 +245,17 @@ public class BackEndMain {
     }
 
     ///////////////////////       5 encode       ///////////////////////
-    public String DecodeString(String rawString) {
+    public String DecodeString(String rawString) throws Exception {
 
         if ( myEnigma.getActiveRotors().size() == 0 ) {
 
             return  "no active rotors at the moment...";
         }
-
+        String settings = getFormatStats();
         char[] string = rawString.toCharArray();
         StringBuilder res = new StringBuilder();
-
-        if ( abc.checkInAbc(rawString) ) {
+        ArrayList<Character> badLetters =  abc.checkInAbc(rawString);
+        if ( badLetters.isEmpty() ) {
 
             for ( char c: string ) {
 
@@ -269,16 +265,23 @@ public class BackEndMain {
                 res.append(charLetter);
             }
             messagesCount++;
-            addEncode(rawString, res.toString());
-            setMachine();
+            addEncode(rawString, res.toString(),settings);
             return res.toString();
         }
 
         else {
-            return "bad string";
+            String resStr = "";
+            for(int i=0;i<badLetters.size();i++){
+
+                resStr+=badLetters.get(i);
+                if(i!=badLetters.size()-1){
+                    resStr+=',';
+                }
+            }
+            throw new Exception("the next letter are not allowed with the curr settings "+resStr);
         }
     }
-    public void setMachine(){
+    public void resetMachine(){
 
         for ( int i = 0 ; i < myEnigma.getActiveRotors().size() ; i++ ) {
 
@@ -288,27 +291,29 @@ public class BackEndMain {
 
     ///////////////////////     6 reset to first settings    ///////////////////////
 
-    public void resetMachine(){
+//    public void resetMachine(){
+//        this.myEnigma=this.first;
 
-        String fi = getFirstSettings();
-        String st = getFormatStats();
 
-        myEnigma.setActiveRotors(first.getActiveRotors(), first.getNumberOfActiveRotors());
-        st = getFormatStats();
-
-        myEnigma.setReflector(first.getActiveReflector());
-        st = getFormatStats();
-
-        myEnigma.setPlugBoard(first.getPlugBoard());
-        st = getFormatStats();
-    }
+//        String fi = getFirstSettings();
+//        String st = getFormatStats();
+//
+//        myEnigma.setActiveRotors(first.getActiveRotors(), first.getNumberOfActiveRotors());
+//        st = getFormatStats();
+//
+//        myEnigma.setReflector(first.getActiveReflector());
+//        st = getFormatStats();
+//
+//        myEnigma.setPlugBoard(first.getPlugBoard());
+//        st = getFormatStats();
+//    }
 
     ///////////////////////      7 stats and history       ///////////////////////
     private int messagesCount;
     private final ArrayList<SavedEncode> messages;
     private final ArrayList<String> machineSettings;
 
-    public void addEncode(String in, String out) {
+    public void addEncode(String in, String out,String Curr_settings) {
 
         /* check for doubles
         for( int i = 0 ; i < messages.size() ; i++) {
@@ -319,10 +324,10 @@ public class BackEndMain {
         SavedEncode s = new SavedEncode();
         s.setInString(in);
         s.setOutString(out);
-        s.setMachineSettings(getFormatStats());
+        s.setMachineSettings(Curr_settings);
 
-        if(!machineSettings.contains(getFormatStats())) {
-            machineSettings.add(getFormatStats());
+        if(!machineSettings.contains(Curr_settings)) {
+            machineSettings.add(Curr_settings);
         }
         messages.add(s);
     }
@@ -358,6 +363,28 @@ public class BackEndMain {
 
         return res.toString();
     }
+    public String activeRotorsInitDisplay(){
+
+        StringBuilder res = new StringBuilder();
+        int size = myEnigma.getActiveRotors().size();
+
+        for (int i = 0 ; i < size ; i++){
+
+            SpinningRotor rotor = myEnigma.getActiveRotors().get(i);
+            res.append(rotor.getId());
+
+            int distanceFromNotch = ((rotor.getNotch() - abc.toIndex(rotorsInitState[i].toCharArray()[0] )) + abc.getSize() ) % abc.getSize();
+            res.append( "(" +  distanceFromNotch + ")");
+
+            if (i != size - 1) {
+                res.append(",");
+            }
+        }
+
+        // res.substring(0, res.length() - 1);
+
+        return res.toString();
+    }
     public String activeRotorsPosDisplay(){
 
         StringBuilder res = new StringBuilder();
@@ -372,6 +399,22 @@ public class BackEndMain {
             }
         }
        // res.substring(0, res.length() - 1);
+        return res.toString();
+    }
+
+    public String activeRotorsInitPosDisplay(){
+
+        StringBuilder res = new StringBuilder();
+        int size = myEnigma.getActiveRotors().size();
+        for (int i = 0 ; i < size ; i++ ){
+
+            res.append(rotorsInitState[i]);
+
+            if (i != size - 1) {
+                res.append(",");
+            }
+        }
+        // res.substring(0, res.length() - 1);
         return res.toString();
     }
     public String ReflectorDisplay(){
@@ -465,14 +508,14 @@ public class BackEndMain {
 
             }
             reflectors = new Reflector[amountOfReflectors];
-            SpinningRotor[] machineRotors =new SpinningRotor[amountOfRotors + 1];
+            SpinningRotor[] machineRotors =new SpinningRotor[amountOfRotors];
 
             abc = new ABC(rotors.getCTEMachine().getABC().trim().toCharArray());
 
             // ---------------------init rotors---------------------
-            rotorsInitState = new String[amountOfRotors + 1];
+            rotorsInitState = new String[amountOfRotors ];
 
-            for( int i = 0 ; i <= amountOfRotors ; i++ ) {
+            for( int i = 0 ; i < amountOfRotors ; i++ ) {
 
                 CTERotor currPos = rotors.getCTEMachine().getCTERotors().getCTERotor().get(i);
                 if(checkNotch(currPos.getNotch(),currPos.getCTEPositioning().size())==INCORRECT){
@@ -548,7 +591,6 @@ public class BackEndMain {
             myEnigma.addActiveRotor(0);
             myEnigma.addActiveRotor(1);
             myEnigma.addActiveRotor(2);
-            System.out.println("done");
         }
 
         catch (Exception e) {
@@ -572,7 +614,7 @@ public class BackEndMain {
         for (char c : plugsArr) {
 
             String plug = "" + c;
-            if (!abc.checkInAbc(plug)) {
+            if (abc.checkInAbc(plug).isEmpty()) {
                 return false;
             }
         }
@@ -618,9 +660,9 @@ public class BackEndMain {
     }
     public int checkRotorsID(SpinningRotor[] all, int size){
 
-        int[] arr = new int[size+1];
+        int[] arr = new int[size];
         // init
-        for ( int i = 0 ; i < size + 1 ; i++) {
+        for ( int i = 0 ; i < size ; i++) {
 
             arr[i] = 0;
         }
@@ -635,7 +677,7 @@ public class BackEndMain {
                 return INCORRECT;
         }
 
-        for ( int i = 1; i < size + 1 ; i++) {
+        for ( int i = 1; i < size  ; i++) {
 
             if( arr[i] == 0)
                 return INCORRECT;
@@ -686,7 +728,7 @@ public class BackEndMain {
                 return INCORRECT;
         }
 
-        for (int i = 1; i < size + 1; i++) {
+        for (int i = 1; i < size; i++) {
 
             if (arr[i] == 0)
                 return INCORRECT;
