@@ -4,7 +4,7 @@ import Machine.Reflector;
 import Machine.SpinningRotor;
 import Machine.PlugBoard;
 import Machine.ABC;
-import backend.BackEndMain;
+import backend.*;
 import frontend.Ui;
 
 public class Main {

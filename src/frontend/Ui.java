@@ -6,6 +6,7 @@ import Machine.SpinningRotor;
 import backend.BackEndMain;
 import backend.SavedEncode;
 
+
 public class Ui {
 
     long start, end;
@@ -257,7 +258,7 @@ public class Ui {
             System.out.println( "Choose pos for the " + activeRotorsId[i] + "'s rotor:" );
             activeRotorsPos[i] = userInput.nextLine().toUpperCase();
 
-            while (!backend.getAbc().checkInAbc(activeRotorsPos[i]) || activeRotorsPos[i].equals("")){
+            while (!backend.getAbc().checkInAbc(activeRotorsPos[i]).isEmpty() || activeRotorsPos[i].equals("")){
 
                 System.out.println("Not a legit letter!!! Please try again" );
                 activeRotorsPos[i] = userInput.nextLine();
@@ -530,25 +531,27 @@ public class Ui {
 
         String toDecode = userInput.nextLine() + userInput.nextLine();
         toDecode = toDecode.toUpperCase();
+        try {
+            System.out.println("you asked to decode: " + toDecode);
 
-        System.out.println("you asked to decode: " + toDecode);
-
-        start = System.nanoTime();
-        String res = backend.DecodeString(toDecode);
-        end = System.nanoTime();
-        System.out.println("secret code: " + res);
-
+            start = System.nanoTime();
+            String res = backend.DecodeString(toDecode);
+            end = System.nanoTime();
+            System.out.println("secret code: " + res);
+        }catch (Exception e){
+            System.out.println("ERROR"+e);
+        }
         System.out.println();
     }
 
     /////////////////////////////------------ 6 ------------/////////////////////////////
 
     public void reset(){
-
-        backend.resetMachine();
-        System.out.println("Reset has been done! the current setting are:");
-        ShowMachineSettings();
-        System.out.println("Reset has been done! the current setting are:");
+backend.resetMachine();
+//        backend.resetMachine();
+//        System.out.println("Reset has been done! the current setting are:");
+//        ShowMachineSettings();
+//        System.out.println("Reset has been done! the current setting are:");
     }
 
     /////////////////////////////------------ 7 ------------/////////////////////////////
