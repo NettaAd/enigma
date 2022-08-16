@@ -283,11 +283,14 @@ public class BackEndMain {
         }
     }
     public void resetMachine(){
-
-        for ( int i = 0 ; i < myEnigma.getActiveRotors().size() ; i++ ) {
+    try {
+        for (int i = 0; i < myEnigma.getActiveRotors().size(); i++) {
 
             myEnigma.getActiveRotors().get(i).setRotor(rotorsInitState[i]);
         }
+    }catch (Exception e){
+        e.printStackTrace();
+    }
     }
 
     ///////////////////////     6 reset to first settings    ///////////////////////
@@ -352,6 +355,8 @@ public class BackEndMain {
             SpinningRotor rotor = myEnigma.getActiveRotors().get(i);
             res.append(rotor.getId());
 
+
+
             int distanceFromNotch = ((rotor.getNotch() - rotor.getPos()) + abc.getSize() ) % abc.getSize();
             res.append( "(" +  distanceFromNotch + ")");
 
@@ -374,7 +379,7 @@ public class BackEndMain {
             SpinningRotor rotor = myEnigma.getActiveRotors().get(i);
             res.append(rotor.getId());
 
-            int distanceFromNotch = ((rotor.getNotch() - abc.toIndex(rotorsInitState[i].toCharArray()[0] )) + abc.getSize() ) % abc.getSize();
+            int distanceFromNotch = ((rotor.getNotch() - rotor.indexOf(rotorsInitState[i])) + abc.getSize() ) % abc.getSize();
             res.append( "(" +  distanceFromNotch + ")");
 
             if (i != size - 1) {
@@ -613,7 +618,7 @@ public class BackEndMain {
         for (char c : plugsArr) {
 
             String plug = "" + c;
-            if (abc.checkInAbc(plug).isEmpty()) {
+            if (!abc.checkInAbc(plug).isEmpty()) {
                 return false;
             }
         }

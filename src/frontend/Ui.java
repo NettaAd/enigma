@@ -417,6 +417,7 @@ public class Ui {
                 }
                 break;
             }catch(Exception e){
+                System.out.println("input were not numbers,try typing numbers: ");
                  rotorsIdString = userInput.nextLine();
                 System.out.println("");
                  rotorsId = rotorsIdString.split(",");
@@ -430,7 +431,13 @@ public class Ui {
             rotorsIdString = userInput.nextLine();
             rotorsId = rotorsIdString.split(",");
         }
-
+        String[] tmp = new String[rotorsId.length];
+        int count=0;
+        for (int i = rotorsId.length-1; i >= 0 ; i--){
+            tmp[count]=rotorsId[i];
+            count+=1;
+        }
+        rotorsId=tmp;
 
         int activeRotorsAmount = rotorsId.length;
         int[] activeRotorsId =  new int[activeRotorsAmount];
@@ -456,7 +463,14 @@ public class Ui {
             rotorsPos = rotorsPosString.toCharArray();
         }
 
-        System.out.println();
+        char[] tmpPos = new char[rotorsPos.length];
+        count=0;
+        for (int i = rotorsPos.length-1; i >= 0 ; i--){
+            tmpPos[count]=rotorsPos[i];
+            count+=1;
+        }
+        rotorsPos=tmpPos;
+
         backend.setRotorsViaUser(activeRotorsId, rotorsPos);
 
         System.out.println("Your active rotors are:");
