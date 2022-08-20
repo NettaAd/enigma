@@ -4,8 +4,14 @@ import Machine.SpinningRotor;
 import backend.BackEndMain;
 import backend.SavedEncode;
 
+
+
+import javax.sound.midi.ControllerEventListener;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+
+
 
 
 
@@ -15,6 +21,8 @@ public class Ui {
     boolean firstSet;
     Scanner userInput = new Scanner(System.in);
     BackEndMain backend = new BackEndMain();
+
+
     String[] menuOptions = new String[] {   "Load Machine settings via XML file"
             , "Show Machine settings"
             , "Set up machine settings"
@@ -22,7 +30,7 @@ public class Ui {
             , "Encode"
             , "Reset settings"
             , "Stats and history "
-            , "Exit" };
+         };
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -172,6 +180,7 @@ public class Ui {
 
             case 8: System.out.println("<<<<<<<<  GOODBYE! :D  >>>>>>>>"); break; // Exit
 
+//            case 9: backend.saveStateToMachine();
             default: System.out.println("Please enter valid choice: "); break;
         }
     }
@@ -180,6 +189,10 @@ public class Ui {
 
     public void ShowMachineSettings() {
 
+        if(backend.getAmountOfActiveRotors()==0){
+            System.out.println("no settings were set, please choose command 3 or 4 before trying to decode");
+            return;
+        }
         System.out.println();
 
         int activeRotorsNum = backend.getAmountOfActiveRotors();

@@ -10,15 +10,17 @@ import jaxb.schema.generated.CTERotor;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+
 public class BackEndMain {
+
+    String REFLECTOR_TO_MUCH_MAPPING="too much entrys in relflector";
+    String LETTER_IS_NOT_IN_ABC="the next letter are not allowed with the curr settings ";
 
     private Machine first;
     String firstSettings;
@@ -280,7 +282,7 @@ public class BackEndMain {
                     resStr+=',';
                 }
             }
-            throw new Exception("the next letter are not allowed with the curr settings "+resStr);
+            throw new Exception(LETTER_IS_NOT_IN_ABC+resStr);
         }
     }
     public void resetMachine(){
@@ -504,7 +506,7 @@ public class BackEndMain {
                 throw  new Exception("file include only one rotor?!! this is not SAFE..try again dummy");
             }
             if(checkAbcSize(abcLength)==INCORRECT){
-                throw  new Exception("abc in the settings is not ok, curr size is "+abcLength );
+                throw  new Exception("abc in the settings is not even, curr size is "+abcLength );
             }
             if(checkDoubleInRotor(rotors.getCTEMachine().getCTERotors().getCTERotor(),PositionsSize)==INCORRECT){
                 throw  new Exception("some of the rotors are not unique");
@@ -522,7 +524,7 @@ public class BackEndMain {
 
                 CTERotor currPos = rotors.getCTEMachine().getCTERotors().getCTERotor().get(i);
                 if(checkNotch(currPos.getNotch(),currPos.getCTEPositioning().size())==INCORRECT){
-                    throw  new Exception("rotor number "+i+" is not having valid notch");
+                    throw  new Exception("rotor number "+i+1+" is not having valid notch");
                 }
 
                 Letter[] right = new Letter[PositionsSize];
@@ -566,14 +568,27 @@ public class BackEndMain {
 
                 int[] initRef = new int[refAbcSize+1];
                 List <CTEReflect> currRefs = refs.get(i).getCTEReflect();
+               checkDuplicateRefMapping(currRefs,(refAbcSize / 2));
+                if(currRefs.size()<refAbcSize / 2 ){
+                    throw  new Exception("no good! missing reflector mapping!");
 
+                }
                 for(int k = 0 ; k < refAbcSize / 2 ; k++){
 
                     int I =  currRefs.get(k).getInput() - 1;
                     int U =  currRefs.get(k).getOutput() - 1;
+                    if(I<0 || U<0){
+                      throw new Exception("reflector number "+i+" contains an entry to zero");
+
+                    }
+                    if(I>refAbcSize  || U >refAbcSize ){
+                        throw new Exception("reflector number "+i+" contains an entry that does not exist on the machine abc's");
+
+                    }
                     if(checkDoubleInReflectors(I,U)==INCORRECT){
                         throw new Exception("in reflector "+i+" row number "+k+" is not valid, letter cant go to itself, dummy");
                     }
+
                     initRef[I] = U;
                     initRef[U] = I;
                 }
@@ -582,6 +597,7 @@ public class BackEndMain {
             if(checkReflectorID(reflectors,amountOfReflectors)==INCORRECT){
                 throw new Exception("one of the Reflectors id is not valid");
             }
+
             //  -------------------------init PlugBoard---------------------
             int[] plugInit = new int[refAbcSize];
             for( int i=0 ; i < refAbcSize ; i++ ){
@@ -594,6 +610,7 @@ public class BackEndMain {
         }
 
         catch (Exception e) {
+//            TODO remove testing tool
             e.printStackTrace();
             return  e.getMessage();
         }
@@ -658,56 +675,78 @@ public class BackEndMain {
             return INCORRECT;
 
     }
-    public int checkRotorsID(SpinningRotor[] all, int size){
+    public int checkRotorsID(SpinningRotor[] all, int size) throws Exception {
+        try {
+            int[] arr = new int[size];
+            // init
+            for (int i = 0; i <size; i++) {
 
-        int[] arr = new int[size];
-        // init
-        for ( int i = 0 ; i < size ; i++) {
+                arr[i] = 0;
+            }
 
-            arr[i] = 0;
-        }
+            for (SpinningRotor rotor : all) {
 
-        for(SpinningRotor rotor: all) {
+                int id = rotor.getId();
+                if(id<=0){
+                    return INCORRECT;
+                }
+                if (arr[id - 1] == 0)
+                    arr[id - 1] = id;
+                else
+                    return INCORRECT;
+            }
 
-            int id = rotor.getId();
+            for (int i = 0; i < size; i++) {
 
-            if( arr[id-1] == 0 )
-                arr[id-1]=id;
-            else
-                return INCORRECT;
-        }
-
-        for ( int i = 0; i < size; i++) {
-
-            if( arr[i] == 0)
-                return INCORRECT;
+                if (arr[i] == 0)
+                    return INCORRECT;
+            }
+        }catch(ArrayIndexOutOfBoundsException e){
+            throw new Exception("rotors count in xml file is not correct or ids are not correct");
         }
 
         return CORRECT;
     }
-    public int checkDoubleInRotor(List<CTERotor> all, int posSize){
+    public int checkDoubleInRotor(List<CTERotor> all, int posSize) throws Exception {
 
         for(CTERotor rotor: all) {
-            ArrayList<String> seen = new ArrayList<>();
+            ArrayList<String> seenR = new ArrayList<>();
+            ArrayList<String> seenL = new ArrayList<>();
+
             for( int k = 0 ; k < posSize ; k++) {
-                String currRight = rotor.getCTEPositioning().get(k).getRight();
-                if(seen.contains(currRight)){
-                    return INCORRECT;
+                if(rotor.getCTEPositioning().size()<posSize){
+                    throw  new Exception("no good! missing rotor mapping!");
+
                 }
-                seen.add(currRight);
+                String currRight = rotor.getCTEPositioning().get(k).getRight().toUpperCase();
+                if(seenR.contains(currRight)){
+                    throw  new Exception("no good! there is "+ currRight+ " more then once on the right side of one of the rotors");
+
+
+                }
+                seenR.add(currRight);
         }
+            for( int k = 0 ; k < posSize ; k++) {
+                String currLeft = rotor.getCTEPositioning().get(k).getLeft().toUpperCase();
+                if(seenL.contains(currLeft)){
+                    throw  new Exception("no good! there is "+ currLeft+ " more then once on the left side of one of the rotors");
+
+
+                }
+                seenL.add(currLeft);
+            }
 
         }
         return CORRECT;
 
     }
     public int checkNotch(int n, int size){
-        if(n > size || n < 0)
+        if(n > size || n <= 0)
             return INCORRECT;
         else
             return CORRECT;
     }
-    public int checkReflectorID(Reflector[] all, int size) {
+    public int checkReflectorID(Reflector[] all, int size) throws Exception {
 
         RomanNumber num = new RomanNumber();
         int[] arr = new int[size + 1];
@@ -721,7 +760,9 @@ public class BackEndMain {
 
             String RomeID = ref.getId();
             int id = num.romanToInteger(RomeID);
-
+            if(id >= arr.length){
+                throw new Exception("bad reflector id: "+RomeID);
+            }
             if (arr[id] == 0)
                 arr[id] = id;
             else
@@ -741,9 +782,67 @@ public class BackEndMain {
             return INCORRECT;
         }
         return CORRECT;
-        // TODO!  9.	אין מיפוי בין אות לעצמה באף לא אחד מן המשקפים המוגדרים
+
 
     }
+
+    public int checkDuplicateRefMapping(List<CTEReflect> all, int size) throws Exception {
+        if(all.size()>size){
+            throw  new Exception(REFLECTOR_TO_MUCH_MAPPING);
+
+        }
+        for (int i = 0; i < size ; i++) {
+            int curr = all.get(i).getOutput();
+            for (int k = 0; k < size; k++) {
+                int tested = all.get(k).getInput();
+                if(tested==curr){
+                    throw  new Exception("one of your reflector have a duplicated mapping");
+
+                }
+            }
+
+        }
+        return CORRECT;
+
+
+
+//        }
+
+
+    }
+//
+//    public void saveStateToMachine(){
+//        System.out.println("wowwww");
+//
+//        StringBuilder rotorsState = new StringBuilder();
+//        int size = myEnigma.getActiveRotors().size();
+//        rotorsState.append(size+",");
+//        for (int i = 0 ; i < size ; i++){
+//
+//            SpinningRotor rotor = myEnigma.getActiveRotors().get(i);
+//            res.append(rotor.getId());
+//            res.append(rotor.getRightArr()[rotor.getPos()].theLetter());
+//
+//
+//            if (i != size - 1) {
+//                res.append(",");
+//            }
+//
+//        }
+//        System.out.println(res);
+////        try {
+////            FileWriter myWriter = new FileWriter("filename.txt");
+////            myWriter.write("Files in Java might be tricky, but it is fun enough!");
+////            myWriter.close();
+////            System.out.println("Successfully wrote to the file.");
+////        } catch (IOException e) {
+////            System.out.println("An error occurred.");
+////            e.printStackTrace();
+////        }
+//
+//    }
+
+
 
     //////////////////////////////////////////////////////////////////////////////////////
 }
