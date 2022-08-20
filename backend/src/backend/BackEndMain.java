@@ -355,12 +355,6 @@ public class BackEndMain {
 
             SpinningRotor rotor = myEnigma.getActiveRotors().get(i);
             res.append(rotor.getId());
-
-
-
-            int distanceFromNotch = ((rotor.getNotch() - rotor.getPos()) + abc.getSize() ) % abc.getSize();
-            res.append( "(" +  distanceFromNotch + ")");
-
             if (i != size - 1) {
                 res.append(",");
             }
@@ -380,9 +374,6 @@ public class BackEndMain {
             SpinningRotor rotor = myEnigma.getActiveRotors().get(i);
             res.append(rotor.getId());
 
-            int distanceFromNotch = ((rotor.getNotch() - rotor.indexOf(rotorsInitState[i])) + abc.getSize() ) % abc.getSize();
-            res.append( "(" +  distanceFromNotch + ")");
-
             if (i != size - 1) {
                 res.append(",");
             }
@@ -400,6 +391,8 @@ public class BackEndMain {
 
             SpinningRotor rotor  = myEnigma.getActiveRotors().get(i);
             res.append(rotor.getRightArr()[rotor.getPos()].theLetter());
+            int distanceFromNotch = ((rotor.getNotch() - rotor.getPos()) + abc.getSize() ) % abc.getSize();
+            res.append( "(" +  distanceFromNotch + ")");
 
             if (i != size - 1) {
                 res.append(",");
@@ -414,8 +407,10 @@ public class BackEndMain {
         StringBuilder res = new StringBuilder();
         int size = myEnigma.getActiveRotors().size();
         for (int i = 0 ; i < size ; i++ ){
-
+            SpinningRotor rotor = myEnigma.getActiveRotors().get(i);
             res.append(rotorsInitState[i]);
+            int distanceFromNotch = ((rotor.getNotch() - rotor.indexOf(rotorsInitState[i])) + abc.getSize() ) % abc.getSize();
+            res.append( "(" +  distanceFromNotch + ")");
 
             if (i != size - 1) {
                 res.append(",");
