@@ -10,8 +10,17 @@
   <component name="ChangeListManager">
     <list default="true" id="4b04d8ac-fcb6-47c3-9136-7f81f2f6b100" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestErrors/Error Files/ex1-case_insensitive-NO_ERORR_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/TestErrors/Error Files/ex1-case_insensitive-NO_ERORR_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestErrors/Error Files/ex1-duplicate_letter_mapped_rotor_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/TestErrors/Error Files/ex1-duplicate_letter_mapped_rotor_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestErrors/Error Files/ex1-duplicate_reflector_mapped.xml" beforeDir="false" afterPath="$PROJECT_DIR$/TestErrors/Error Files/ex1-duplicate_reflector_mapped.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestErrors/Error Files/ex1-invalid_reflector_mapped_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/TestErrors/Error Files/ex1-invalid_reflector_mapped_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestErrors/Error Files/ex1-not_even_abc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/TestErrors/Error Files/ex1-not_even_abc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/backend/BackEndMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/backend/BackEndMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/enigma/ui/Ui.java" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/enigma/ui/Ui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine/src/Machine/ABC.java" beforeDir="false" afterPath="$PROJECT_DIR$/machine/src/Machine/ABC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine/src/Machine/Letter.java" beforeDir="false" afterPath="$PROJECT_DIR$/machine/src/Machine/Letter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine/src/Machine/Machine.java" beforeDir="false" afterPath="$PROJECT_DIR$/machine/src/Machine/Machine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine/src/Machine/SpinningRotor.java" beforeDir="false" afterPath="$PROJECT_DIR$/machine/src/Machine/SpinningRotor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/backend/backend/BackEndMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/backend/backend/BackEndMain.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/front-end/enigma/ui/Ui.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/front-end/enigma/ui/Ui.class" afterDir="false" />
     </list>
@@ -49,7 +58,7 @@
     "WebServerToolWindowFactoryState": "false",
     "jdk.selected.JAVA_MODULE": "corretto-1.8",
     "last_opened_file_path": "D:/studying/code/java/ex_one/machine",
-    "project.structure.last.edited": "Artifacts",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2"
   }
@@ -101,6 +110,7 @@
       <workItem from="1660987409183" duration="6000" />
       <workItem from="1660987811247" duration="3012000" />
       <workItem from="1660990861046" duration="8751000" />
+      <workItem from="1661006526472" duration="5833000" />
     </task>
     <servers />
   </component>
@@ -117,5 +127,21 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/front-end/src/enigma/ui/Ui.java</url>
+          <line>201</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/backend/src/backend/BackEndMain.java</url>
+          <line>583</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

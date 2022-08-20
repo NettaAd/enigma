@@ -6,7 +6,6 @@ import backend.SavedEncode;
 
 
 
-import javax.sound.midi.ControllerEventListener;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -29,7 +28,8 @@ public class Ui {
             , "Random machine settings"
             , "Encode"
             , "Reset settings"
-            , "Stats and history "
+            , "Stats and history ",
+            "Exit"
          };
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,9 +58,9 @@ public class Ui {
         this.showMenu();
         int answer = this.getUserMenuInput();
 
-        while (answer != 1){
+        while (backend.checkIfMachineIsvaild() && answer != 8  ){
 
-            System.out.println("Opps! you have to set a xml file first!");
+            System.out.println("Oh no! you have to set a xml file first!");
             System.out.println("Let's try again: ");
 
             this.showMenu();
@@ -68,7 +68,16 @@ public class Ui {
         }
 
         while(true) {
-
+            if(!backend.checkIfMachineIsvaild() && answer!=1){
+                if(answer == exit){
+                    menuSwitch(answer);
+                    break;
+                }
+                System.out.println("no xml was set, try again: ");
+                this.showMenu();
+                answer = this.getUserMenuInput();
+                continue;
+            }
             menuSwitch(answer);
             if(answer == exit){
                 break;
@@ -141,6 +150,7 @@ public class Ui {
 
             try {
 
+
                 int res = Integer.parseInt(userInput.next());
 
                 if ( res <= 0 || res > menuOptions.length ) {
@@ -198,10 +208,7 @@ public class Ui {
         int activeRotorsNum = backend.getAmountOfActiveRotors();
         int rotorsNum = backend.getAmountOfRotors();
         System.out.println("The number of active rotors: " + activeRotorsNum + "/" + rotorsNum);
-        /*for(SpinningRotor r: backend.getRotorsArr()){
 
-            System.out.println("The notch of Rotor " + r.getId() + " is: "+ (r.getNotch() + 1));
-        }*/
         System.out.println("The number of reflectors is: " + backend.getReflectors().length);
         System.out.println("The number of encoded messages are: " + backend.getMessagesCount());
 
@@ -212,92 +219,21 @@ public class Ui {
 
     /////////////////////////////------------ 3 ------------/////////////////////////////
 
-   /* public int getActiveRotorsNum() {
-
-        int rotorsNum = backend.getAmountOfRotors();
-        System.out.println("There are " + rotorsNum + " rotors available.");
-
-        System.out.println("How many active rotors would you like to set? Remember that there have to be at least 2 :)");
-        int activeRotorAmount = this.getUserIntInputSafe() - 1;
-
-        // valid check
-        while( !backend.checkInRotorsRange(activeRotorAmount) ){
-
-            System.out.println("You only got " + rotorsNum + " rotors!");
-            System.out.println("Please try again");
-            activeRotorAmount = this.getUserIntInputSafe() - 1;
-        }
-
-        System.out.println();
-        return activeRotorAmount;
-    }
-    public int[] getRotorsID(int activeRotorAmount, int[] activeRotorsId ) {
-
-        ArrayList<Integer> seenRotorsId = new ArrayList<>();
-        System.out.println("Please enter your choice of active rotors id's by the chosen order: ");
-
-        for(int i = 0 ; i <= activeRotorAmount ; i++)   {
-
-            System.out.println("Choose id for the " + (i+1) + "'s rotor: " );
-            activeRotorsId[i] = this.getUserIntInputSafe();
-
-            while( !backend.isRotorExist(activeRotorsId[i]) || seenRotorsId.contains(activeRotorsId[i]) ) {
-
-                if(seenRotorsId.contains(activeRotorsId[i])){
-                    System.out.println("The id: " + activeRotorsId[i] + " is already picked, try again: " );
-                }
-                else {
-                    System.out.println("The id: " + activeRotorsId[i] + " is not a valid, try again: ");
-                }
-
-                activeRotorsId[i] = this.getUserIntInputSafe();
-            }
-            seenRotorsId.add( activeRotorsId[i]);
-        }
-
-        System.out.println();
-        return activeRotorsId;
-    }
-    public String[] getRotorsPos(int activeRotorAmount,  int[] activeRotorsId , String[] activeRotorsPos){
-
-        System.out.println("Please pick the pos for each rotor in the same order as the id's: ");
-        //   WORKAROUND-
-        //   weird nextLine bug -> https://stackoverflow.com/questions/24470587/java-using-nextline-in-for-loop
-        userInput.nextLine();
-
-        System.out.println();
-        // todo -already done: changed activeRotorsId[i], used to be just i
-
-        for( int i = 0 ; i <= activeRotorAmount ; i++) {
-
-            System.out.println( "Choose pos for the " + activeRotorsId[i] + "'s rotor:" );
-            activeRotorsPos[i] = userInput.nextLine().toUpperCase();
-
-            while (!backend.getAbc().checkInAbc(activeRotorsPos[i]).isEmpty() || activeRotorsPos[i].equals("")){
-
-                System.out.println("Not a legit letter!!! Please try again" );
-                activeRotorsPos[i] = userInput.nextLine();
-            }
-        }
-        System.out.println();
-
-        return activeRotorsPos;
-    }
-   */
     public void getRotors() {
 
         // get rotors like 23,45,16 (one string, with ,) ---------------------------------------
         int rotorsNum = backend.getAmountOfRotors();
         System.out.println("Please enter the id of the rotors of your choice, separated by ',' (For example: 23,526,231). " );
         System.out.println("There are " + rotorsNum + " rotors available.");
-
+        userInput.nextLine();
         String rotorsIdString = userInput.nextLine();
+
         String[] rotorsId = rotorsIdString.split(",");
         while(true){
             try{
                 for(String i : rotorsId){
                     if(!checkIfNumber(i)){
-                        throw new Exception("shit");
+                        throw new Exception("error");
                     }
                 }
                 break;
@@ -305,9 +241,9 @@ public class Ui {
             catch(Exception e){
                 System.out.println("input were not numbers, try typing numbers: ");
                 rotorsIdString = userInput.nextLine();
-                System.out.println("");
+
                 rotorsId = rotorsIdString.split(",");
-                continue;
+
             }
         }
 
@@ -337,7 +273,7 @@ public class Ui {
         String rotorsPosString = userInput.nextLine();
         char[] rotorsPos = rotorsPosString.toUpperCase().toCharArray();
 
-        while(!checkPos(rotorsPos)){
+        while(!checkPos(rotorsPos,activeRotorsAmount) ){
 
             rotorsPosString = userInput.nextLine();
             rotorsPos = rotorsPosString.toCharArray();
@@ -361,30 +297,7 @@ public class Ui {
             System.out.println((i+1) + ": id = " + activeRotorsId[i] + ", set pos = " + rotorsPos[i] );
         }
         System.out.println("-----------------------------------------");
-        /*
 
-        ~~~ the old code ~~~
-        // get rotors amount
-        int size = getActiveRotorsNum();
-
-        // get id's
-        int[] activeId =  new int[size + 1];
-        activeId = getRotorsID(size, activeId);
-
-        //  TODO--- tests input AND ERROR HANDLING
-
-        // get pos
-        String[] activePos = new String[size + 1];
-        activePos = getRotorsPos(size, activeId, activePos);
-
-        //  backend.setRotorsViaUser(activeId, activePos);
-
-        System.out.println("Your active rotors are:");
-        for( int i = 0 ; i <= size ; i++) {
-
-            System.out.println((i+1) + ": id = " + activeId[i] + ", set pos = " + activePos[i] );
-        }
-        System.out.println();*/
     }
     //~~~~~~~~~~~~~~~~~~~
     public void getReflector() {
@@ -398,9 +311,23 @@ public class Ui {
         System.out.println("Pick reflector via ID: ");
         int refId = this.getUserIntInputSafe() - 1;
 
-        backend.setReflectorViaUser(backend.getReflectors()[refId].getId());
-        System.out.println("Your active reflector is: " + backend.getReflectors()[refId].getId());
-        System.out.println();
+        while (true) {
+            try{
+                if (refId < 0 || refId > backend.getReflectors().length) {
+                    throw new Exception("invalid id");
+                }
+                backend.setReflectorViaUser(backend.getReflectors()[refId].getId());
+                System.out.println("Your active reflector is: " + backend.getReflectors()[refId].getId());
+                System.out.println();
+                break;
+            }
+        catch(Exception e){
+            System.out.println("Id invalid, try again");
+            refId = this.getUserIntInputSafe() - 1;
+
+        }
+        }
+
     }
     //~~~~~~~~~~~~~~~~~~~
     public void getPlugs() {
@@ -482,18 +409,22 @@ public class Ui {
         }
         return true;
     }
-    public boolean checkPos(char[] rotorsPos) {
+    public boolean checkPos(char[] rotorsPos,int neededLength) {
+        if(rotorsPos.length !=neededLength){
+            System.out.println("Wrong amount of positions,need to write ->"+neededLength+" positions");
+            System.out.println("Please try again");
+            return false;
+        }
+        for (char rotorsPo : rotorsPos) {
 
-        for(int i = 0; i< rotorsPos.length ; i++){
+            String c = rotorsPo + "";
 
-            String c = rotorsPos[i] + "";
-
-            if(!backend.getAbc().checkInAbc(c).isEmpty()) {
+            if (!backend.getAbc().checkInAbc(c).isEmpty()) {
 
                 System.out.println(c + " is not in the ABC! ");
                 System.out.println("Please try again");
 
-                return false; // todo say each chars are invalid
+                return false;
             }
         }
         return true;
@@ -502,10 +433,8 @@ public class Ui {
     public void getMachineSettings() {
 
         getRotors();
-        //   C:\Users\yigal\IdeaProjects\blabla\enigma\src\ex1-sanity-small.xml
 
-        //getRotors();
-        //   TODO-->TESTS AND ERROR HANDLING
+
         getReflector();
         getPlugs();
 
@@ -549,7 +478,10 @@ public class Ui {
         System.out.println();
     }
     public void randomMachine(){
-
+        try{
+       if( backend.getAmountOfActiveRotors()==0){
+           System.out.println("no machine");
+       }
         backend.RandomMachine();
 
         if(!firstSet) {
@@ -558,6 +490,9 @@ public class Ui {
             backend.setFirstMachine();
         }
         printRandomMachine();
+        }catch (Exception e){
+            System.out.println("No machine from xml was set");
+        }
     }
 
     /////////////////////////////------------ 5 ------------/////////////////////////////
@@ -583,10 +518,6 @@ public class Ui {
 
     public void reset(){
         backend.resetMachine();
-//        backend.resetMachine();
-//        System.out.println("Reset has been done! the current setting are:");
-//        ShowMachineSettings();
-//        System.out.println("Reset has been done! the current setting are:");
     }
 
     /////////////////////////////------------ 7 ------------/////////////////////////////

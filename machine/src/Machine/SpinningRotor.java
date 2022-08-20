@@ -32,10 +32,7 @@ public class SpinningRotor implements Rotor {
         return notch;
     }
 
-    public Letter[] getLeftArr(){
 
-        return leftArr;
-    }
     public Letter[] getRightArr(){
         return rightArr;
     }
@@ -88,19 +85,7 @@ public class SpinningRotor implements Rotor {
         if (res < 0) {  res += size;  }
 
         return res;
-    }
+    }}
 
 
-    public void print(){
 
-        int ind = pos;
-        for(int i = 0; i < size; i++) {
-
-            System.out.println(i+": " +leftArr[ind % size].letter + " " + rightArr[ind % size].letter );
-            ind++;
-        }
-
-        System.out.println(" ");
-
-    }
-}

@@ -13,6 +13,4 @@ public class Letter {
 
     public String theLetter(){ return letter;}
 
-    public int theTwin(){ return myTwinIndex;}
-
 }

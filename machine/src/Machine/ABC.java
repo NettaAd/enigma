@@ -20,7 +20,7 @@ public class ABC {
 
         for (int i=0;i<s.length();i++) {
 
-            if(chars.indexOf(charArr[i]) == -1 && badLetters.indexOf(charArr[i])==-1 ) {
+            if(chars.indexOf(charArr[i]) == -1 && !badLetters.contains(charArr[i])) {
                 badLetters.add(charArr[i]);
             }
         }

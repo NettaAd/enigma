@@ -11,6 +11,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,10 +21,9 @@ import java.util.Random;
 
 public class BackEndMain {
 
-    String REFLECTOR_TO_MUCH_MAPPING="too much entrys in relflector";
+    String REFLECTOR_TO_MUCH_MAPPING="too much entry's in reflector";
     String LETTER_IS_NOT_IN_ABC="the next letter are not allowed with the curr settings ";
 
-    private Machine first;
     String firstSettings;
 
     private Machine myEnigma;
@@ -32,9 +33,11 @@ public class BackEndMain {
 
     //////////////////////////////////////////////////////////////////////////////////////
 
+    public boolean checkIfMachineIsvaild(){
+        return myEnigma!=null;
+    }
     public BackEndMain() {
 
-        first = new Machine();
         machineSettings = new ArrayList<>();
         messages = new ArrayList<>();
         messagesCount = 0;
@@ -103,10 +106,7 @@ public class BackEndMain {
 
         PlugBoard p = new PlugBoard(letters);
 
-      /*  if( plugs.length % 2 != 0 ){
-           TODO fix it , make it pretty
-            throw new Exception("plug board blah blah");
-        }*/
+
 
         for(int i = 0 ; i < plugs.length; i+=2) {
 
@@ -239,7 +239,10 @@ public class BackEndMain {
         plugs.add(onePlug);
         return onePlug;
     }
-    public void RandomMachine() {
+    public void RandomMachine() throws Exception {
+        if(myEnigma==null){
+            throw new Exception("no machine yet");
+        }
 
         randRotors();
         randReflector();
@@ -274,12 +277,12 @@ public class BackEndMain {
         }
 
         else {
-            String resStr = "";
+            StringBuilder resStr = new StringBuilder();
             for(int i=0;i<badLetters.size();i++){
 
-                resStr+=badLetters.get(i);
+                resStr.append(badLetters.get(i));
                 if(i!=badLetters.size()-1){
-                    resStr+=',';
+                    resStr.append(',');
                 }
             }
             throw new Exception(LETTER_IS_NOT_IN_ABC+resStr);
@@ -297,23 +300,6 @@ public class BackEndMain {
     }
 
     ///////////////////////     6 reset to first settings    ///////////////////////
-
-//    public void resetMachine(){
-//        this.myEnigma=this.first;
-
-
-//        String fi = getFirstSettings();
-//        String st = getFormatStats();
-//
-//        myEnigma.setActiveRotors(first.getActiveRotors(), first.getNumberOfActiveRotors());
-//        st = getFormatStats();
-//
-//        myEnigma.setReflector(first.getActiveReflector());
-//        st = getFormatStats();
-//
-//        myEnigma.setPlugBoard(first.getPlugBoard());
-//        st = getFormatStats();
-//    }
 
     ///////////////////////      7 stats and history       ///////////////////////
     private int messagesCount;
@@ -394,7 +380,7 @@ public class BackEndMain {
             SpinningRotor rotor  = myEnigma.getActiveRotors().get(i);
             res.append(rotor.getRightArr()[rotor.getPos()].theLetter());
             int distanceFromNotch = ((rotor.getNotch() - rotor.getPos()) + abc.getSize() ) % abc.getSize();
-            res.append( "(" +  distanceFromNotch + ")");
+            res.append("(").append(distanceFromNotch).append(")");
 
             if (i != size - 1) {
                 res.append(",");
@@ -412,7 +398,7 @@ public class BackEndMain {
             SpinningRotor rotor = myEnigma.getActiveRotors().get(i);
             res.append(rotorsInitState[i]);
             int distanceFromNotch = ((rotor.getNotch() - rotor.indexOf(rotorsInitState[i])) + abc.getSize() ) % abc.getSize();
-            res.append( "(" +  distanceFromNotch + ")");
+            res.append("(").append(distanceFromNotch).append(")");
 
             if (i != size - 1) {
                 res.append(",");
@@ -421,18 +407,7 @@ public class BackEndMain {
         // res.substring(0, res.length() - 1);
         return res.toString();
     }
-    public String ReflectorDisplay(){
 
-        StringBuilder res= new StringBuilder();
-
-        for (Reflector ref: myEnigma.getReflectors()){
-
-            res.append(ref.getId());
-
-            res.append(",");
-        }
-        return res.toString();
-    }
     public String activeReflectorDisplay(){
 
         return myEnigma.getActiveReflector().getId();
@@ -482,137 +457,132 @@ public class BackEndMain {
         Unmarshaller U = jc.createUnmarshaller();
         return (CTEEnigma) U.unmarshal(in);
     }
-    public String setXmlData(String path) throws JAXBException {
+    public String setXmlData(String path) {
 
+        Machine tempBackup = null;
         try {
-            if(checkIfFileExists(path) == NO_FILE){
+            tempBackup = myEnigma;
+
+            if (checkIfFileExists(path) == NO_FILE) {
                 throw new Exception("file is not there");
-            }
-            else if (checkIfFileExists(path) == INCORRECT){
+            } else if (checkIfFileExists(path) == INCORRECT) {
                 throw new Exception("file is not a xml file");
             }
 
-            InputStream inputStream = new FileInputStream(path);
+            InputStream inputStream = Files.newInputStream(Paths.get(path));
             CTEEnigma rotors = deserializeFrom(inputStream);
 
             int amountOfRotors = rotors.getCTEMachine().getRotorsCount();
-            int logical_rotors_size = amountOfRotors-1;
             int amountOfReflectors = rotors.getCTEMachine().getCTEReflectors().getCTEReflector().size();
             int abcLength = rotors.getCTEMachine().getABC().trim().length();
             int PositionsSize = rotors.getCTEMachine().getCTERotors().getCTERotor().get(0).getCTEPositioning().toArray().length;
 
 
-            if(checkRotorSize(amountOfRotors)==INCORRECT){
-                throw  new Exception("file include only one rotor?!! this is not SAFE..try again dummy");
+            if (checkRotorSize(amountOfRotors) == INCORRECT) {
+                throw new Exception("file include only one rotor?!! this is not SAFE..try again dummy");
             }
-            if(checkAbcSize(abcLength)==INCORRECT){
-                throw  new Exception("abc in the settings is not even, curr size is "+abcLength );
+            if (checkAbcSize(abcLength) == INCORRECT) {
+                throw new Exception("abc in the settings is not even, curr size is " + abcLength);
             }
-            if(checkDoubleInRotor(rotors.getCTEMachine().getCTERotors().getCTERotor(),PositionsSize)==INCORRECT){
-                throw  new Exception("some of the rotors are not unique");
+            if (checkDoubleInRotor(rotors.getCTEMachine().getCTERotors().getCTERotor(), PositionsSize) == INCORRECT) {
+                throw new Exception("some of the rotors are not unique");
 
             }
             reflectors = new Reflector[amountOfReflectors];
-            SpinningRotor[] machineRotors =new SpinningRotor[amountOfRotors];
+            SpinningRotor[] machineRotors = new SpinningRotor[amountOfRotors];
 
             abc = new ABC(rotors.getCTEMachine().getABC().trim().toCharArray());
 
             // ---------------------init rotors---------------------
             rotorsInitState = new String[amountOfRotors];
 
-            for( int i = 0 ; i < amountOfRotors; i++ ) {
+            for (int i = 0; i < amountOfRotors; i++) {
 
                 CTERotor currPos = rotors.getCTEMachine().getCTERotors().getCTERotor().get(i);
-                if(checkNotch(currPos.getNotch(),currPos.getCTEPositioning().size())==INCORRECT){
-                    throw  new Exception("rotor number "+i+1+" is not having valid notch");
+                if (checkNotch(currPos.getNotch(), currPos.getCTEPositioning().size()) == INCORRECT) {
+                    throw new Exception("rotor number " + (i + 1) + " is not having valid notch");
                 }
 
                 Letter[] right = new Letter[PositionsSize];
-                Letter[] left  = new Letter[PositionsSize];
+                Letter[] left = new Letter[PositionsSize];
 
-                for( int k = 0 ; k < PositionsSize ; k++) {
+                for (int k = 0; k < PositionsSize; k++) {
 
                     String currRight = currPos.getCTEPositioning().get(k).getRight();
 
-                    for ( int j=0 ; j < PositionsSize ; j++) {
+                    for (int j = 0; j < PositionsSize; j++) {
 
                         String currLeft = currPos.getCTEPositioning().get(j).getLeft();
 
                         if (currRight.equals(currLeft)) {
 
                             right[k] = new Letter(currRight, j);
-                            left[j]  = new Letter(currRight, k);
+                            left[j] = new Letter(currRight, k);
                             break;
                         }
                     }
                 }
 //                rotorsInitState[i]=String.valueOf(right[i].theLetter());
-                SpinningRotor rotor = new SpinningRotor(right, left, currPos.getNotch()-1 , currPos.getId());
+                SpinningRotor rotor = new SpinningRotor(right, left, currPos.getNotch() - 1, currPos.getId());
                 machineRotors[i] = rotor;
 
             }
-            if(checkRotorsID(machineRotors,amountOfRotors)==INCORRECT){
+            if (checkRotorsID(machineRotors, amountOfRotors) == INCORRECT) {
                 throw new Exception("rotors id are not in order");
             }
 
 //            here
 
             //-----------------------------init ref---------------------
-            List<CTEReflector> refs= rotors.getCTEMachine().getCTEReflectors().getCTEReflector();
+            List<CTEReflector> refs = rotors.getCTEMachine().getCTEReflectors().getCTEReflector();
 
-            //  Reflector[] refsInit = new Reflector[amountOfReflectors];
-            int refAbcSize = abcLength;
-            //int refSize = refs.get(0).getCTEReflect().size();
+            for (int i = 0; i < amountOfReflectors; i++) {
 
-            for ( int i=0 ; i < amountOfReflectors ; i++ ) {
-
-                int[] initRef = new int[refAbcSize+1];
-                List <CTEReflect> currRefs = refs.get(i).getCTEReflect();
-               checkDuplicateRefMapping(currRefs,(refAbcSize / 2));
-                if(currRefs.size()<refAbcSize / 2 ){
-                    throw  new Exception("no good! missing reflector mapping!");
+                int[] initRef = new int[abcLength + 1];
+                List<CTEReflect> currRefs = refs.get(i).getCTEReflect();
+                checkDuplicateRefMapping(currRefs, (abcLength / 2));
+                if (currRefs.size() < abcLength / 2) {
+                    throw new Exception("no good! missing reflector mapping!");
 
                 }
-                for(int k = 0 ; k < refAbcSize / 2 ; k++){
+                for (int k = 0; k < abcLength / 2; k++) {
 
-                    int I =  currRefs.get(k).getInput() - 1;
-                    int U =  currRefs.get(k).getOutput() - 1;
-                    if(I<0 || U<0){
-                      throw new Exception("reflector number "+i+" contains an entry to zero");
-
-                    }
-                    if(I>refAbcSize  || U >refAbcSize ){
-                        throw new Exception("reflector number "+i+" contains an entry that does not exist on the machine abc's");
+                    int I = currRefs.get(k).getInput() - 1;
+                    int U = currRefs.get(k).getOutput() - 1;
+                    if (I < 0 || U < 0) {
+                        throw new Exception("reflector number " + i + " contains an entry to zero");
 
                     }
-                    if(checkDoubleInReflectors(I,U)==INCORRECT){
-                        throw new Exception("in reflector "+i+" row number "+k+" is not valid, letter cant go to itself, dummy");
+                    if (I > abcLength || U > abcLength) {
+                        throw new Exception("reflector number " + i + " contains an entry that does not exist on the machine abc's");
+
+                    }
+                    if (checkDoubleInReflectors(I, U) == INCORRECT) {
+                        throw new Exception("in reflector " + i + " row number " + k + " is not valid, letter cant go to itself, dummy");
                     }
 
                     initRef[I] = U;
                     initRef[U] = I;
                 }
-                reflectors[i] = new Reflector(initRef,refs.get(i).getId());
+                reflectors[i] = new Reflector(initRef, refs.get(i).getId());
             }
-            if(checkReflectorID(reflectors,amountOfReflectors)==INCORRECT){
+            if (checkReflectorID(reflectors, amountOfReflectors) == INCORRECT) {
                 throw new Exception("one of the Reflectors id is not valid");
             }
 
             //  -------------------------init PlugBoard---------------------
-            int[] plugInit = new int[refAbcSize];
-            for( int i=0 ; i < refAbcSize ; i++ ){
+            int[] plugInit = new int[abcLength];
+            for (int i = 0; i < abcLength; i++) {
 
-                plugInit[i]=i;
+                plugInit[i] = i;
             }
             PlugBoard plugBoard = new PlugBoard(plugInit);
 
-            myEnigma = new Machine(plugBoard,machineRotors,reflectors);
-        }
+            myEnigma = new Machine(plugBoard, machineRotors, reflectors);
+        } catch (Exception e) {
+            this.myEnigma = tempBackup;
+            return e.getMessage();
 
-        catch (Exception e) {
-//            TODO remove testing tool
-            e.printStackTrace();
-            return  e.getMessage();
         }
         return "ok";
     }
@@ -667,14 +637,7 @@ public class BackEndMain {
         else
             return INCORRECT;
     }
-    public int checkActiveRotorSize(int sizeAll, int sizeActive){
 
-        if(sizeAll >= sizeActive)
-            return CORRECT;
-        else
-            return INCORRECT;
-
-    }
     public int checkRotorsID(SpinningRotor[] all, int size) throws Exception {
         try {
             int[] arr = new int[size];
@@ -709,11 +672,13 @@ public class BackEndMain {
     }
     public int checkDoubleInRotor(List<CTERotor> all, int posSize) throws Exception {
 
+
         for(CTERotor rotor: all) {
             ArrayList<String> seenR = new ArrayList<>();
             ArrayList<String> seenL = new ArrayList<>();
 
-            for( int k = 0 ; k < posSize ; k++) {
+
+            for( int k = 0 ; k < rotor.getCTEPositioning().size() ; k++) {
                 if(rotor.getCTEPositioning().size()<posSize){
                     throw  new Exception("no good! missing rotor mapping!");
 
@@ -726,7 +691,7 @@ public class BackEndMain {
                 }
                 seenR.add(currRight);
         }
-            for( int k = 0 ; k < posSize ; k++) {
+            for( int k = 0 ; k < rotor.getCTEPositioning().size() ; k++) {
                 String currLeft = rotor.getCTEPositioning().get(k).getLeft().toUpperCase();
                 if(seenL.contains(currLeft)){
                     throw  new Exception("no good! there is "+ currLeft+ " more then once on the left side of one of the rotors");
@@ -786,7 +751,7 @@ public class BackEndMain {
 
     }
 
-    public int checkDuplicateRefMapping(List<CTEReflect> all, int size) throws Exception {
+    public void checkDuplicateRefMapping(List<CTEReflect> all, int size) throws Exception {
         if(all.size()>size){
             throw  new Exception(REFLECTOR_TO_MUCH_MAPPING);
 
@@ -802,45 +767,13 @@ public class BackEndMain {
             }
 
         }
-        return CORRECT;
-
 
 
 //        }
 
 
     }
-//
-//    public void saveStateToMachine(){
-//        System.out.println("wowwww");
-//
-//        StringBuilder rotorsState = new StringBuilder();
-//        int size = myEnigma.getActiveRotors().size();
-//        rotorsState.append(size+",");
-//        for (int i = 0 ; i < size ; i++){
-//
-//            SpinningRotor rotor = myEnigma.getActiveRotors().get(i);
-//            res.append(rotor.getId());
-//            res.append(rotor.getRightArr()[rotor.getPos()].theLetter());
-//
-//
-//            if (i != size - 1) {
-//                res.append(",");
-//            }
-//
-//        }
-//        System.out.println(res);
-////        try {
-////            FileWriter myWriter = new FileWriter("filename.txt");
-////            myWriter.write("Files in Java might be tricky, but it is fun enough!");
-////            myWriter.close();
-////            System.out.println("Successfully wrote to the file.");
-////        } catch (IOException e) {
-////            System.out.println("An error occurred.");
-////            e.printStackTrace();
-////        }
-//
-//    }
+
 
 
 

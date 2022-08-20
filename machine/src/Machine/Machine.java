@@ -26,20 +26,16 @@ public class Machine {
     // ************ the machine getter's functions ************
     public SpinningRotor getRotor(int id) throws Exception {
 
-        for ( int i = 0 ; i < rotors.length ; i++ ) {
+        for (SpinningRotor rotor : rotors) {
 
-            if ( rotors[i].getId() == id ) {
+            if (rotor.getId() == id) {
 
-                return rotors[i];
+                return rotor;
             }
         }
         throw new Exception("rotor was not found");
     }
-    public void addActiveRotor(int index) {
 
-        this.activeRotors.add(rotors[index]);
-        numberOfActiveRotors++;
-    }
     public PlugBoard getPlugBoard() {
 
         return plugBoard;
