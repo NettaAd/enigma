@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<AnchorPane stylesheets="@showMachine.css"  prefWidth="696.0" xmlns="http://javafx.com/javafx/8.0.341" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.showMachinePane.showMachinePaneController">
+   <children>
+      <VBox>
+
+      <HBox>
+      <Label text="The number of active rotors: ">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label fx:id="activeRotorsLabel" text="-/-">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      </HBox>
+   <VBox fx:id="notchRotorsList">
+
+      </VBox>
+         <HBox>
+      <Label text="The number of encoded messages are: ">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label fx:id="numberOfCodesEncodedLabel" text="0">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+         </HBox>
+         <HBox>
+            <Label text="Machine Settings:">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Label fx:id="machineSettingsLaebl" text="---">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+         </HBox>
+      </VBox>
+   </children>
+</AnchorPane>

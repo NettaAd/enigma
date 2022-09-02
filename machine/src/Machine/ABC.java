@@ -10,6 +10,21 @@ public class ABC {
         this.chars = String.valueOf(chars);
     }
 
+    public String getAbc() {
+
+       return chars;
+    }
+
+    public  ArrayList<Character> getAbcAsCollation() {
+        ArrayList<Character> colc = new ArrayList<>();
+        for (int i=0;i<chars.length();i++) {
+            colc.add(chars.charAt(i));
+
+        }
+        return  colc;
+
+    }
+
     public int getSize(){
 
         return chars.length();
@@ -32,8 +47,15 @@ public class ABC {
         return chars.charAt(input);
     }
 
+
+
     public int toIndex(char input){
 
         return chars.indexOf(input);
+    }
+
+    public int toIndex(String input){
+
+        return chars.indexOf(input.charAt(0));
     }
 }

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="606.0" prefWidth="1017.0" xmlns="http://javafx.com/javafx/8.0.341" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
+   <children>
+      <SplitPane dividerPositions="0.2" layoutX="-7.0" layoutY="-2.0" orientation="VERTICAL" prefHeight="615.0" prefWidth="1026.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="139.0" prefWidth="606.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="417.0" layoutY="14.0" prefHeight="22.0" prefWidth="190.0" text="The Enigma Machine">
+                     <font>
+                        <Font name="Calibri" size="18.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="fileChooser" layoutX="21.0" layoutY="48.0" mnemonicParsing="false" onAction="#uploadFileClick" text="Load File" />
+                  <Label fx:id="filePathLabel" layoutX="96.0" layoutY="49.0" prefHeight="22.0" prefWidth="357.0" text="No file yet.." />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TabPane layoutX="6.0" layoutY="-2.0" prefHeight="487.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <tabs>
+                      <Tab text="Machine">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="299.0" prefWidth="1019.0">
+                                 <children>
+                                    <SplitPane dividerPositions="0.45394736842105265" layoutX="2.0" layoutY="3.0" orientation="VERTICAL" prefHeight="299.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="218.0" prefWidth="1022.0" />
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="1022.0">
+                                             <children>
+                                                <SplitPane dividerPositions="0.505859375" layoutX="-2.0" layoutY="-5.0" prefHeight="246.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <items>
+                                                    <AnchorPane prefHeight="165.0" prefWidth="513.0">
+                                                         <children>
+                                                            <TableView fx:id="plugsTable" layoutX="368.0" layoutY="25.0" prefHeight="110.0" prefWidth="145.0">
+                                                              <columns>
+                                                                <TableColumn fx:id="activePlugFromCol" prefWidth="81.0" text="From" />
+                                                                <TableColumn fx:id="activePlugToCol" prefWidth="69.0" text="To" />
+                                                              </columns>
+                                                            </TableView>
+                                                            <Label alignment="CENTER" layoutX="437.0" layoutY="6.0" prefHeight="17.0" prefWidth="58.0" text="Plugs" />
+                                                            <TableView fx:id="rotorTable" layoutX="141.0" layoutY="25.0" prefHeight="223.0" prefWidth="222.0">
+                                                               <columns>
+                                                                  <TableColumn fx:id="activeRotorOrderCol" prefWidth="81.0" text="Order" />
+                                                                  <TableColumn fx:id="activeRotorIdCol" prefWidth="69.0" text="Rotor ID" />
+                                                                  <TableColumn fx:id="activeRotorPositionCol" prefWidth="69.0" text="Position" />
+                                                               </columns>
+                                                            </TableView>
+                                                            <Label alignment="CENTER" layoutX="229.0" layoutY="6.0" prefHeight="17.0" prefWidth="58.0" text="Rotors" />
+                                                            <Label alignment="CENTER" layoutX="87.0" layoutY="107.0" prefHeight="17.0" prefWidth="58.0" text="Ref Id:" />
+                                                            <Label fx:id="ref_Id" alignment="CENTER" layoutX="23.0" layoutY="107.0" prefHeight="17.0" prefWidth="58.0" text="none" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                      <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="234.0" prefWidth="503.0">
+                                                         <children>
+                                                            <Button layoutX="393.0" layoutY="193.0" mnemonicParsing="false" onAction="#random" text="Random!" />
+                                                            <TableView fx:id="plugsTablePreSet" layoutX="55.0" layoutY="22.0" prefHeight="96.0" prefWidth="149.0">
+                                                               <columns>
+                                                                  <TableColumn fx:id="activePlugFromColPreSet" prefWidth="77.0" text="From" />
+                                                                  <TableColumn fx:id="activePlugToColPreSet" prefWidth="73.0" text="To" />
+                                                               </columns>
+                                                            </TableView>
+                                                            <ComboBox fx:id="fromselect" layoutX="361.0" layoutY="25.0" prefWidth="64.0" />
+                                                            <ComboBox fx:id="toselect" layoutX="298.0" layoutY="25.0" prefWidth="64.0" />
+                                                            <Label fx:id="ref_Id1" alignment="CENTER" layoutX="378.0" layoutY="6.0" prefHeight="17.0" prefWidth="58.0" text="from" />
+                                                            <Label fx:id="ref_Id2" alignment="CENTER" layoutX="324.0" layoutY="6.0" prefHeight="17.0" prefWidth="58.0" text="to" />
+                                                            <Button fx:id="preSetAddPlug" layoutX="300.0" layoutY="70.0" mnemonicParsing="false" onAction="#random" text="add plug" />
+                                                            <Button layoutX="85.0" layoutY="193.0" mnemonicParsing="false" onAction="#random" text="Set code" />
+                                                            <Button fx:id="removePreSetPlug" layoutX="3.0" layoutY="25.0" mnemonicParsing="false" text="Remove" textFill="RED" visible="false">
+                                                               <font>
+                                                                  <Font name="Arial Black" size="8.0" />
+                                                               </font>
+                                                            </Button>
+                                                         </children>
+                                                      </AnchorPane>
+                                                  </items>
+                                                </SplitPane>
+                                             </children>
+                                          </AnchorPane>
+                                      </items>
+                                    </SplitPane>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab text="Encrypt\Decrypt" />
+                        <Tab text="Brute Force">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                           </content>
+                        </Tab>
+                    </tabs>
+                     <effect>
+                        <Glow />
+                     </effect>
+                  </TabPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</Pane>

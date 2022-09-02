@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.control.ScrollPane?>
+<AnchorPane fx:id="settingsTab" nodeOrientation="RIGHT_TO_LEFT" prefHeight="455.0" prefWidth="1019.0" xmlns="http://javafx.com/javafx/8.0.341" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.settingsTabController">
+   <children>
+      <SplitPane layoutX="2.0" layoutY="190.0" orientation="VERTICAL" prefHeight="265.0" prefWidth="1019.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="190.0">
+         <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="187.0" prefWidth="1075.0">
+               <children>
+                  <SplitPane dividerPositions="0.505859375" layoutX="-2.0" layoutY="-5.0" prefHeight="214.0" prefWidth="1017.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <items>
+                        <AnchorPane prefHeight="208.0" prefWidth="478.0">
+                           <children>
+                              <TableView fx:id="plugsTable" layoutX="368.0" layoutY="25.0" prefHeight="110.0" prefWidth="145.0">
+                                 <columns>
+                                    <TableColumn fx:id="activePlugFromCol" prefWidth="81.0" text="From" />
+                                    <TableColumn fx:id="activePlugToCol" prefWidth="69.0" text="To" />
+                                 </columns>
+                              </TableView>
+                              <Label alignment="CENTER" layoutX="437.0" layoutY="6.0" prefHeight="17.0" prefWidth="58.0" text="Plugs" />
+                              <TableView fx:id="rotorTable" layoutX="141.0" layoutY="25.0" prefHeight="223.0" prefWidth="222.0">
+                                 <columns>
+                                    <TableColumn fx:id="activeRotorOrderCol" prefWidth="81.0" text="Order" />
+                                    <TableColumn fx:id="activeRotorIdCol" prefWidth="69.0" text="Rotor ID" />
+                                    <TableColumn fx:id="activeRotorPositionCol" prefWidth="69.0" text="Position" />
+                                 </columns>
+                              </TableView>
+                              <Label alignment="CENTER" layoutX="229.0" layoutY="6.0" prefHeight="17.0" prefWidth="58.0" text="Rotors" />
+                              <Label alignment="CENTER" layoutX="87.0" layoutY="107.0" prefHeight="17.0" prefWidth="58.0" text="Ref Id:" />
+                              <Label fx:id="ref_Id" alignment="CENTER" layoutX="23.0" layoutY="107.0" prefHeight="17.0" prefWidth="58.0" text="none" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="213.0" prefWidth="496.0">
+                           <children>
+                              <Button layoutX="412.0" layoutY="206.0" mnemonicParsing="false" onAction="#random" prefHeight="17.0" prefWidth="71.0" text="Random!" />
+                              <TableView fx:id="plugsTablePreSet" layoutX="55.0" layoutY="103.0" prefHeight="96.0" prefWidth="149.0">
+                                 <columns>
+                                    <TableColumn fx:id="activePlugFromColPreSet" prefWidth="77.0" text="From" />
+                                    <TableColumn fx:id="activePlugToColPreSet" prefWidth="73.0" text="To" />
+                                 </columns>
+                              </TableView>
+                              <ComboBox fx:id="fromselect" layoutX="138.0" layoutY="31.0" prefWidth="64.0" />
+                              <ComboBox fx:id="toselect" layoutX="50.0" layoutY="31.0" prefWidth="64.0" />
+                              <Label fx:id="ref_Id1" alignment="CENTER_RIGHT" layoutX="142.0" layoutY="6.0" prefHeight="17.0" prefWidth="58.0" text="from" />
+                              <Label fx:id="ref_Id2" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="55.0" layoutY="6.0" prefHeight="17.0" prefWidth="58.0" text="to" />
+                              <Button fx:id="preSetAddPlugButton" contentDisplay="CENTER" layoutX="50.0" layoutY="64.0" mnemonicParsing="false" text="add plug" />
+                              <Button layoutX="16.0" layoutY="206.0" mnemonicParsing="false" text="Set code" />
+                              <Button fx:id="removePreSetPlug" layoutX="157.0" layoutY="68.0" mnemonicParsing="false" text="Remove" textFill="RED" visible="false">
+                                 <font>
+                                    <Font name="Arial Black" size="8.0" />
+                                 </font>
+                              </Button>
+                              <GridPane fx:id="rotorsPreSet" layoutX="215.0" layoutY="102.0" prefHeight="96.0"
+                                        prefWidth="159.0" style="-fx-border-color: red;">
+                                 <columnConstraints>
+                                    <ColumnConstraints/>
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints/>
+                                 </rowConstraints>
+                              </GridPane>
+                              <Label fx:id="ref_Id11" alignment="CENTER_RIGHT" layoutX="302.0" layoutY="35.0" prefHeight="17.0" prefWidth="58.0" text="rotors">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="addRotorButton" layoutX="285.0" layoutY="35.0" mnemonicParsing="false" text="+" />
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

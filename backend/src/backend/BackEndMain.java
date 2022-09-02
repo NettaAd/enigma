@@ -1,20 +1,19 @@
 package backend;
 
 import Machine.*;
+import common_models.activePlug;
 import jaxb.schema.generated.CTEEnigma;
 import jaxb.schema.generated.CTEReflect;
 import jaxb.schema.generated.CTEReflector;
 import jaxb.schema.generated.CTERotor;
+import common_models.activeRotor;
 
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 public class BackEndMain {
@@ -24,6 +23,7 @@ public class BackEndMain {
 
     private Machine first;
     String firstSettings;
+
 
     private Machine myEnigma;
     private ABC abc;
@@ -47,6 +47,14 @@ public class BackEndMain {
     public Reflector[] getReflectors() {
         return reflectors;
     }
+
+    public ArrayList<String> getReflectorsIds() {
+        ArrayList<String> tempReflectors = new ArrayList<>();
+        for (int i = 0; i <reflectors.length; i++) {
+            tempReflectors.add(reflectors[i].getId());
+        }
+        return tempReflectors;
+    }
     public ABC getAbc() {
         return abc;
     }
@@ -59,6 +67,19 @@ public class BackEndMain {
     }
     public ArrayList<SpinningRotor> getRotorsArr(){
         return myEnigma.getActiveRotors();
+    }
+
+    public ArrayList<String> getRotorPositions(int id){
+        ArrayList<String> positions = new ArrayList<>();
+        Letter[] tempPoss = myEnigma.getRotors().get(id-1).getRightArr();
+        for (int i = 0; i < tempPoss.length; i++) {
+            positions.add(tempPoss[i].theLetter());
+        }
+        return positions;
+    }
+
+    public ArrayList<SpinningRotor> getAllRotorsArr(){
+        return myEnigma.getRotors();
     }
     public int getAmountOfRotors(){
 
@@ -93,6 +114,25 @@ public class BackEndMain {
             }
         }
     }
+
+    public void setPlugBoardViaUserBetter(List<activePlug> plugs){
+        int[] letters = new int[abc.getSize()];
+        for(int i = 0 ; i < abc.getSize() ; i++){
+
+            letters[i] = i;
+        }
+        PlugBoard p = new PlugBoard(letters);
+        for (activePlug plug:plugs) {
+
+            int a = abc.toIndex(plug.getFrom());
+            int b = abc.toIndex(plug.getTo());
+            p.PlugIn(a,b);
+
+        }
+        myEnigma.setPlugBoard(p);
+
+
+    }
     public void setPlugBoardViaUser(char[] plugs) {
 
         int[] letters = new int[abc.getSize()];
@@ -118,7 +158,27 @@ public class BackEndMain {
 
         myEnigma.setPlugBoard(p);
     }
-    public void setRotorsViaUser (int[] rotorsId, char[] posSet) {
+
+    public void setRotorsViaUserBetter (List<activeRotor> rotors) throws Exception {
+        ArrayList<SpinningRotor> newRotors = new ArrayList<>();
+        for (activeRotor currRotor:rotors ) {
+            int id = Integer.parseInt(currRotor.getId());
+            SpinningRotor rotor = myEnigma.getRotor(id);
+
+            String currPos = currRotor.getPosition();
+            rotor.setRotor(currPos);
+            rotorsInitState[newRotors.size()] = currPos;
+
+            newRotors.add(rotor);
+
+
+
+        }
+        myEnigma.setActiveRotors(newRotors, rotors.size());
+
+    }
+
+        public void setRotorsViaUser (int[] rotorsId, char[] posSet) {
 
         ArrayList<SpinningRotor> newRotors = new ArrayList<>();
 
@@ -238,6 +298,128 @@ public class BackEndMain {
 
         plugs.add(onePlug);
         return onePlug;
+    }
+
+    public int getRandomRef(){
+        Random rand = new Random();
+
+        int Refindex = rand.nextInt(reflectors.length);
+        return  Refindex;
+    }
+
+    public ArrayList<HashMap<String, String>> getRandomPlugs(){
+        Random rand = new Random();
+
+        plugs = new ArrayList<>();
+        int size = abc.getSize() / 2;
+        int plugAmount = rand.nextInt(size);
+
+        while(plugAmount % 2 != 0){
+            plugAmount = rand.nextInt(size);
+        }
+
+        int[] res = new int[abc.getSize()];
+        for( int i = 0 ; i < abc.getSize() ; i++) {
+            res[i] = i;
+        }
+        ArrayList<HashMap<String,String>> ret= new ArrayList<>();
+        PlugBoard p = new PlugBoard(res);
+        for( int i = 0 ; i < plugAmount ; i++) {
+
+            int a = randPlug();
+            int b = randPlug();
+            HashMap<String,String> plug = new HashMap<>();
+            plug.put("from",String.valueOf(abc.toLetter(a)));
+            plug.put("to",String.valueOf(abc.toLetter(b)));
+//            p.PlugIn(a, b);
+            ret.add(plug);
+        }
+        plugs.clear();
+   return ret;
+    }
+
+
+    public ArrayList<HashMap<String,String>> getRandomRotors(){
+
+
+        ArrayList<HashMap<String,String>> res = new ArrayList<>();
+        Random rand = new Random();
+
+        int rotorsAmount = myEnigma.getNumberOfRotors()+1;
+        int activeRotorsAmount = rand.nextInt(rotorsAmount);
+
+        while(activeRotorsAmount < 2) { // minimum num of rotors is 2
+            activeRotorsAmount = rand.nextInt(rotorsAmount);
+        }
+
+        usedId = new ArrayList<>();
+        int[] activeRotorsId = new int[activeRotorsAmount];
+        char[] activeRotorsSetPos = new char[activeRotorsAmount];
+
+        for(int i = 0; i < activeRotorsAmount ; i++) {
+            HashMap<String,String> rotor = new HashMap<>();
+            rotor.put("order",String.valueOf(i));
+            rotor.put("id",String.valueOf(randID(activeRotorsAmount)));
+            int letter = rand.nextInt(abc.getSize());
+
+            rotor.put("pos", String.valueOf(abc.toLetter(letter)));
+            res.add(rotor);
+
+        }
+
+return res;
+    }
+    public void getRandomMachineStats(){
+        HashMap<String,ArrayList<String>> res = new HashMap<>();
+        Random rand = new Random();
+
+        int rotorsAmount = myEnigma.getNumberOfRotors()+1;
+        int activeRotorsAmount = rand.nextInt(rotorsAmount);
+
+        while(activeRotorsAmount < 2) { // minimum num of rotors is 2
+            activeRotorsAmount = rand.nextInt(rotorsAmount);
+        }
+
+        usedId = new ArrayList<>();
+        int[] activeRotorsId = new int[activeRotorsAmount];
+        char[] activeRotorsSetPos = new char[activeRotorsAmount];
+
+        for(int i = 0; i < activeRotorsAmount ; i++) {
+
+            activeRotorsId[i] = randID(activeRotorsAmount);
+
+            int letter = rand.nextInt(abc.getSize());
+            activeRotorsSetPos[i] = abc.toLetter(letter);
+        }
+
+//        ------------------------------------------
+
+        int Refindex = rand.nextInt(reflectors.length);
+//        ------------------------------------------
+
+        plugs = new ArrayList<>();
+        int size = abc.getSize() / 2;
+        int plugAmount = rand.nextInt(size);
+
+        while(plugAmount % 2 != 0){
+            plugAmount = rand.nextInt(size);
+        }
+
+//        int[] res = new int[abc.getSize()];
+        for( int i = 0 ; i < abc.getSize() ; i++) {
+//            res[i] = i;
+        }
+
+//        PlugBoard p = new PlugBoard(res);
+//        for( int i = 0 ; i < plugAmount ; i++) {
+//
+//            int a = randPlug();
+//            int b = randPlug();
+//            p.PlugIn(a, b);
+//        }
+
+return;
+
     }
     public void RandomMachine() {
 
@@ -366,6 +548,7 @@ public class BackEndMain {
 
         return res.toString();
     }
+
     public String activeRotorsInitDisplay(){
 
         StringBuilder res = new StringBuilder();
@@ -482,6 +665,62 @@ public class BackEndMain {
         Unmarshaller U = jc.createUnmarshaller();
         return (CTEEnigma) U.unmarshal(in);
     }
+
+    public ArrayList<activePlug> getActivePlugsBetter() {
+        ArrayList<activePlug> plugList = new ArrayList<>();
+
+        ArrayList<Integer> wantedPlugs= myEnigma.getPlugBoard().getWantedPlugs();
+        for(int i = 0 ; i < wantedPlugs.size(); i+=2) {
+
+            String a = String.valueOf(abc.toLetter(wantedPlugs.get(i)));
+            String b = String.valueOf(abc.toLetter(wantedPlugs.get(i+1)));
+            activePlug curr = new activePlug(a,b);
+            plugList.add(curr);
+        }
+        return plugList;
+    }
+    public ArrayList<activeRotor> getActiveRotorsBeter(){
+        ArrayList<activeRotor> rotorList = new ArrayList<>();
+        myEnigma.getActiveRotors().stream().forEach(e->{
+            SpinningRotor currRef = e;
+            String Position=currRef.getRightArr()[e.getPos()].theLetter();
+            int Order= myEnigma.getActiveRotors().indexOf(currRef);
+            String Id =String.valueOf(e.getId());
+            activeRotor currRotor = new activeRotor(Id,Order,Position);
+
+
+            rotorList.add(currRotor);
+        });
+        return rotorList;
+    }
+
+    public ArrayList<HashMap<String,String>> getActiveRotors() {
+        ArrayList<HashMap<String,String>> rotorList = new ArrayList<>();
+        myEnigma.getActiveRotors().stream().forEach(e->{
+            SpinningRotor currRef = e;
+            HashMap<String,String> currRotor = new HashMap<>();
+            currRotor.put("id", String.valueOf(e.getId()));
+            currRotor.put("order", String.valueOf(myEnigma.getActiveRotors().indexOf(currRef)));
+            currRotor.put("position",e.getRightArr()[e.getPos()].theLetter());
+            rotorList.add(currRotor);
+        });
+        return rotorList;
+    }
+
+    public HashMap<String,String> getActivePlugs() {
+        HashMap<String,String> plugList = new HashMap<>();
+
+        ArrayList<Integer> wantedPlugs= myEnigma.getPlugBoard().getWantedPlugs();
+        for(int i = 0 ; i < wantedPlugs.size(); i+=2) {
+
+            String a = String.valueOf(abc.toLetter(wantedPlugs.get(i)));
+            String b = String.valueOf(abc.toLetter(wantedPlugs.get(i+1)));
+
+            plugList.put(a,b);
+        }
+    return plugList;
+    }
+
     public String setXmlData(String path) throws JAXBException {
 
         try {
@@ -607,6 +846,8 @@ public class BackEndMain {
             PlugBoard plugBoard = new PlugBoard(plugInit);
 
             myEnigma = new Machine(plugBoard,machineRotors,reflectors);
+            myEnigma.setReflector(reflectors[0]);
+
         }
 
         catch (Exception e) {

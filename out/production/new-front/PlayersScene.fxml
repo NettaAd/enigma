@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/8" fx:controller="fromConsoleToJavaFX.javafx.scenes.init.PlayersController">
+    <children>
+        <Label text="Name:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+            <labelFor>
+                <TextField id="playerName" fx:id="playerNameTextField" onAction="#addPlayer" prefWidth="425.0"
+                           promptText="Enter player name" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="101.0"
+                           AnchorPane.topAnchor="11.0"/>
+            </labelFor>
+        </Label>
+        <fx:reference source="playerNameTextField"/>
+        <Button fx:id="addPlayerButton" mnemonicParsing="false" onAction="#addPlayer" text="Add Player"
+                AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="12.0"/>
+        <Label fx:id="errorMessageLabel" alignment="CENTER" prefHeight="21.0" prefWidth="425.0" text=""
+               textAlignment="CENTER" textFill="RED" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="101.0"
+               AnchorPane.topAnchor="62.0">
+            <font>
+                <Font name="System Bold" size="12.0"/>
+            </font>
+        </Label>
+        <Button fx:id="continueButton" mnemonicParsing="false" onAction="#onContinue" text="Continue"
+                AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0"/>
+        <CheckBox fx:id="isHumanCheckBox" layoutX="74.0" layoutY="38.0" mnemonicParsing="false" text=""/>
+        <Label labelFor="$isHumanCheckBox" text="Is Human:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="36.0"/>
+        <FlowPane fx:id="playersPane" hgap="5.0" prefHeight="271.0" prefWidth="572.0" vgap="5.0"
+                  AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="83.0"/>
+    </children>
+</AnchorPane>

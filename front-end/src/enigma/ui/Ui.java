@@ -3,7 +3,7 @@ package enigma.ui;
 import Machine.SpinningRotor;
 import backend.BackEndMain;
 import backend.SavedEncode;
-
+import dataHandler.dataHandler;
 
 
 import javax.sound.midi.ControllerEventListener;
@@ -22,6 +22,7 @@ public class Ui {
     Scanner userInput = new Scanner(System.in);
     BackEndMain backend = new BackEndMain();
 
+    dataHandler dto = new dataHandler(backend);
 
     String[] menuOptions = new String[] {   "Load Machine settings via XML file"
             , "Show Machine settings"
@@ -197,11 +198,11 @@ public class Ui {
 
         int activeRotorsNum = backend.getAmountOfActiveRotors();
         int rotorsNum = backend.getAmountOfRotors();
-        System.out.println("The number of active rotors: " + activeRotorsNum + "/" + rotorsNum);
-        /*for(SpinningRotor r: backend.getRotorsArr()){
+     System.out.println("The number of active rotors: " + activeRotorsNum + "/" + rotorsNum);
+        for(SpinningRotor r: backend.getRotorsArr()){
 
             System.out.println("The notch of Rotor " + r.getId() + " is: "+ (r.getNotch() + 1));
-        }*/
+        }
         System.out.println("The number of reflectors is: " + backend.getReflectors().length);
         System.out.println("The number of encoded messages are: " + backend.getMessagesCount());
 

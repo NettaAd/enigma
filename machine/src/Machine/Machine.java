@@ -144,4 +144,12 @@ public class Machine {
         // step 4: find out what char is the match of res in the plug board
         return getFromPlugBoard(res);
     }
+
+    public ArrayList<SpinningRotor> getRotors() {
+        ArrayList<SpinningRotor> rotorsList = new ArrayList<>();
+        for (int i = 0; i < rotors.length; i++) {
+            rotorsList.add(rotors[i]);
+        }
+        return  rotorsList;
+    }
 }

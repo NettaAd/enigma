@@ -1,0 +1,31 @@
+.configWindow{
+    /*-fx-background-color: red;*/
+    /*-fx-content-display: flex;*/
+
+    -fx-alignment: center;
+    -fx-border-color: red;
+    -fx-content-display: center;
+
+
+}
+
+.rotorPosBox{
+    -fx-border-color: green;
+    -fx-alignment: center;
+    -fx-font-size: 22px;
+    -fx-text-fill: white;
+    -fx-fill-width: true;
+}
+
+.rotorPosCon{
+    -fx-background-color: black;
+
+}
+
+.rotorPosText{
+    -fx-border-color: white;
+    -fx-border-width: 0 2px 0 2px;
+    -fx-padding: 10px;
+    -fx-text-fill: white;
+    -fx-start-margin: 15px;
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.341" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.showSettingsContainer.ShowSettingsPaneController">
+   <children>
+      <TableView fx:id="activePlugTable" layoutX="216.0" layoutY="252.0" prefHeight="114.0" prefWidth="159.0">
+        <columns>
+          <TableColumn fx:id="activePlugFromCol" prefWidth="75.0" text="From" />
+          <TableColumn fx:id="activePlugToCol" prefWidth="75.0" text="To" />
+        </columns>
+      </TableView>
+       <ScrollPane layoutX="261.0" layoutY="29.0" prefHeight="200.0" prefWidth="200.0">
+           <content>
+               <HBox fx:id="activeRotorsCon" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
+
+           </content>
+
+       </ScrollPane>
+      <TableView layoutX="14.0" layoutY="29.0" prefHeight="200.0" prefWidth="159.0">
+         <columns>
+            <TableColumn prefWidth="75.0" text="From" />
+            <TableColumn prefWidth="75.0" text="To" />
+         </columns>
+      </TableView>
+      <Label layoutX="14.0" layoutY="6.0" text="Reflector" />
+      <Label fx:id="activeRef" layoutX="80.0" layoutY="6.0" text="Id" />
+      <Label layoutX="340.0" layoutY="15.0" text="Rotors" />
+      <Label layoutX="281.0" layoutY="229.0" text="Plugs" />
+   </children>
+</AnchorPane>

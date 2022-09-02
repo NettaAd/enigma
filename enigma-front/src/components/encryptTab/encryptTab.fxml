@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="638.0" prefWidth="1003.0" stylesheets="@encryptStyle.css" xmlns="http://javafx.com/javafx/8.0.341" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.encryptTab.encryptTabController">
+   <children>
+      <VBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane fx:id="configPane" prefHeight="95.0" prefWidth="960.0" styleClass="configWindow" />
+            <HBox prefHeight="239.0" prefWidth="1003.0" styleClass="inputWindow">
+               <children>
+                  <HBox prefHeight="235.0" prefWidth="587.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="235.0" prefWidth="380.0">
+                           <children>
+                              <Label text="OutPut">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="EncryptOutputTextField" prefHeight="34.0" prefWidth="310.0" />
+                              <Label text="Input">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="EncryptInputTextField" prefHeight="34.0" prefWidth="397.0" />
+                           </children>
+                        </VBox>
+                        <Pane fx:id="configPane1" prefHeight="235.0" prefWidth="209.0" style="-fx-background-color: grey;" styleClass="configWindow">
+                           <children>
+                              <Button fx:id="encryptBtn" layoutX="14.0" layoutY="198.0" mnemonicParsing="false" text="Encrypt" />
+                              <Button fx:id="toggleEncryptTypeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="71.0" prefWidth="170.0" text="Stream mode" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </HBox>
+                  <Pane fx:id="configPane11" prefHeight="235.0" prefWidth="453.0" style="-fx-background-color: lightgrey;" styleClass="configWindow" />
+               </children></HBox>
+            <AnchorPane prefHeight="152.0" prefWidth="1003.0" />
+            <AnchorPane prefHeight="159.0" prefWidth="1003.0" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
