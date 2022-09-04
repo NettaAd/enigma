@@ -4,7 +4,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,7 +25,7 @@ public class fe extends Application {
         // load main fxml
         URL mainFXML = getClass().getResource(Constants.MAIN_FXML_RESOURCE_IDENTIFIER);
         loader.setLocation(mainFXML);
-        SplitPane root = loader.load();
+        VBox root = loader.load();
 
         // wire up controller
         MainController mainController = loader.getController();
@@ -31,7 +33,7 @@ public class fe extends Application {
 
         // set stage
         primaryStage.setTitle("Enigma");
-        Scene scene = new Scene(root, 1050, 1000);
+        Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
 

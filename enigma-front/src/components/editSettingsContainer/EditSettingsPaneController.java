@@ -1,5 +1,6 @@
 package components.editSettingsContainer;
 
+import backend.BackEndMain;
 import common_models.activeRotor;
 import common_models.activePlug;
 import components.main.MainController;
@@ -204,7 +205,8 @@ public class EditSettingsPaneController {
         });
         addRotorBtn.setOnMousePressed(e->{
             String clickedRotorId = rotorsSelect.valueProperty().getValue();
-            activeRotor formattedRotor = new activeRotor(clickedRotorId,preSetRotors.size(),"A");
+            int rotorNotch = mainController.getBackEnd().getAllRotorsArr().get(Integer.parseInt(clickedRotorId)-1).getNotch();
+            activeRotor formattedRotor = new activeRotor(clickedRotorId,preSetRotors.size(),"A",rotorNotch);
             preSetRotors.add(formattedRotor);
             });
         submitBtn.setOnMouseClicked(e->{
@@ -215,7 +217,9 @@ public class EditSettingsPaneController {
                     mainController.getBackEnd().setPlugBoardViaUserBetter(preSetTableList.stream().collect(Collectors.toList()));
                     mainController.getBackEnd().setRotorsViaUserBetter(preSetRotors.stream().collect(Collectors.toList()));
                     mainController.getBackEnd().setReflectorViaUser((String) refselect.getSelectionModel().getSelectedItem());
-                    mainController.Sync();
+                    mainController.getActiveRotorsList().setAll(preSetRotors);
+                    mainController.getActivePlugsList().setAll(preSetTableList);
+//                  mainController.Sync();
                 }
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
@@ -277,13 +281,17 @@ public class EditSettingsPaneController {
 
     public void ClearAll() {
 //        TODO--check what else to restart..
-       rotorsPreSetCon.getChildren().clear();
+        System.out.println("clear?");
+
+        rotorsPreSetCon.getChildren().clear();
         plugsTablePreSet.getItems().clear();
         refselect.getSelectionModel().clearSelection();
+        preSetRefValues.clear();
         fromSelectValues.clear();
         toSelectValues.clear();
         rotorsIdsValues.clear();
-        preSetRefValues.clear();
+
+
 
 
     }
@@ -291,27 +299,36 @@ public class EditSettingsPaneController {
 //            rotors
     public void setMainController(MainController mainController) {
         this.mainController=mainController;
+
+
+        BackEndMain backend =  mainController.getBackEnd();
        mainController.getSelectedFileProperty().addListener(e->{
+           fromSelectValues.setAll(backend.getAbc().getAbc().split(""));
+           preSetRefValues.clear();
+           rotorsIdsValues.clear();
+           backend.getAllRotorsArr().stream().forEach(r->rotorsIdsValues.add(String.valueOf(r.getId())));
+           backend.getReflectorsIds().stream().forEach(r->preSetRefValues.add(r));
+//    TODO not sure why i put it here,figure it out
+           backend.setReflectorViaUser(String.valueOf(refselect.valueProperty().getName()));
 
-           fromSelectValues.setAll(mainController.getBackEnd().getAbc().getAbc().split(""));
-           mainController.getBackEnd().getAllRotorsArr().stream().forEach(r->rotorsIdsValues.add(String.valueOf(r.getId())));
-           mainController.getBackEnd().getReflectorsIds().stream().forEach(r->preSetRefValues.add(r));
-
-           mainController.getBackEnd().setReflectorViaUser(String.valueOf(refselect.valueProperty().getName()));
            randomBtn.setOnMouseClicked(c->{
                rotorsIdsValues.clear();
-               mainController.getBackEnd().getAllRotorsArr().stream().forEach(r->rotorsIdsValues.add(String.valueOf(r.getId())));
+               backend.getAllRotorsArr().stream().forEach(r->rotorsIdsValues.add(String.valueOf(r.getId())));
 
-               System.out.println( mainController.getBackEnd().getRandomRotors());
                preSetRotors.clear();
-               mainController.getBackEnd().getRandomRotors().stream().forEach(rotor-> {
-                   activeRotor newRotor= new activeRotor(rotor.get("id"),Integer.parseInt(rotor.get("order")),rotor.get("pos"));
+               try {
+                   backend.getRandomRotors().stream().forEach(rotor-> {
+                       activeRotor newRotor=rotor;
+                       preSetRotors.add(newRotor);
+                   });
+               } catch (Exception ex) {
+                   throw new RuntimeException(ex);
+               }
 
-                   preSetRotors.add(newRotor);
-               });
-               refselect.getSelectionModel().select(mainController.getBackEnd().getRandomRef());
+               refselect.getSelectionModel().select(backend.getRandomRef());
                preSetTableList.clear();
-               mainController.getBackEnd().getRandomPlugs().stream().forEach(p-> {
+
+               backend.getRandomPlugs().stream().forEach(p-> {
                    activePlug newPlug = new activePlug(p.get("from"), p.get("to"));
                    preSetTableList.add(newPlug);
                });

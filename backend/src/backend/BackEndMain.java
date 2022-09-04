@@ -339,10 +339,10 @@ public class BackEndMain {
     }
 
 
-    public ArrayList<HashMap<String,String>> getRandomRotors(){
+    public ArrayList<activeRotor> getRandomRotors() throws Exception {
 
 
-        ArrayList<HashMap<String,String>> res = new ArrayList<>();
+        ArrayList<activeRotor> res = new ArrayList<>();
         Random rand = new Random();
 
         int rotorsAmount = myEnigma.getNumberOfRotors()+1;
@@ -357,12 +357,14 @@ public class BackEndMain {
         char[] activeRotorsSetPos = new char[activeRotorsAmount];
 
         for(int i = 0; i < activeRotorsAmount ; i++) {
-            HashMap<String,String> rotor = new HashMap<>();
-            rotor.put("order",String.valueOf(i));
-            rotor.put("id",String.valueOf(randID(activeRotorsAmount)));
+//            HashMap<String,String> rotor = new HashMap<>();
+//            rotor.put("order",String.valueOf(i));
+//            rotor.put("id",String.valueOf(randID(activeRotorsAmount)));
+            int randId=randID(activeRotorsAmount);
+            int notch = myEnigma.getRotor(randId).getNotch();
             int letter = rand.nextInt(abc.getSize());
-
-            rotor.put("pos", String.valueOf(abc.toLetter(letter)));
+            activeRotor rotor = new activeRotor(String.valueOf(randId),i,String.valueOf(abc.toLetter(letter)),notch);
+//            rotor.put("pos", String.valueOf(abc.toLetter(letter)));
             res.add(rotor);
 
         }
@@ -430,8 +432,14 @@ return;
         // add it to the default state in the backend
     }
 
+    public void addMsgCount(String rawString,String res){
+        String settings = getFormatStats();
+        messagesCount++;
+        addEncode(rawString, res,settings);
+    }
+
     ///////////////////////       5 encode       ///////////////////////
-    public String DecodeString(String rawString) throws Exception {
+    public String DecodeString(String rawString,boolean finished) throws Exception {
 
         if ( myEnigma.getActiveRotors().size() == 0 ) {
 
@@ -450,8 +458,12 @@ return;
                 char charLetter = abc.toLetter(decodedLetter);
                 res.append(charLetter);
             }
-            messagesCount++;
-            addEncode(rawString, res.toString(),settings);
+            if(finished){
+                messagesCount++;
+                addEncode(rawString, res.toString(),settings);
+
+
+            }
             return res.toString();
         }
 
@@ -686,7 +698,7 @@ return;
             String Position=currRef.getRightArr()[e.getPos()].theLetter();
             int Order= myEnigma.getActiveRotors().indexOf(currRef);
             String Id =String.valueOf(e.getId());
-            activeRotor currRotor = new activeRotor(Id,Order,Position);
+            activeRotor currRotor = new activeRotor(Id,Order,Position,e.getNotch());
 
 
             rotorList.add(currRotor);

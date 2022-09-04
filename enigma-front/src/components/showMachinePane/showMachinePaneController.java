@@ -29,18 +29,20 @@ public class showMachinePaneController {
 
     public void updatePane() {
         BackEndMain backend = mainController.getBackEnd();
-        int activeRotorsNum = backend.getAmountOfActiveRotors();
+        int activeRotorsNum = mainController.getActiveRotorsList().size();
+        System.out.println("got to size"+activeRotorsNum);
+//TODO -SHOULD BE IN MAIN AS WELL?
         int rotorsNum = backend.getAmountOfRotors();
         activeRotorsLabel.setText(activeRotorsNum+"/"+rotorsNum);
 //        VBox rotorNotchList = new VBox();
         notchRotorsList.getChildren().clear();
-        for(SpinningRotor r: backend.getRotorsArr()){
+        mainController.getActiveRotorsList().forEach(r->{
             Label rotorNotch = new Label();
             rotorNotch.getStyleClass().add("notchRotorInfo");
-            rotorNotch.setText("The notch of Rotor " + r.getId() + " is: "+ (r.getNotch() + 1));
+            rotorNotch.setText("The notch of Rotor " + r.getId() + " is: "+ r.getNotch());
             notchRotorsList.getChildren().add(rotorNotch);
+        });
 
-        }
         machineSettingsLaebl.setText(backend.getFormatStats());
         numberOfCodesEncodedLabel.setText(""+backend.getMessagesCount());
 
@@ -48,6 +50,8 @@ public class showMachinePaneController {
     }
 
     public void setMainController(MainController mainController) {
+
         this.mainController = mainController;
+
     }
 }

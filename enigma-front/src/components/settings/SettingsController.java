@@ -6,6 +6,7 @@ import components.main.MainController;
 import components.showMachinePane.showMachinePaneController;
 import components.showSettingsContainer.ShowSettingsPaneController;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,12 +40,14 @@ public class SettingsController {
 
 
 
+
     public SimpleBooleanProperty isMachineSetProperty() {
         return isMachineSet;
     }
 
     public SettingsController() {
         this.isMachineSet= new SimpleBooleanProperty(false);
+
     }
 
     @FXML
@@ -53,25 +56,11 @@ public class SettingsController {
         showSettingsPaneController.setParent(this);
         showMachinePaneController.setParent(this);
         System.out.println(this.isMachineSetProperty().get());
-//
-//        if(this.isMachineSetProperty().get()){
-//            showSettingsPaneController.updatePane();
-//        }
-//
-//       this.isMachineSet.addListener((observable, oldValue, newValue)->{
-//
-//           System.out.println("e->"+newValue+" "+oldValue);
-//           if(newValue || oldValue){
-//               showSettingsPaneController.updatePane();
-//           }
-//       });
-
     }
 
     public void updateSettings(){
         showSettingsPaneController.updatePane();
         showMachinePaneController.updatePane();
-
     }
 
     public void clearAll(){
@@ -82,9 +71,6 @@ public class SettingsController {
 
     public void setParent(MainController mainController) {
         this.mainController=mainController;
-//        this.mainController.getFirstRotor().addListener((observable, oldValue, newValue)->{
-//            showSettingsPaneController.updatePane();
-//        } );
         editSettingsPaneController.setMainController( this.mainController);
         showSettingsPaneController.setMainController(this.mainController);
         showMachinePaneController.setMainController(this.mainController);

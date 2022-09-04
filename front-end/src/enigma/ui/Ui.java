@@ -571,7 +571,7 @@ public class Ui {
             System.out.println("you asked to decode: " + toDecode);
 
             start = System.nanoTime();
-            String res = backend.DecodeString(toDecode);
+            String res = backend.DecodeString(toDecode,true);
             end = System.nanoTime();
             System.out.println("secret code: " + res);
         }catch (Exception e){

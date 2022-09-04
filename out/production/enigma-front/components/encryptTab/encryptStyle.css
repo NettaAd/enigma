@@ -3,7 +3,6 @@
     /*-fx-content-display: flex;*/
 
     -fx-alignment: center;
-    -fx-border-color: red;
     -fx-content-display: center;
 
 
@@ -18,7 +17,7 @@
 }
 
 .rotorPosCon{
-    -fx-background-color: black;
+    -fx-background-color: #0d0d47;
 
 }
 
@@ -28,4 +27,7 @@
     -fx-padding: 10px;
     -fx-text-fill: white;
     -fx-start-margin: 15px;
+}
+.errorHelper{
+    -fx-text-fill: red;
 }

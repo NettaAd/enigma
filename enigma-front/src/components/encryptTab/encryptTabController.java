@@ -1,6 +1,7 @@
 package components.encryptTab;
 
 import backend.BackEndMain;
+import backend.SavedEncode;
 import common_models.activeRotor;
 import components.main.MainController;
 import javafx.beans.binding.Bindings;
@@ -34,6 +35,9 @@ public class encryptTabController {
     @FXML private Button encryptBtn;
 
     @FXML private Button toggleEncryptTypeBtn;
+    @FXML private  Label errorHelper;
+
+    @FXML private VBox historyPane;
 
     private SimpleStringProperty encryptOutPut;
 
@@ -41,6 +45,8 @@ public class encryptTabController {
 
     private SimpleBooleanProperty isStream;
     private MainController mainController;
+
+//    private ArrayList<activeRotor> rotors;
 
     private ObservableList<String> rotorsPosList= FXCollections.observableArrayList();;
 
@@ -63,43 +69,55 @@ public class encryptTabController {
         BackEndMain backend = mainController.getBackEnd();
 
 
+
         encryptBtn.setOnMouseClicked(e->{
             if(!isStream.get()){
-                System.out.println("gogogo");
                 String toDecode=EncryptInputTextField.getText();
                 toDecode = toDecode.toUpperCase();
+
                 try {
                     System.out.println("org "+toDecode);
 //                start = System.nanoTime();
-                    String res = backend.DecodeString(toDecode);
+                    String res = backend.DecodeString(toDecode,true);
                     System.out.println(res);
 //                end = System.nanoTime();
                     encryptOutPut.set(res);
-                    mainController.Sync();
+                    mainController.getActiveRotorsList().setAll(backend.getActiveRotorsBeter());
+                    encryptInPut.set("");
                 }catch (Exception err){
                     System.out.println("ERROR"+err);
                 }
             }else{
                 System.out.println("streaming");
+                backend.addMsgCount(EncryptInputTextField.getText(),encryptOutPut.get());
+                mainController.getActiveRotorsList().setAll(backend.getActiveRotorsBeter());
+
             }
 
 
         });
 
         encryptInPut.addListener(e->{
+            String toDecode = encryptInPut.get();
+
+            toDecode = toDecode.toUpperCase();
+            if(!backend.getAbc().checkInAbc(toDecode).isEmpty()){
+                errorHelper.setText("bad letters->"+backend.getAbc().checkInAbc(toDecode));
+                return;
+            }else{
+                errorHelper.setText("");
+            }
+
             if(isStream.get()) {
-                System.out.println(e);
-                String toDecode = encryptInPut.get();
+
                 toDecode = toDecode.substring(toDecode.length() - 1);
-                toDecode = toDecode.toUpperCase();
                 try {
-                    System.out.println("org " + toDecode);
 //                start = System.nanoTime();
-                    String res = backend.DecodeString(toDecode);
+                    String res = backend.DecodeString(toDecode,false);
                     System.out.println(res);
 //                end = System.nanoTime();
                     encryptOutPut.setValue(encryptOutPut.get()+res);
-                    mainController.Sync();
+                    mainController.getActiveRotorsList().setAll(backend.getActiveRotorsBeter());
 
                 } catch (Exception err) {
                     System.out.println("ERROR" + err);
@@ -110,35 +128,70 @@ public class encryptTabController {
 
         toggleEncryptTypeBtn.setOnMouseClicked(e->{
             isStream.set(!isStream.get());
-            System.out.println("ysys "+e);
+            encryptInPut.set("");
+            encryptOutPut.set("");
         });
 
     }
 
     public void updateSettings() {
-        System.out.println("collll");
 
         BackEndMain backend = mainController.getBackEnd();
         ArrayList<activeRotor> rotors =  backend.getActiveRotorsBeter();
         System.out.println(rotors);
-
-
         HBox con = new HBox();
         con.getStyleClass().add("rotorPosCon");
         configPane.setCenterShape(true);
-        for (activeRotor r:rotors ) {
+        mainController.getActiveRotorsList().stream().forEach(r->{
             VBox rotorBox = new VBox();
             rotorBox.getStyleClass().add("rotorPosBox");
             Label rotorPos = new Label();
             rotorPos.getStyleClass().add("rotorPosText");
             rotorBox.getChildren().add(rotorPos);
-            rotorsPosList.add(r.getPosition());
+//            rotorsPosList.add(r.getPosition());
             rotorPos.setText(r.getPosition());
             con.getChildren().add(rotorBox);
-        }
+        });
+
+//        for (activeRotor r:rotors ) {
+//            VBox rotorBox = new VBox();
+//            rotorBox.getStyleClass().add("rotorPosBox");
+//            Label rotorPos = new Label();
+//            rotorPos.getStyleClass().add("rotorPosText");
+//            rotorBox.getChildren().add(rotorPos);
+//            rotorsPosList.add(r.getPosition());
+//            rotorPos.setText(r.getPosition());
+//            con.getChildren().add(rotorBox);
+//        }
         configPane.getChildren().add(con);
+        historyPane.getChildren().clear();
+        ArrayList<SavedEncode> messages = backend.getMessages();
+
+        for (String set : backend.getMachineSettings()) {
 
 
+            long end=0;
+            long start=0;
+            System.out.println();
+VBox settingsBox = new VBox();
+Label settingsTitle = new Label();
+settingsTitle.setText("The machine settings are: " + set);
+            settingsBox.getChildren().add(settingsTitle);
+            for (SavedEncode s : messages) {
+                Label msgEncrypt = new Label();
+
+                if (set.equals(s.getMachineSettings())) {
+
+
+                    long time = end - start;
+                    String in = s.getInString();
+                    String out = s.getOutString();
+                    msgEncrypt.setText("#. <" + in + "> --> <" + out + "> (" + time + " nano-seconds)");
+                    settingsBox.getChildren().add(msgEncrypt);
+                }
+            }
+            historyPane.getChildren().add(settingsBox);
+        }
 
 
 

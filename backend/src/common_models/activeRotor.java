@@ -5,11 +5,13 @@ public class activeRotor {
     int  order;
     private String position;
 
-    public activeRotor(String id, int order, String position) {
+    private int notch;
+
+    public activeRotor(String id, int order, String position,int notch) {
         this.id = id;
         this.order = order;
         this.position = position;
-
+        this.notch=notch;
     }
 
     public String getId() {
@@ -32,5 +34,10 @@ public class activeRotor {
     }
     public void setOrder(int i) {
         order=i;
+    }
+
+    public int getNotch() {
+
+        return notch;
     }
 }

@@ -2,12 +2,19 @@ package components.main;
 
 import backend.BackEndMain;
 import common.Constants;
+import common_models.activePlug;
+import common_models.activeRotor;
 import components.editSettingsContainer.EditSettingsPaneController;
 import components.encryptTab.encryptTabController;
 import components.settings.SettingsController;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,6 +28,7 @@ import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 
 public class MainController {
@@ -58,6 +66,15 @@ public class MainController {
 
     private SimpleStringProperty selectedFileProperty;
 
+
+    private ObservableList<activePlug> activePlugsList = FXCollections.observableArrayList();
+
+    private ObservableList<activeRotor> activeRotorsList = FXCollections.observableArrayList();
+
+
+
+
+
     private Stage primaryStage;
 
     public MainController() {
@@ -66,6 +83,8 @@ public class MainController {
         isSettings=new SimpleBooleanProperty(false);
         isFileSelected = new SimpleBooleanProperty(false);
         triggerUpdate= new SimpleBooleanProperty(false);
+
+
     }
 
 
@@ -77,15 +96,26 @@ public class MainController {
         return isSettings;
     }
 
+    public ObservableList<activePlug> getActivePlugsList(){
+        return activePlugsList;
+    }
+
+    public ObservableList<activeRotor> getActiveRotorsList(){
+        return activeRotorsList;
+    }
+
 
 
     @FXML
     private void initialize() {
         selectedFileName.textProperty().bind(selectedFileProperty);
-        settingsController.setParent(this);
-        encryptTabController.setParent(this);
-        downPane.disableProperty().bind(isFileSelected.not());
 
+        downPane.disableProperty().bind(isFileSelected.not());
+        activeRotorsList.addListener((ListChangeListener<? super activeRotor>) e->{
+            System.out.println("sync");
+            Sync();
+        });
+        isSettings.bind(Bindings.createBooleanBinding(()->activeRotorsList.size()>1).not());
     }
 
     public SimpleBooleanProperty getIsFileSelected(){
@@ -100,8 +130,11 @@ public class MainController {
 
     public void Sync(){
         if(backend.getAmountOfActiveRotors()>2){
-            isSettings.set(true);
         }
+//        activePlugsList.setAll(backend.getActivePlugsBetter());
+//        activeRotorsList.setAll(backend.getActiveRotorsBeter());
+//        ArrayList<activePlug> plugs = mainController.getBackEnd().getActivePlugsBetter();
+//        ArrayList<activeRotor> rotors = mainController.getBackEnd().getActiveRotorsBeter();
         settingsController.updateSettings();
         encryptTabController.updateSettings();
     }
@@ -131,8 +164,9 @@ public class MainController {
 
         try {
             backend.setXmlData(absolutePath);
-
-            settingsController.clearAll();
+//            settingsController.clearAll();
+            settingsController.setParent(this);
+            encryptTabController.setParent(this);
             selectedFileProperty.set(absolutePath);
             isFileSelected.set(true);
 
