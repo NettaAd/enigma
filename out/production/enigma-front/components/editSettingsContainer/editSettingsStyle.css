@@ -10,6 +10,11 @@
 .whiteBorder {
     -fx-border-color: white;
 }
+
+.whiteBorder TableColumn{
+    -fx-border-color: white;
+
+}
 .greyBtn{
     -fx-border-color: lightgrey;
     -fx-background-color: black;
