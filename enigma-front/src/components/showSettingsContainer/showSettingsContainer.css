@@ -1,0 +1,7 @@
+.show{
+    -fx-background-color: black;
+    -fx-font-family: "Bookman Old Style";
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+    -fx-min-width: 100%;
+}

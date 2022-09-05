@@ -1,0 +1,6 @@
+.hbox{
+    -fx-background-color: black;
+    -fx-font-family: "Bookman Old Style";
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+}

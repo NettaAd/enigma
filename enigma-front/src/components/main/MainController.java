@@ -167,18 +167,17 @@ public class MainController {
 
         try {
             backend.setXmlData(absolutePath);
+            activeRotorsList.clear();
+            activePlugsList.clear();
             settingsController.clearAll();
             settingsController.setParent(this);
             encryptTabController.setParent(this);
             selectedFileProperty.set(absolutePath);
             isFileSelected.set(true);
-
             settingsController.isMachineSetProperty().set(false);
-        }catch ( JAXBException e){
+        }
+        catch (JAXBException e){
             e.printStackTrace();
         }
-
     }
-
-
 }

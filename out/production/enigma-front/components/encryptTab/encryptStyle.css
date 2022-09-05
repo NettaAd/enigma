@@ -1,35 +1,32 @@
-.configWindow{
-    /*-fx-background-color: red;*/
-    /*-fx-content-display: flex;*/
+.configWindow {
 
-    /*-fx-alignment: center;*/
-    /*-fx-content-display: center;*/
-
-    -fx-min-height: 100%;
-
-
+    -fx-border-color: lightgrey;
+    -fx-text-fill: lightgrey;
+    -fx-background-color: black;
+    -fx-font-size: 12px;
 }
+.rotorPosBox {
 
-.rotorPosBox{
-    -fx-border-color: green;
-    -fx-alignment: center;
-    -fx-font-size: 22px;
-    -fx-text-fill: white;
-    -fx-fill-width: true;
+    -fx-border-color: lightgrey;
+    -fx-text-fill: lightgrey;
+    -fx-background-color: black;
+    -fx-font-size: 12px;
 }
-
-.rotorPosCon{
-    -fx-background-color: #0d0d47;
-
+.rotorPosCon {
+    -fx-border-color: lightgrey;
+    -fx-text-fill: lightgrey;
+    -fx-background-color: black;
+    -fx-font-size: 12px;
 }
-
-.rotorPosText{
-    -fx-border-color: white;
-    -fx-border-width: 0 2px 0 2px;
-    -fx-padding: 10px;
-    -fx-text-fill: white;
-    -fx-start-margin: 15px;
+.rotorPosText {
+    -fx-border-color: lightgrey;
+    -fx-text-fill: lightgrey;
+    -fx-background-color: black;
+    -fx-font-size: 12px;
 }
-.errorHelper{
-    -fx-text-fill: red;
+.errorHelper {
+    -fx-border-color: lightgrey;
+    -fx-text-fill: lightgrey;
+    -fx-background-color: black;
+    -fx-font-size: 12px;
 }

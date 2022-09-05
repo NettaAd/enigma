@@ -19,36 +19,14 @@ import java.net.URL;
 public class SettingsController {
 
     @FXML private  AnchorPane showMachinePane;
-
-    @FXML
-    showMachinePaneController showMachinePaneController;
-    @FXML
-    private AnchorPane showSettingsPane;
-
-    @FXML
-    private ShowSettingsPaneController showSettingsPaneController;
-
-    @FXML
-    private AnchorPane editSettingsPane;
-
-    @FXML
-    private EditSettingsPaneController editSettingsPaneController;
-
+    @FXML showMachinePaneController showMachinePaneController;
+    @FXML private AnchorPane showSettingsPane;
+    @FXML private ShowSettingsPaneController showSettingsPaneController;
+    @FXML private AnchorPane editSettingsPane;
+    @FXML private EditSettingsPaneController editSettingsPaneController;
     private SimpleBooleanProperty isMachineSet;
-
     private  MainController mainController;
 
-
-
-
-    public SimpleBooleanProperty isMachineSetProperty() {
-        return isMachineSet;
-    }
-
-    public SettingsController() {
-        this.isMachineSet= new SimpleBooleanProperty(false);
-
-    }
 
     @FXML
     private void initialize() {
@@ -57,27 +35,34 @@ public class SettingsController {
         showMachinePaneController.setParent(this);
         System.out.println(this.isMachineSetProperty().get());
     }
+    public SimpleBooleanProperty isMachineSetProperty() {
 
+        return isMachineSet;
+    }
+    public SettingsController() {
+
+        this.isMachineSet= new SimpleBooleanProperty(false);
+    }
     public void updateSettings(){
+
         showSettingsPaneController.updatePane();
         showMachinePaneController.updatePane();
+        editSettingsPaneController.updatePane();
     }
-
     public void clearAll(){
+
         editSettingsPaneController.ClearAll();
-
+        showMachinePaneController.ClearAll();
     }
-
-
     public void setParent(MainController mainController) {
-        this.mainController=mainController;
+
+        this.mainController = mainController;
         editSettingsPaneController.setMainController( this.mainController);
         showSettingsPaneController.setMainController(this.mainController);
         showMachinePaneController.setMainController(this.mainController);
     }
-
-
     public MainController getMainController() {
+
         System.out.println(mainController);
         return mainController;
     }

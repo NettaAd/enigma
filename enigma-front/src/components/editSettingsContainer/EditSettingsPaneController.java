@@ -24,92 +24,51 @@ import java.util.stream.Collectors;
 public class EditSettingsPaneController {
 
     private SettingsController parentController;
-
-    @FXML
-    private Button randomBtn;
-    @FXML
-    private Button submitBtn;
-
-
-
+    @FXML    private Button randomBtn;
+    @FXML    private Button submitBtn;
     @FXML private  ComboBox<String> rotorsSelect;
 
-    private ObservableList<String> rotorsIdsValues = FXCollections.observableArrayList();
 
-    private ObservableList<String> fromSelectValues = FXCollections.observableArrayList();
-
-    private ObservableList<String> toSelectValues = FXCollections.observableArrayList();
-
-    @FXML
-    private ComboBox<String> fromselect;
-
-    @FXML
-    private  ComboBox<String> toselect;
-
+    @FXML private ComboBox<String> fromselect;
+    @FXML private  ComboBox<String> toselect;
     @FXML private HBox rotorsPreSetCon;
-    
     @FXML private  Button addRotorBtn;
-
-    @FXML
-    private Button preSetAddPlugButton;
-
-    @FXML
-    private TableView plugsTablePreSet;
-
+    @FXML private Button preSetAddPlugButton;
+    @FXML private TableView plugsTablePreSet;
     @FXML private TableColumn activePlugFromColPreSet;
     @FXML private TableColumn activePlugToColPreSet;
-
     @FXML private  ComboBox refselect;
-
-    private ObservableList<String> preSetRefValues = FXCollections.observableArrayList();
-
-
     @FXML private Label removeRotorBtn;
     @FXML private Label removePlugBtn;
-
-
+    private ObservableList<String> preSetRefValues = FXCollections.observableArrayList();
     private MainController mainController;
-
-
+    private ObservableList<String> rotorsIdsValues = FXCollections.observableArrayList();
+    private ObservableList<String> fromSelectValues = FXCollections.observableArrayList();
+    private ObservableList<String> toSelectValues = FXCollections.observableArrayList();
     private ObservableList<activePlug> preSetTableList = FXCollections.observableArrayList();
-
     private ObservableList<activeRotor> preSetRotors = FXCollections.observableArrayList();
-
     private ObservableList<Label> rotorsPreSetsLabelList = FXCollections.observableArrayList();
-
-
-
-    public EditSettingsPaneController() {
-
-    }
-
-
 
     @FXML
     private  void initialize(){
 
-
-
         refselect.setItems(preSetRefValues);
-
         plugsTablePreSet.setOnMousePressed(event -> {
             if(plugsTablePreSet.getItems().isEmpty()){
-
                 return;
             }
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-                int toRemoveIndex=plugsTablePreSet.getSelectionModel().getSelectedIndex();
+
+                int toRemoveIndex = plugsTablePreSet.getSelectionModel().getSelectedIndex();
                 removePlugBtn.visibleProperty().set(true);
                 removePlugBtn.setOnMouseClicked(event1 -> {
+
                     plugsTablePreSet.getItems().remove(toRemoveIndex);
-
-
                     removePlugBtn.visibleProperty().set(false);
                     toSelectValues.clear();
                 });
             }
         });
-
         preSetTableList.addListener((ListChangeListener<? super activePlug>) pChange->{
 
                 while(pChange.next()) {
@@ -129,10 +88,7 @@ public class EditSettingsPaneController {
 
                 }
         });
-
-
         addRotorBtn.disableProperty().bind(rotorsSelect.valueProperty().isNull());
-
         preSetRotors.addListener((ListChangeListener<? super activeRotor>) c ->{
             rotorsPreSetCon.getChildren().clear();
             while(c.next()) {
@@ -140,9 +96,12 @@ public class EditSettingsPaneController {
                     rotorsIdsValues.remove(n_r.getId());
                     ListView<String> posList = new ListView<>();
                     VBox rotorEditCon = new VBox();
+                    posList.getStyleClass().add("rotorPositionsCon");
                     Label rotorIdLabel = new Label();
                     rotorIdLabel.setLabelFor(posList);
                     rotorIdLabel.setText(n_r.getId());
+                    rotorEditCon.getStyleClass().add("rotorPositionsCon");
+                  //  rotorIdLabel.getStyleClass().add("rotorPositionsCon");
                     rotorEditCon.getChildren().add(rotorIdLabel);
                     rotorEditCon.getChildren().add(posList);
                     ObservableList<String> RotorPositions = FXCollections.observableArrayList();
@@ -228,10 +187,6 @@ public class EditSettingsPaneController {
             System.out.println(mainController.getBackEnd().getFormatStats());
 
         });
-
-
-
-
         fromSelectValues.addListener((ListChangeListener<? super String>) c -> {
             toSelectValues.clear();
 
@@ -245,11 +200,9 @@ public class EditSettingsPaneController {
             toSelectValues.setAll(fromSelectValues);
             toSelectValues.removeIf(e->fromselect.getValue()==e);
         });
-
         plugsTablePreSet.setItems(preSetTableList);
         activePlugFromColPreSet.setCellValueFactory(new PropertyValueFactory<activePlug, String>("from"));
         activePlugToColPreSet.setCellValueFactory(new PropertyValueFactory<activePlug, String>("to"));
-
         preSetAddPlugButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -270,66 +223,60 @@ public class EditSettingsPaneController {
 
 
         });
-
-
     }
 
-
+    public void updatePane(){
+        mainController.getBackEnd().getAllRotorsArr().stream().forEach(r->rotorsIdsValues.add(String.valueOf(r.getId())));
+    }
     public void setParent(SettingsController settingsController) {
+
         this.parentController = settingsController;
-
     }
-
     public void ClearAll() {
-//        TODO--check what else to restart..
-        System.out.println("clear?");
 
+        preSetRotors.clear();
         rotorsPreSetCon.getChildren().clear();
         plugsTablePreSet.getItems().clear();
         refselect.getSelectionModel().clearSelection();
-        preSetRefValues.clear();
         fromSelectValues.clear();
         toSelectValues.clear();
         rotorsIdsValues.clear();
-        preSetRotors.clear();
-
-
-
+        //preSetRefValues.clear();
     }
-
-//            rotors
     public void setMainController(MainController mainController) {
-        this.mainController=mainController;
 
-
+        this.mainController = mainController;
         BackEndMain backend =  mainController.getBackEnd();
-       mainController.getSelectedFileProperty().addListener(e->{
+        mainController.getSelectedFileProperty().addListener(e->{
+
            fromSelectValues.setAll(backend.getAbc().getAbc().split(""));
            preSetRefValues.clear();
            rotorsIdsValues.clear();
            backend.getAllRotorsArr().stream().forEach(r->rotorsIdsValues.add(String.valueOf(r.getId())));
            backend.getReflectorsIds().stream().forEach(r->preSetRefValues.add(r));
-//    TODO not sure why i put it here,figure it out
+           //    TODO not sure why i put it here,figure it out
            backend.setReflectorViaUser(String.valueOf(refselect.valueProperty().getName()));
 
            randomBtn.setOnMouseClicked(c->{
+
                rotorsIdsValues.clear();
                backend.getAllRotorsArr().stream().forEach(r->rotorsIdsValues.add(String.valueOf(r.getId())));
-
                preSetRotors.clear();
+
                try {
                    backend.getRandomRotors().stream().forEach(rotor-> {
                        activeRotor newRotor=rotor;
                        preSetRotors.add(newRotor);
                    });
-               } catch (Exception ex) {
+               }
+               catch (Exception ex) {
                    throw new RuntimeException(ex);
                }
 
                refselect.getSelectionModel().select(backend.getRandomRef());
                preSetTableList.clear();
-
                backend.getRandomPlugs().stream().forEach(p-> {
+
                    activePlug newPlug = new activePlug(p.get("from"), p.get("to"));
                    preSetTableList.add(newPlug);
                });

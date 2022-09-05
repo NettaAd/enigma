@@ -1,6 +1,8 @@
 .plugBoard{
-    -fx-border-color: black;
-
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-border-color: white;
 }
 
 .rotorWindow{

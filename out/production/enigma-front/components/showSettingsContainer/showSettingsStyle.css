@@ -1,4 +1,5 @@
 .plugBoard{
+<<<<<<< HEAD
     -fx-border-color: black;
 
 }
@@ -9,4 +10,10 @@
     /*-fx-border-radius:15px;*/
     /*-fx-background-radius:30px;*/
 
+=======
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-border-color: white;
+>>>>>>> 7ae95ff4ec57fef7dfa09b38b3451c22256946f2
 }
