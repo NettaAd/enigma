@@ -2,8 +2,10 @@
     /*-fx-background-color: red;*/
     /*-fx-content-display: flex;*/
 
-    -fx-alignment: center;
-    -fx-content-display: center;
+    /*-fx-alignment: center;*/
+    /*-fx-content-display: center;*/
+
+    -fx-min-height: 100%;
 
 
 }

@@ -71,6 +71,8 @@ public class encryptTabController {
 
 
         encryptBtn.setOnMouseClicked(e->{
+            System.out.println("test");
+
             if(!isStream.get()){
                 String toDecode=EncryptInputTextField.getText();
                 toDecode = toDecode.toUpperCase();
