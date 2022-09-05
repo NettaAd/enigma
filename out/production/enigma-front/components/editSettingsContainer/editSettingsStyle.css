@@ -1,0 +1,27 @@
+
+* {
+    -fx-font-family: "Bookman Old Style";
+    -fx-text-fill: white;
+    -fx-background-color: black;
+    -fx-font-size: 13px;
+    -fx-border-style: none none dotted none;
+}
+
+.whiteBorder {
+    -fx-border-color: white;
+}
+.greyBtn{
+    -fx-border-color: lightgrey;
+    -fx-background-color: black;
+    -fx-font-size: 15px;
+    -fx-text-fill: lightgrey;
+}
+
+.greenBtn{
+    -fx-border-color: lightgreen;
+    -fx-background-color: black;
+    -fx-font-size: 15px;
+
+    -fx-text-fill: lightgreen;
+}
+

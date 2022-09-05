@@ -20,7 +20,6 @@ public class BackEndMain {
 
     String REFLECTOR_TO_MUCH_MAPPING="too much entrys in relflector";
     String LETTER_IS_NOT_IN_ABC="the next letter are not allowed with the curr settings ";
-
     private Machine first;
     String firstSettings;
 
@@ -105,6 +104,7 @@ public class BackEndMain {
     }
 
     ///////////////////////       setters       ///////////////////////
+
     public void setReflectorViaUser(String r){
 
         for (Reflector ref: reflectors){
@@ -114,7 +114,6 @@ public class BackEndMain {
             }
         }
     }
-
     public void setPlugBoardViaUserBetter(List<activePlug> plugs){
         int[] letters = new int[abc.getSize()];
         for(int i = 0 ; i < abc.getSize() ; i++){
@@ -158,10 +157,13 @@ public class BackEndMain {
 
         myEnigma.setPlugBoard(p);
     }
-
     public void setRotorsViaUserBetter (List<activeRotor> rotors) throws Exception {
+
         ArrayList<SpinningRotor> newRotors = new ArrayList<>();
-        for (activeRotor currRotor:rotors ) {
+        for(int i = rotors.size()-1; i>=0; i--)
+        {
+            activeRotor currRotor = rotors.get(i);
+
             int id = Integer.parseInt(currRotor.getId());
             SpinningRotor rotor = myEnigma.getRotor(id);
 
@@ -170,15 +172,10 @@ public class BackEndMain {
             rotorsInitState[newRotors.size()] = currPos;
 
             newRotors.add(rotor);
-
-
-
         }
         myEnigma.setActiveRotors(newRotors, rotors.size());
-
     }
-
-        public void setRotorsViaUser (int[] rotorsId, char[] posSet) {
+    public void setRotorsViaUser (int[] rotorsId, char[] posSet) {
 
         ArrayList<SpinningRotor> newRotors = new ArrayList<>();
 
@@ -213,7 +210,6 @@ public class BackEndMain {
     ///////////////////////       4 random       ///////////////////////
     private ArrayList<Integer> usedId;
     private ArrayList<Integer> plugs;
-
     public void randRotors() {
 
         Random rand = new Random();
@@ -299,14 +295,12 @@ public class BackEndMain {
         plugs.add(onePlug);
         return onePlug;
     }
-
     public int getRandomRef(){
         Random rand = new Random();
 
         int Refindex = rand.nextInt(reflectors.length);
         return  Refindex;
     }
-
     public ArrayList<HashMap<String, String>> getRandomPlugs(){
         Random rand = new Random();
 
@@ -337,8 +331,6 @@ public class BackEndMain {
         plugs.clear();
    return ret;
     }
-
-
     public ArrayList<activeRotor> getRandomRotors() throws Exception {
 
 
@@ -431,7 +423,6 @@ return;
 
         // add it to the default state in the backend
     }
-
     public void addMsgCount(String rawString,String res){
         String settings = getFormatStats();
         messagesCount++;
@@ -490,30 +481,10 @@ return;
     }
     }
 
-    ///////////////////////     6 reset to first settings    ///////////////////////
-
-//    public void resetMachine(){
-//        this.myEnigma=this.first;
-
-
-//        String fi = getFirstSettings();
-//        String st = getFormatStats();
-//
-//        myEnigma.setActiveRotors(first.getActiveRotors(), first.getNumberOfActiveRotors());
-//        st = getFormatStats();
-//
-//        myEnigma.setReflector(first.getActiveReflector());
-//        st = getFormatStats();
-//
-//        myEnigma.setPlugBoard(first.getPlugBoard());
-//        st = getFormatStats();
-//    }
-
     ///////////////////////      7 stats and history       ///////////////////////
     private int messagesCount;
     private final ArrayList<SavedEncode> messages;
     private final ArrayList<String> machineSettings;
-
     public void addEncode(String in, String out,String Curr_settings) {
 
         /* check for doubles
@@ -547,11 +518,11 @@ return;
         StringBuilder res = new StringBuilder();
         int size = myEnigma.getActiveRotors().size();
 
-        for (int i = 0 ; i < size ; i++){
+        for (int i = size - 1; i>=0 ; i--){
 
             SpinningRotor rotor = myEnigma.getActiveRotors().get(i);
             res.append(rotor.getId());
-            if (i != size - 1) {
+            if (i != 0) {
                 res.append(",");
             }
         }
@@ -560,7 +531,6 @@ return;
 
         return res.toString();
     }
-
     public String activeRotorsInitDisplay(){
 
         StringBuilder res = new StringBuilder();
@@ -584,21 +554,20 @@ return;
 
         StringBuilder res = new StringBuilder();
         int size = myEnigma.getActiveRotors().size();
-        for (int i = 0 ; i < size ; i++ ){
+        for (int i = size - 1; i>=0 ; i-- ){
 
             SpinningRotor rotor  = myEnigma.getActiveRotors().get(i);
             res.append(rotor.getRightArr()[rotor.getPos()].theLetter());
             int distanceFromNotch = ((rotor.getNotch() - rotor.getPos()) + abc.getSize() ) % abc.getSize();
             res.append( "(" +  distanceFromNotch + ")");
 
-            if (i != size - 1) {
+            if (i != 0) {
                 res.append(",");
             }
         }
        // res.substring(0, res.length() - 1);
         return res.toString();
     }
-
     public String activeRotorsInitPosDisplay(){
 
         StringBuilder res = new StringBuilder();
@@ -616,22 +585,11 @@ return;
         // res.substring(0, res.length() - 1);
         return res.toString();
     }
-    public String ReflectorDisplay(){
-
-        StringBuilder res= new StringBuilder();
-
-        for (Reflector ref: myEnigma.getReflectors()){
-
-            res.append(ref.getId());
-
-            res.append(",");
-        }
-        return res.toString();
-    }
     public String activeReflectorDisplay(){
 
         return myEnigma.getActiveReflector().getId();
     }
+
     //    not sure about that one
     public boolean isRotorExist(int id){
         try {
@@ -659,7 +617,7 @@ return;
                 res.append(abc.toLetter(key)).append("|").append(abc.toLetter(value));
 
                 if(i != myEnigma.getPlugBoard().getWantedPlugs().size() / 2) {
-                    res.append(",");
+                    res.append(" , ");
                 }
                 i++;
                 seen.add(key);

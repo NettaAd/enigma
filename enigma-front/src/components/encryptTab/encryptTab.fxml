@@ -35,15 +35,15 @@
                               <Label styleClass="errorHelper" fx:id="errorHelper" text="" visible="true"/>
                            </children>
                         </VBox>
-                        <Pane fx:id="configPane1" prefHeight="235.0" prefWidth="209.0" style="-fx-background-color: grey;" styleClass="configWindow">
+                        <VBox  prefHeight="235.0" prefWidth="209.0" style="-fx-background-color: black;" styleClass="configWindow">
                            <children>
                               <Button fx:id="encryptBtn" layoutX="14.0" layoutY="198.0" mnemonicParsing="false" text="Encrypt" />
                               <Button fx:id="toggleEncryptTypeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="71.0" prefWidth="170.0" text="Stream mode" />
                            </children>
-                        </Pane>
+                        </VBox>
                      </children>
                   </HBox>
-                  <VBox fx:id="historyPane" prefHeight="235.0" prefWidth="453.0" style="-fx-background-color: lightgrey;" styleClass="configWindow" />
+                  <VBox fx:id="historyPane" prefHeight="235.0" prefWidth="453.0" style="-fx-background-color: black;" styleClass="configWindow" />
                </children></HBox>
             <AnchorPane prefHeight="152.0" prefWidth="1003.0" />
             <AnchorPane prefHeight="159.0" prefWidth="1003.0" />
