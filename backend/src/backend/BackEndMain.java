@@ -13,6 +13,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 
@@ -28,6 +30,8 @@ public class BackEndMain {
     private ABC abc;
     private Reflector[] reflectors;
     private String[] rotorsInitState;
+
+    private  int numberOfAllowedActiveRotor;
 
     //////////////////////////////////////////////////////////////////////////////////////
 
@@ -158,7 +162,10 @@ public class BackEndMain {
         myEnigma.setPlugBoard(p);
     }
     public void setRotorsViaUserBetter (List<activeRotor> rotors) throws Exception {
-
+        System.out.println(rotors);
+        if(rotors.size()!=numberOfAllowedActiveRotor){
+            throw  new Exception("should be "+numberOfAllowedActiveRotor+" rotors");
+        }
         ArrayList<SpinningRotor> newRotors = new ArrayList<>();
         for(int i = rotors.size()-1; i>=0; i--)
         {
@@ -301,6 +308,11 @@ public class BackEndMain {
         int Refindex = rand.nextInt(reflectors.length);
         return  Refindex;
     }
+
+    public int getNumberOfAllowedActiveRotor(){
+
+        return numberOfAllowedActiveRotor;
+    }
     public ArrayList<HashMap<String, String>> getRandomPlugs(){
         Random rand = new Random();
 
@@ -337,22 +349,17 @@ public class BackEndMain {
         ArrayList<activeRotor> res = new ArrayList<>();
         Random rand = new Random();
 
-        int rotorsAmount = myEnigma.getNumberOfRotors()+1;
-        int activeRotorsAmount = rand.nextInt(rotorsAmount);
+        int rotorsAmount = myEnigma.getNumberOfRotors();
+        int[] activeRotorsId = new int[numberOfAllowedActiveRotor];
+        char[] activeRotorsSetPos = new char[numberOfAllowedActiveRotor];
 
-        while(activeRotorsAmount < 2) { // minimum num of rotors is 2
-            activeRotorsAmount = rand.nextInt(rotorsAmount);
-        }
 
         usedId = new ArrayList<>();
-        int[] activeRotorsId = new int[activeRotorsAmount];
-        char[] activeRotorsSetPos = new char[activeRotorsAmount];
 
-        for(int i = 0; i < activeRotorsAmount ; i++) {
-//            HashMap<String,String> rotor = new HashMap<>();
-//            rotor.put("order",String.valueOf(i));
-//            rotor.put("id",String.valueOf(randID(activeRotorsAmount)));
-            int randId=randID(activeRotorsAmount);
+
+        for(int i = 0; i < numberOfAllowedActiveRotor ; i++) {
+
+            int randId=randID(rotorsAmount);
             int notch = myEnigma.getRotor(randId).getNotch();
             int letter = rand.nextInt(abc.getSize());
             activeRotor rotor = new activeRotor(String.valueOf(randId),i,String.valueOf(abc.toLetter(letter)),notch);
@@ -632,15 +639,6 @@ return;
         return res.toString();
     }
 
-    ///////////////////////       1 file       ///////////////////////
-
-    ///////////    xml staff    ///////////////
-    public static CTEEnigma deserializeFrom(InputStream in) throws JAXBException {
-
-        JAXBContext jc=JAXBContext.newInstance("jaxb.schema.generated");
-        Unmarshaller U = jc.createUnmarshaller();
-        return (CTEEnigma) U.unmarshal(in);
-    }
 
     public ArrayList<activePlug> getActivePlugsBetter() {
         ArrayList<activePlug> plugList = new ArrayList<>();
@@ -694,142 +692,146 @@ return;
 
             plugList.put(a,b);
         }
-    return plugList;
+        return plugList;
     }
 
-    public String setXmlData(String path) throws JAXBException {
+    ///////////////////////       1 file       ///////////////////////
 
+    ///////////    xml staff    ///////////////
+    public static CTEEnigma deserializeFrom(InputStream in) throws JAXBException {
+
+        JAXBContext jc=JAXBContext.newInstance("jaxb.schema.generated");
+        Unmarshaller U = jc.createUnmarshaller();
+        return (CTEEnigma) U.unmarshal(in);
+    }
+    public String setXmlData(String path) {
+
+        Machine tempBackup = null;
         try {
-            if(checkIfFileExists(path) == NO_FILE){
-                throw new Exception("file is not there");
-            }
-            else if (checkIfFileExists(path) == INCORRECT){
-                throw new Exception("file is not a xml file");
+            tempBackup = myEnigma;
+
+            if (checkIfFileExists(path) == NO_FILE) {
+                throw new Exception("File not found");
+            } else if (checkIfFileExists(path) == INCORRECT) {
+                throw new Exception("File is not a xml file");
             }
 
-            InputStream inputStream = new FileInputStream(path);
+            InputStream inputStream = Files.newInputStream(Paths.get(path));
             CTEEnigma rotors = deserializeFrom(inputStream);
 
             int amountOfRotors = rotors.getCTEMachine().getRotorsCount();
-            int logical_rotors_size = amountOfRotors-1;
             int amountOfReflectors = rotors.getCTEMachine().getCTEReflectors().getCTEReflector().size();
             int abcLength = rotors.getCTEMachine().getABC().trim().length();
             int PositionsSize = rotors.getCTEMachine().getCTERotors().getCTERotor().get(0).getCTEPositioning().toArray().length;
+            numberOfAllowedActiveRotor =amountOfRotors;
+            int allRotorsSize=rotors.getCTEMachine().getCTERotors().getCTERotor().size();
 
-
-            if(checkRotorSize(amountOfRotors)==INCORRECT){
-                throw  new Exception("file include only one rotor?!! this is not SAFE..try again dummy");
+            if (checkRotorSize(amountOfRotors) == INCORRECT) {
+                throw new Exception("In xml file rotor-count should be at least 2");
             }
-            if(checkAbcSize(abcLength)==INCORRECT){
-                throw  new Exception("abc in the settings is not even, curr size is "+abcLength );
+            if (checkAbcSize(abcLength) == INCORRECT) {
+                throw new Exception("The abc size in the xml file is not even, current size is " + abcLength);
             }
-            if(checkDoubleInRotor(rotors.getCTEMachine().getCTERotors().getCTERotor(),PositionsSize)==INCORRECT){
-                throw  new Exception("some of the rotors are not unique");
+            if (checkDoubleInRotor(rotors.getCTEMachine().getCTERotors().getCTERotor(), PositionsSize) == INCORRECT) {
+                throw new Exception("Some of the rotors are not unique");
 
             }
             reflectors = new Reflector[amountOfReflectors];
-            SpinningRotor[] machineRotors =new SpinningRotor[amountOfRotors];
+            SpinningRotor[] machineRotors = new SpinningRotor[allRotorsSize];
 
             abc = new ABC(rotors.getCTEMachine().getABC().trim().toCharArray());
 
             // ---------------------init rotors---------------------
             rotorsInitState = new String[amountOfRotors];
 
-            for( int i = 0 ; i < amountOfRotors; i++ ) {
+            for (int i = 0; i < allRotorsSize; i++) {
 
                 CTERotor currPos = rotors.getCTEMachine().getCTERotors().getCTERotor().get(i);
-                if(checkNotch(currPos.getNotch(),currPos.getCTEPositioning().size())==INCORRECT){
-                    throw  new Exception("rotor number "+i+1+" is not having valid notch");
+                if (checkNotch(currPos.getNotch(), currPos.getCTEPositioning().size()) == INCORRECT) {
+                    throw new Exception("rotor number " + (i + 1) + " is not having valid notch");
                 }
 
                 Letter[] right = new Letter[PositionsSize];
-                Letter[] left  = new Letter[PositionsSize];
+                Letter[] left = new Letter[PositionsSize];
 
-                for( int k = 0 ; k < PositionsSize ; k++) {
+                for (int k = 0; k < PositionsSize; k++) {
 
                     String currRight = currPos.getCTEPositioning().get(k).getRight();
 
-                    for ( int j=0 ; j < PositionsSize ; j++) {
+                    for (int j = 0; j < PositionsSize; j++) {
 
                         String currLeft = currPos.getCTEPositioning().get(j).getLeft();
 
                         if (currRight.equals(currLeft)) {
 
                             right[k] = new Letter(currRight, j);
-                            left[j]  = new Letter(currRight, k);
+                            left[j] = new Letter(currRight, k);
                             break;
                         }
                     }
                 }
 //                rotorsInitState[i]=String.valueOf(right[i].theLetter());
-                SpinningRotor rotor = new SpinningRotor(right, left, currPos.getNotch()-1 , currPos.getId());
+                SpinningRotor rotor = new SpinningRotor(right, left, currPos.getNotch() - 1, currPos.getId());
                 machineRotors[i] = rotor;
 
             }
-            if(checkRotorsID(machineRotors,amountOfRotors)==INCORRECT){
-                throw new Exception("rotors id are not in order");
+            if (checkRotorsID(machineRotors, numberOfAllowedActiveRotor) == INCORRECT) {
+                throw new Exception("Rotors id are not in order");
             }
 
 //            here
 
             //-----------------------------init ref---------------------
-            List<CTEReflector> refs= rotors.getCTEMachine().getCTEReflectors().getCTEReflector();
+            List<CTEReflector> refs = rotors.getCTEMachine().getCTEReflectors().getCTEReflector();
 
-            //  Reflector[] refsInit = new Reflector[amountOfReflectors];
-            int refAbcSize = abcLength;
-            //int refSize = refs.get(0).getCTEReflect().size();
+            for (int i = 0; i < amountOfReflectors; i++) {
 
-            for ( int i=0 ; i < amountOfReflectors ; i++ ) {
-
-                int[] initRef = new int[refAbcSize+1];
-                List <CTEReflect> currRefs = refs.get(i).getCTEReflect();
-               checkDuplicateRefMapping(currRefs,(refAbcSize / 2));
-                if(currRefs.size()<refAbcSize / 2 ){
-                    throw  new Exception("no good! missing reflector mapping!");
+                int[] initRef = new int[abcLength + 1];
+                List<CTEReflect> currRefs = refs.get(i).getCTEReflect();
+                checkDuplicateRefMapping(currRefs, (abcLength / 2));
+                if (currRefs.size() < abcLength / 2) {
+                    throw new Exception("no good! missing reflector mapping!");
 
                 }
-                for(int k = 0 ; k < refAbcSize / 2 ; k++){
+                for (int k = 0; k < abcLength / 2; k++) {
 
-                    int I =  currRefs.get(k).getInput() - 1;
-                    int U =  currRefs.get(k).getOutput() - 1;
-                    if(I<0 || U<0){
-                      throw new Exception("reflector number "+i+" contains an entry to zero");
-
-                    }
-                    if(I>refAbcSize  || U >refAbcSize ){
-                        throw new Exception("reflector number "+i+" contains an entry that does not exist on the machine abc's");
+                    int I = currRefs.get(k).getInput() - 1;
+                    int U = currRefs.get(k).getOutput() - 1;
+                    if (I < 0 || U < 0) {
+                        throw new Exception("reflector number " + i + " contains an entry to zero");
 
                     }
-                    if(checkDoubleInReflectors(I,U)==INCORRECT){
-                        throw new Exception("in reflector "+i+" row number "+k+" is not valid, letter cant go to itself, dummy");
+                    if (I >= abcLength || U >= abcLength) {
+                        throw new Exception("reflector number " + i + " contains an entry that does not exist on the machine abc's");
+
+                    }
+                    if (checkDoubleInReflectors(I, U) == INCORRECT) {
+                        throw new Exception("in reflector " + i + " row number " + k + " is not valid, letter cant go to itself, dummy");
                     }
 
                     initRef[I] = U;
                     initRef[U] = I;
                 }
-                reflectors[i] = new Reflector(initRef,refs.get(i).getId());
+                reflectors[i] = new Reflector(initRef, refs.get(i).getId());
             }
-            if(checkReflectorID(reflectors,amountOfReflectors)==INCORRECT){
-                throw new Exception("one of the Reflectors id is not valid");
+            if (checkReflectorID(reflectors, amountOfReflectors) == INCORRECT) {
+                throw new Exception("One of the Reflectors id is not valid");
             }
 
             //  -------------------------init PlugBoard---------------------
-            int[] plugInit = new int[refAbcSize];
-            for( int i=0 ; i < refAbcSize ; i++ ){
+            int[] plugInit = new int[abcLength];
+            for (int i = 0; i < abcLength; i++) {
 
-                plugInit[i]=i;
+                plugInit[i] = i;
             }
             PlugBoard plugBoard = new PlugBoard(plugInit);
 
-            myEnigma = new Machine(plugBoard,machineRotors,reflectors);
-            myEnigma.setReflector(reflectors[0]);
+            myEnigma = new Machine(plugBoard, machineRotors, reflectors);
+        } catch (Exception e) {
+//            e.printStackTrace();
+            this.myEnigma = tempBackup;
+            return e.getMessage();
 
-        }
-
-        catch (Exception e) {
-//            TODO remove testing tool
-            e.printStackTrace();
-            return  e.getMessage();
         }
         return "ok";
     }
@@ -842,6 +844,32 @@ return;
     public boolean checkPlugSize(char[] plugsArr){
 
         return plugsArr.length % 2 == 0;
+    }
+
+    public ArrayList<Character> checkPlugsSelfConnected(char[] plugsArr){
+
+        ArrayList<Character> used = new ArrayList<>();
+        ArrayList<Character> problematic = new ArrayList<>();
+
+        if( plugsArr.length % 2 != 0){
+            return problematic;
+        }
+
+        for (int i = 0; i < plugsArr.length; i+=2) {
+
+            if(plugsArr[i] == plugsArr[i+1] || used.contains(plugsArr[i] ) ||  used.contains(plugsArr[i+1] )){
+
+                problematic.add(plugsArr[i]);
+                problematic.add(plugsArr[i+1]);
+                return problematic;
+
+            }
+            else {
+                used.add(plugsArr[i]);
+                used.add(plugsArr[i+1]);
+            }
+        }
+        return problematic;
     }
     public boolean checkPlugs(char[] plugsArr){
 
@@ -864,7 +892,7 @@ return;
     }
     public boolean checkInRotorsRange(int size){
 
-     return size <= myEnigma.getNumberOfRotors();
+        return size <= myEnigma.getNumberOfRotors();
     }
     public int checkAbcSize(int size){
 
@@ -884,19 +912,19 @@ return;
         else
             return INCORRECT;
     }
-    public int checkActiveRotorSize(int sizeAll, int sizeActive){
 
-        if(sizeAll >= sizeActive)
-            return CORRECT;
-        else
-            return INCORRECT;
-
-    }
     public int checkRotorsID(SpinningRotor[] all, int size) throws Exception {
         try {
-            int[] arr = new int[size];
+            int amountOfRotors = all.length;
+            if(size>amountOfRotors){
+                throw new Exception("Missing Rotors");
+
+//                return INCORRECT;
+            }
+
+            int[] arr = new int[amountOfRotors];
             // init
-            for (int i = 0; i <size; i++) {
+            for (int i = 0; i <amountOfRotors; i++) {
 
                 arr[i] = 0;
             }
@@ -913,24 +941,26 @@ return;
                     return INCORRECT;
             }
 
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < amountOfRotors; i++) {
 
                 if (arr[i] == 0)
                     return INCORRECT;
             }
         }catch(ArrayIndexOutOfBoundsException e){
-            throw new Exception("rotors count in xml file is not correct or ids are not correct");
+            throw new Exception("Rotors count in xml file is not correct or ids are not correct");
         }
 
         return CORRECT;
     }
     public int checkDoubleInRotor(List<CTERotor> all, int posSize) throws Exception {
 
+
         for(CTERotor rotor: all) {
             ArrayList<String> seenR = new ArrayList<>();
             ArrayList<String> seenL = new ArrayList<>();
 
-            for( int k = 0 ; k < posSize ; k++) {
+
+            for( int k = 0 ; k < rotor.getCTEPositioning().size() ; k++) {
                 if(rotor.getCTEPositioning().size()<posSize){
                     throw  new Exception("no good! missing rotor mapping!");
 
@@ -942,8 +972,8 @@ return;
 
                 }
                 seenR.add(currRight);
-        }
-            for( int k = 0 ; k < posSize ; k++) {
+            }
+            for( int k = 0 ; k < rotor.getCTEPositioning().size() ; k++) {
                 String currLeft = rotor.getCTEPositioning().get(k).getLeft().toUpperCase();
                 if(seenL.contains(currLeft)){
                     throw  new Exception("no good! there is "+ currLeft+ " more then once on the left side of one of the rotors");
@@ -1003,9 +1033,12 @@ return;
 
     }
 
-    public int checkDuplicateRefMapping(List<CTEReflect> all, int size) throws Exception {
+    public void checkDuplicateRefMapping(List<CTEReflect> all, int size) throws Exception {
         if(all.size()>size){
             throw  new Exception(REFLECTOR_TO_MUCH_MAPPING);
+
+        }else if(all.size()<size){
+            throw  new Exception("reflactor is misssing letters from the abc");
 
         }
         for (int i = 0; i < size ; i++) {
@@ -1019,8 +1052,6 @@ return;
             }
 
         }
-        return CORRECT;
-
 
 
 //        }
@@ -1028,32 +1059,51 @@ return;
 
     }
 
-    public void testAgent() throws Exception {
-        setReflectorViaUser("I");
-        Machine newMachine = myEnigma;
+    public void testAgent(String ret) throws Exception {
+        String words = "encapsulation german poland kombat waffele whom? leg character terms else camel rabbit fire text if they element sky item robot! past dune dolphine then it am quality eye moon system folder light letter number# notch allies dog word hash why? gun pink what? yellow sea see noon file top does ear can't table foot hand a strike black i electricity pistol kill boat democracy off battle single fly component blue watch reflector future machine progress atom under inferno voice rotor tonight mouce door won't data use doom sign screen do bomb red later whale white hello? than which england morning! dirt tree thrown water trash ranch she sand squad desk present where? magenta game code enigma plural death vegtable fruit for their privacy back house fox not hair napkin and street cat now of iteration class trike fight mortal live how? on patrol keyboard midnight or green umbrella wheel saw orange airplane window front he";
+        String[] wordsArr = words.split(" ");
+        String encrypted = "S?LPO?M'E FRQWVO";
+        String decrpty = DecodeString(encrypted,false);
+        resetMachine();
+        System.out.println(decrpty);
+        String[] decrptyArr = decrpty.split(" ");
+        boolean testFlag= true;
+        for (String testWord:decrptyArr) {
+            testWord=testWord.toLowerCase();
+            if(Arrays.stream(wordsArr).anyMatch(testWord::equals)){
+                continue;
 
-        int[] plugInit = new int[abc.getSize()];
-        for( int i=0 ; i < abc.getSize() ; i++ ){
-
-            plugInit[i]=i;
+            }else{
+                testFlag=false;
+                break;
+            }
         }
-        PlugBoard p = new PlugBoard(plugInit);
-        newMachine.setPlugBoard(p);
-        ArrayList<String> posMsg = new ArrayList<>();
-        posMsg.add("HELLO");
-        posMsg.add("WORLD");
-        ArrayList<activeRotor> initRotors = new ArrayList<>();
-
-        initRotors.add(new activeRotor("1",0,"E",3));
-        initRotors.add(new activeRotor("2",1,"E",2));
-        setRotorsViaUserBetter(initRotors);
-        String input = DecodeString("HELLO",false);
-        ArrayList<activeRotor> rotors = new ArrayList<>();
-        rotors.add(new activeRotor("1",0,"A",17));
-        rotors.add(new activeRotor("2",1,"A",5));
-
-        agent testboy = new agent(0,newMachine,input,rotors,"1",5,posMsg,abc);
-        testboy.run();
+        System.out.println("is good? "+testFlag);
+//        setReflectorViaUser("I");
+//        Machine newMachine = myEnigma;
+//
+//        int[] plugInit = new int[abc.getSize()];
+//        for( int i=0 ; i < abc.getSize() ; i++ ){
+//
+//            plugInit[i]=i;
+//        }
+//        PlugBoard p = new PlugBoard(plugInit);
+//        newMachine.setPlugBoard(p);
+//        ArrayList<String> posMsg = new ArrayList<>();
+//        posMsg.add("HELLO");
+//        posMsg.add("WORLD");
+//        ArrayList<activeRotor> initRotors = new ArrayList<>();
+//
+//        initRotors.add(new activeRotor("1",0,"E",3));
+//        initRotors.add(new activeRotor("2",1,"E",2));
+//        setRotorsViaUserBetter(initRotors);
+//        String input = DecodeString("HELLO",false);
+//        ArrayList<activeRotor> rotors = new ArrayList<>();
+//        rotors.add(new activeRotor("1",0,"A",17));
+//        rotors.add(new activeRotor("2",1,"A",5));
+//
+//        agent testboy = new agent(0,newMachine,input,rotors,"1",5,posMsg,abc);
+//        testboy.run();
     }
 //
 //    public void saveStateToMachine(){

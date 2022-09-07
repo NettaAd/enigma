@@ -5,6 +5,7 @@ import common_models.activeRotor;
 import common_models.activePlug;
 import components.main.MainController;
 import components.settings.SettingsController;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -90,6 +91,7 @@ public class EditSettingsPaneController {
                     }
 
                 }
+//                goback
         });
         addRotorBtn.disableProperty().bind(rotorsSelect.valueProperty().isNull());
         preSetRotors.addListener((ListChangeListener<? super activeRotor>) c ->{
@@ -133,6 +135,7 @@ public class EditSettingsPaneController {
 
                     rotorIdLabel.setOnMouseClicked(event -> {
                         removeRotorBtn.visibleProperty().set(true);
+                        removeRotorBtn.setText("Remove Rotor");
                         for (Label l : rotorsPreSetsLabelList) {
                             if (l.getText() == n_r.getId()) {
                                 l.setTextFill(Color.RED);
@@ -175,17 +178,25 @@ public class EditSettingsPaneController {
         submitBtn.setOnMouseClicked(e->{
             try {
 //                TODO make this a function (maybe a service?)
-                if(preSetRotors.size()>=2  ) {
+                if(preSetRotors.size()==mainController.getBackEnd().getNumberOfAllowedActiveRotor() ) {
                     mainController.getBackEnd().setPlugBoardViaUserBetter(preSetTableList.stream().collect(Collectors.toList()));
                     mainController.getBackEnd().setRotorsViaUserBetter(preSetRotors.stream().collect(Collectors.toList()));
                     mainController.getBackEnd().setReflectorViaUser((String) refselect.getSelectionModel().getSelectedItem());
                     mainController.getActivePlugsList().setAll(preSetTableList);
                     mainController.getActiveRotorsList().setAll(preSetRotors);
-
+                    removeRotorBtn.setVisible(true);
+                    removeRotorBtn.setText("Remove Rotor");
 //                  mainController.Sync();
+                }else{
+                    throw  new Exception("should be "+mainController.getBackEnd().getNumberOfAllowedActiveRotor()+" rotors");
+
                 }
+
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                removeRotorBtn.setVisible(true);
+                removeRotorBtn.setText(ex.getMessage());
+                ex.printStackTrace();
+//                throw new RuntimeException(ex);
             }
             System.out.println(mainController.getBackEnd().getFormatStats());
 

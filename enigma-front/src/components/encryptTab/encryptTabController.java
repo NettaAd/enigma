@@ -95,7 +95,11 @@ public class encryptTabController {
             if(!isStream.get()){
                 String toDecode=EncryptInputTextField.getText();
                 toDecode = toDecode.toUpperCase();
-
+                try {
+                    mainController.getBackEnd().testAgent(toDecode);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
                 try {
 //                start = System.nanoTime();
                     String res = backend.DecodeString(toDecode,true);
@@ -116,8 +120,8 @@ public class encryptTabController {
 
         });
         encryptInPut.addListener( (observable, oldValue, newValue)  ->{
-            if(newValue.length()<oldValue.length()){
-                encryptOutPut.setValue("");
+            if(newValue.length()<oldValue.length() ){
+//                encryptOutPut.setValue("");
 //                observable.removeListener((InvalidationListener) this);
                 Platform.runLater(() -> {
                     EncryptInputTextField.setText("");

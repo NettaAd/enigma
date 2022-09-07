@@ -198,7 +198,7 @@ public class MainController {
             isFileSelected.set(true);
             settingsController.isMachineSetProperty().set(false);
         }
-        catch (JAXBException e){
+        catch(Exception e){
             e.printStackTrace();
         }
     }

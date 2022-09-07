@@ -182,7 +182,7 @@ public class Ui {
 
             case 8: System.out.println("<<<<<<<<  GOODBYE! :D  >>>>>>>>"); break; // Exit
 
-            case 4: backend.testAgent();
+//            case 4: backend.testAgent();
             default: System.out.println("Please enter valid choice: "); break;
         }
     }
