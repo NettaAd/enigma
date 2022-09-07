@@ -34,6 +34,8 @@ public class encryptTabController {
 
     @FXML private Pane configPane;
 
+    @FXML private AnchorPane mainCon;
+
     @FXML private HBox inputWindow;
 
     @FXML private FlowPane keyBoardPane;

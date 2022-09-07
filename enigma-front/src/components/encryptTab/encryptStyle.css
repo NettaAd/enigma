@@ -1,3 +1,11 @@
+
+* {
+    -fx-font-family: "Bookman Old Style";
+    -fx-text-fill: white;
+    -fx-background-color: black;
+}
+
+
 .configWindow {
 
     -fx-border-color: lightgrey;
@@ -18,12 +26,14 @@
     -fx-background-color: black;
     -fx-font-size: 12px;
 }
+
 .rotorPosText {
     -fx-border-color: lightgrey;
     -fx-text-fill: lightgrey;
     -fx-background-color: black;
     -fx-font-size: 12px;
 }
+
 .errorHelper {
     -fx-border-color: lightgrey;
     -fx-text-fill: lightgrey;

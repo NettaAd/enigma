@@ -12,7 +12,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c36a8b3-4c50-4c62-8add-50679a01c601" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/editSettingsContainer/EditSettingsPaneController.java" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/editSettingsContainer/EditSettingsPaneController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/editSettingsContainer/editSettingsPane.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/editSettingsContainer/editSettingsPane.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/enigma-front/src/components/editSettingsContainer/editSettingsStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/editSettingsContainer/editSettingsStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/encryptTab/encryptStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/encryptTab/encryptStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/encryptTab/encryptTab.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/encryptTab/encryptTab.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/encryptTab/encryptTabController.java" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/encryptTab/encryptTabController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/main/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/main/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/main/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/main/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/main/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/main/main.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/settings/settings.css" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/settings/settings.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/showMachinePane/showMachine.css" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/showMachinePane/showMachine.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/showSettingsContainer/showSettingsContainer.css" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/showSettingsContainer/showSettingsContainer.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/showSettingsContainer/showSettingsPane.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/showSettingsContainer/showSettingsPane.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/EditSettingsPaneController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/EditSettingsPaneController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/EditSettingsPaneController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/EditSettingsPaneController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/editSettingsPane.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/editSettingsPane.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/editSettingsStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/editSettingsStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/encryptTab/encryptStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/encryptTab/encryptStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/encryptTab/encryptTab.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/encryptTab/encryptTab.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/encryptTab/encryptTabController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/encryptTab/encryptTabController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/main/MainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/main/MainController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/main/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/main/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/main/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/main/main.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/settings/settings.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/settings/settings.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/showMachinePane/showMachine.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/showMachinePane/showMachine.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/showSettingsContainer/showSettingsContainer.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/showSettingsContainer/showSettingsContainer.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/showSettingsContainer/showSettingsPane.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/showSettingsContainer/showSettingsPane.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +82,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;corretto-1.8&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/yigal/OneDrive/שולחן העבודה/java_09/enigma&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/yigal/OneDrive/שולחן העבודה/java_style/enigma&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -155,7 +182,11 @@
       <workItem from="1662132372829" duration="3200000" />
       <workItem from="1662196633128" duration="17383000" />
       <workItem from="1662289853587" duration="5145000" />
-      <workItem from="1662296860030" duration="24107000" />
+      <workItem from="1662296860030" duration="23647000" />
+      <workItem from="1662374156313" duration="12371000" />
+      <workItem from="1662414670216" duration="3000" />
+      <workItem from="1662456627621" duration="68000" />
+      <workItem from="1662543354887" duration="47000" />
     </task>
     <servers />
   </component>
