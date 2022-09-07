@@ -13,46 +13,14 @@
   <component name="ChangeListManager">
     <list default="true" id="9c36a8b3-4c50-4c62-8add-50679a01c601" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Error Files/ex1-case_insensitive-NO_ERORR_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Error Files/ex1 case_insensitive-NO_ERORR_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Error Files/ex1-duplicate_letter_mapped_rotor_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Error Files/ex1-duplicate_letter_mapped_rotor_2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Error Files/ex1-duplicate_letter_mapped_rotor_4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Error Files/ex1-duplicate_letter_mapped_rotor_4.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Error Files/ex1-duplicate_letter_mapped_rotor_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Error Files/ex1-duplicate_letter_mapped_rotor_5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Error Files/ex1-invalid_notch_id_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Error Files/ex1-invalid_notch_id_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Error Files/ex1-missing_letter_mapped_rotor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Error Files/ex1-missing_letter_mapped_rotor.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Error Files/ex1-not_even_abc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Error Files/ex1-not_even_abc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/backend/BackEndMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/backend/BackEndMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/editSettingsContainer/EditSettingsPaneController.java" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/editSettingsContainer/EditSettingsPaneController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/enigma-front/src/components/editSettingsContainer/editSettingsPane.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/editSettingsContainer/editSettingsPane.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/encryptTab/encryptStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/encryptTab/encryptStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/encryptTab/encryptTab.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/encryptTab/encryptTab.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/encryptTab/encryptTabController.java" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/encryptTab/encryptTabController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/main/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/main/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/main/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/main/main.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/settings/SettingsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/settings/SettingsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/settings/settings.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/settings/settings.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/showMachinePane/showMachinePaneController.java" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/showMachinePane/showMachinePaneController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/showSettingsContainer/ShowSettingsPaneController.java" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/showSettingsContainer/ShowSettingsPaneController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/showSettingsContainer/showSettingsPane.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/showSettingsContainer/showSettingsPane.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/showSettingsContainer/showSettingsStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/showSettingsContainer/showSettingsStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex1-sanity-small.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ex1-sanity-small.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/enigma/ui/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/enigma/ui/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/enigma/ui/Ui.java" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/enigma/ui/Ui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enigma-front/src/components/editSettingsContainer/editSettingsStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/enigma-front/src/components/editSettingsContainer/editSettingsStyle.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/backend/backend/BackEndMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/backend/backend/BackEndMain.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/EditSettingsPaneController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/EditSettingsPaneController$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/EditSettingsPaneController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/EditSettingsPaneController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/editSettingsPane.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/editSettingsPane.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/encryptTab/encryptStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/encryptTab/encryptStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/encryptTab/encryptTab.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/encryptTab/encryptTab.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/encryptTab/encryptTabController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/encryptTab/encryptTabController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/editSettingsStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/editSettingsContainer/editSettingsStyle.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/main/MainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/main/MainController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/main/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/main/main.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/settings/SettingsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/settings/SettingsController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/settings/settings.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/settings/settings.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/showMachinePane/showMachinePaneController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/showMachinePane/showMachinePaneController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/showSettingsContainer/ShowSettingsPaneController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/showSettingsContainer/ShowSettingsPaneController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/showSettingsContainer/ShowSettingsPaneController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/showSettingsContainer/ShowSettingsPaneController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/showSettingsContainer/showSettingsPane.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/showSettingsContainer/showSettingsPane.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/enigma-front/components/showSettingsContainer/showSettingsStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/enigma-front/components/showSettingsContainer/showSettingsStyle.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,8 +163,7 @@
       <workItem from="1662132372829" duration="3200000" />
       <workItem from="1662196633128" duration="17383000" />
       <workItem from="1662289853587" duration="5145000" />
-      <workItem from="1662296860030" duration="23647000" />
-      <workItem from="1662450799072" duration="10435000" />
+      <workItem from="1662296860030" duration="24107000" />
     </task>
     <servers />
   </component>
