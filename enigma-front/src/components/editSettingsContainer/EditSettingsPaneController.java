@@ -118,6 +118,7 @@ public class EditSettingsPaneController {
                         for (Label l : rotorsPreSetsLabelList) {
                             l.setTextFill(Color.BLACK);
                         }
+                        System.out.println("sss "+event);
                         rotorIdLabel.setTextFill(Color.BLACK);
                         preSetRotors.stream().filter(r -> r.getId() == n_r.getId()).findFirst().get().setPosition(posList.getSelectionModel().getSelectedItem());
 

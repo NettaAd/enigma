@@ -1,3 +1,26 @@
-#downPane{
-    -fx-background-color: black;
+* {
+    -fx-font-family: "Bookman Old Style";
+    -fx-background-color: #222831;
+    /*-fx-background-image: linear-gradient(tomato,red);*/
+    -fx-border-radius: 3px;
+    -fx-font-size: 14px;
 }
+.fileBtn{
+
+    -fx-font-size: 20px;
+    -fx-text-fill: lightgreen;
+    -fx-border-color: lightgreen;
+}
+.fileField{
+    -fx-font-size: 14px;
+    -fx-text-fill: lightgreen;
+    -fx-text-alignment: bottom;
+    -fx-alternative-row-fill-visible: bottom;
+
+}
+
+
+.w *{
+    -fx-text-fill: white;
+}
+

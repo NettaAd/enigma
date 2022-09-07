@@ -1,7 +1,11 @@
-.show{
-    -fx-background-color: black;
+* {
     -fx-font-family: "Bookman Old Style";
-    -fx-font-size: 20px;
+    -fx-background-color: black;
     -fx-text-fill: white;
-    -fx-min-width: 100%;
+    -fx-border-color:  white;
 }
+
+.show{
+    -fx-border-color:  white;
+}
+

@@ -1,32 +1,28 @@
 
-* {
-    -fx-font-family: "Bookman Old Style";
-    -fx-text-fill: white;
-    -fx-background-color: black;
-    -fx-font-size: 13px;
-    -fx-border-style: none none dotted none;
-}
-
-.whiteBorder {
-    -fx-border-color: white;
-}
-
-.whiteBorder TableColumn{
-    -fx-border-color: white;
-
-}
 .greyBtn{
     -fx-border-color: lightgrey;
-    -fx-background-color: black;
-    -fx-font-size: 15px;
     -fx-text-fill: lightgrey;
 }
 
 .greenBtn{
     -fx-border-color: lightgreen;
-    -fx-background-color: black;
-    -fx-font-size: 15px;
-
     -fx-text-fill: lightgreen;
 }
 
+.border {
+    -fx-border-style: dotted ;
+    -fx-border-color: WHITE;
+}
+.redBtn{
+    -fx-font-size: 8;
+    -fx-border-color: ED6363;
+    -fx-text-fill: ED6363;
+}
+
+.rotorPositionsCon .list-cell:focused {
+    -fx-background-color: #F1ECC3;
+    -fx-text-fill: #515E63;
+    -fx-border-color: white;
+    -fx-border-style: dotted;
+
+}

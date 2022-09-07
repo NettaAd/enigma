@@ -1,32 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane styleClass="show" prefHeight="400.0" prefWidth="500.0" stylesheets="@showSettingsStyle.css" xmlns="http://javafx.com/javafx/8.0.341" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.showSettingsContainer.ShowSettingsPaneController">
+<AnchorPane stylesheets = "@showSettingsContainer.css"  prefHeight = "400.0" prefWidth="500.0"
+            xmlns = "http://javafx.com/javafx/8.0.341"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller = "components.showSettingsContainer.ShowSettingsPaneController">
    <children>
-       <ScrollPane layoutX="261.0" layoutY="29.0" prefHeight="200.0" prefWidth="200.0" styleClass="show">
+       <ScrollPane layoutX = "261.0" layoutY = "29.0" prefHeight = "200.0" prefWidth = "200.0"  >
            <content>
-               <HBox fx:id="activeRotorsCon" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="show"/>
-
+               <HBox fx:id = "activeRotorsCon" alignment="CENTER" prefHeight = "100.0" prefWidth = "200.0" />
            </content>
-
        </ScrollPane>
-
-<!--      <TableView layoutX="14.0" layoutY="29.0" prefHeight="200.0" prefWidth="159.0">-->
-<!--         <columns>-->
-<!--            <TableColumn prefWidth="75.0" text="From" />-->
-<!--            <TableColumn prefWidth="75.0" text="To" />-->
-<!--         </columns>-->
-<!--      </TableView>-->
-      <Label layoutX="25.0" layoutY="24.0" text="Reflector"  styleClass="show"/>
-      <Label fx:id="activeRef" layoutX="85.0" layoutY="24.0" text="Id" styleClass="show" />
-      <Label layoutX="340.0" layoutY="15.0" text="Rotors" styleClass="show"/>
-<!--      <Label layoutX="281.0" layoutY="229.0" text="Plugs" />-->
-       <FlowPane fx:id="plugPane" layoutX="49.0" layoutY="264.0" prefHeight="112.0" prefWidth="402.0" styleClass="show" >
+       <Label  layoutX = "25.0"      layoutY = "24.0"   text = "Reflector" />
+       <Label  fx:id = "activeRef"   layoutX = "85.0"   layoutY = "24.0" text="Id" />
+       <Label  layoutX = "340.0"     layoutY = "15.0"   text = "Rotors"/>
+       <FlowPane fx:id = "plugPane" layoutX = "49.0"    layoutY = "264.0" prefHeight = "112.0" prefWidth = "402.0" >
 
        </FlowPane>
    </children>

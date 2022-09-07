@@ -12,27 +12,35 @@
             xmlns = "http://javafx.com/javafx/8.0.341" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="components.editSettingsContainer.EditSettingsPaneController">
 
-   <Button fx:id="randomBtn" layoutX="29.0"  layoutY="365.0"  mnemonicParsing = "false"  text="Random"     styleClass="greenBtn"/>
-   <Button fx:id="submitBtn" layoutX="370.0" layoutY="365.0"  mnemonicParsing = "false"  text="Set Code"   styleClass="greenBtn"/>
-   <TableView fx:id = "plugsTablePreSet"     layoutX="222.0"  layoutY="125.0" prefHeight="153.0" prefWidth="200.0" styleClass="whiteBorder">
+   <!-- greens btn -->
+   <Button fx:id="randomBtn" layoutX="29.0"  layoutY="365.0"  mnemonicParsing = "false"  text="Random"   styleClass="greenBtn"/>
+   <Button fx:id="submitBtn" layoutX="370.0" layoutY="365.0"  mnemonicParsing = "false"  text="Set Code" styleClass="greenBtn"/>
+
+
+   <TableView fx:id = "plugsTablePreSet"  styleClass="border"   layoutX="222.0"  layoutY="125.0" prefHeight="153.0" prefWidth="200.0">
       <columns>
-         <TableColumn fx:id = "activePlugFromColPreSet" prefWidth="75.0" text="From" styleClass="whiteBorder" />
-         <TableColumn fx:id = "activePlugToColPreSet"   prefWidth="75.0" text="To"  styleClass="whiteBorder" />
+         <TableColumn fx:id = "activePlugFromColPreSet" prefWidth="75.0" text="From"  />
+         <TableColumn fx:id = "activePlugToColPreSet"   prefWidth="75.0" text="To"   />
       </columns>
    </TableView>
-   <ComboBox fx:id="fromselect" layoutX="222.0" layoutY="57.0" prefHeight="25.0" prefWidth="93.0" styleClass="whiteBorder"/>
-   <Button fx:id="preSetAddPlugButton" layoutX="222.0" layoutY="91.0" mnemonicParsing="false" text="add plug" styleClass="whiteBorder" />
-   <ComboBox fx:id="refselect" layoutX="222.0" layoutY="307.0" prefHeight="25.0" prefWidth="93.0"  styleClass="greyBtn"/>
-   <ComboBox fx:id="rotorsSelect" layoutX="29.0" layoutY="57.0" prefHeight="25.0" prefWidth="93.0"  styleClass="greyBtn"/>
-   <ScrollPane layoutX="14.0" layoutY="125.0" prefWidth="200.0" styleClass="whiteBorder">
-      <HBox fx:id="rotorsPreSetCon" prefHeight="153.0" prefWidth="200.0" styleClass="whiteBorder"/>
-   </ScrollPane>
-   <Label layoutX="222.0" layoutY="29.0" text="plugs" styleClass="greyBtn"/>
-   <Label layoutX="222.0" layoutY="281.0" text="refelctors" styleClass="whiteBorder"/>
-   <Label layoutX="29.0" layoutY="29.0" text="rotors" styleClass="whiteBorder" />
-   <ComboBox fx:id="toselect" layoutX="324.0" layoutY="57.0" prefHeight="25.0" prefWidth="93.0" styleClass="whiteBorder"/>
-   <Button fx:id="addRotorBtn" layoutX="130.0" layoutY="57.0" mnemonicParsing="false" text="add rotor" styleClass="greyBtn"/>
+   <ComboBox fx:id="fromselect" layoutX="222.0" layoutY="57.0" prefHeight="25.0" prefWidth="93.0" styleClass="border" />
 
-   <Label fx:id="removeRotorBtn" layoutX="130.0" layoutY="95.0" text="Remove Rotor" textFill="RED" visible="false"/>
-   <Label fx:id="removePlugBtn" layoutX="324.0" layoutY="95.0" text="Remove Plug" textFill="RED" visible="false"/>
+   <Button fx:id="preSetAddPlugButton" text="Add Plug"  styleClass="greyBtn" layoutX="222.0" layoutY="91.0" mnemonicParsing="false" />
+   <ComboBox fx:id="refselect"    styleClass="greyBtn"  layoutX="222.0" layoutY="307.0" prefHeight="25.0"   prefWidth="93.0"  />
+   <ComboBox fx:id="rotorsSelect" styleClass="greyBtn"  layoutX="29.0"  layoutY="57.0"  prefHeight="25.0"   prefWidth="93.0"  />
+
+
+   <ScrollPane layoutX="14.0" layoutY="125.0" prefWidth="200.0" styleClass="border" >
+      <HBox fx:id="rotorsPreSetCon" prefHeight="153.0" prefWidth="200.0" />
+   </ScrollPane>
+   <Label layoutX="222.0" layoutY="29.0"  text="Plugs"      />
+   <Label layoutX="29.0"  layoutY="29.0"  text="Rotors"     />
+   <Label layoutX="222.0" layoutY="281.0" text="Reflectors" />
+
+
+   <ComboBox fx:id="toselect"    styleClass="border" layoutX="324.0" layoutY="57.0" prefHeight="25.0" prefWidth="93.0"  />
+   <Button   fx:id="addRotorBtn" text="Add Rotor" styleClass="greyBtn" layoutX="130.0" layoutY="57.0" mnemonicParsing="false" />
+
+   <Label fx:id="removeRotorBtn"  text="Remove Rotor" styleClass="redBtn" layoutX="100.0" layoutY="95.0"  visible="false"/>
+   <Label fx:id="removePlugBtn"   text="Remove Plug"  styleClass="redBtn" layoutX="324.0" layoutY="95.0"  visible="false"/>
 </AnchorPane>
