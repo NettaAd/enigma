@@ -601,6 +601,12 @@ return;
             return  false;
         }
     }
+
+    public ArrayList<String> getUnActivePlugs(){
+        ArrayList<String> unActivePlugs = new ArrayList<>();
+        myEnigma.getPlugBoard().getPlugs().entrySet().stream().filter(p->p.getKey()==p.getValue()).forEach(p->unActivePlugs.add(String.valueOf(abc.toLetter(p.getValue()))));
+        return unActivePlugs;
+    }
     public String activePlugBoardStateDisplay(){
 
         StringBuilder res = new StringBuilder();

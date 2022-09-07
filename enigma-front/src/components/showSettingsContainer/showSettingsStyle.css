@@ -4,3 +4,11 @@
     -fx-font-size: 13px;
     -fx-border-color: white;
 }
+
+.rotorWindow{
+    -fx-border-color: black;
+    -fx-background-color: rgba(61, 61, 61, 0.9);
+    /*-fx-border-radius:15px;*/
+    /*-fx-background-radius:30px;*/
+
+}

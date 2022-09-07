@@ -135,8 +135,11 @@ public class MainController {
 //        activeRotorsList.setAll(backend.getActiveRotorsBeter());
 //        ArrayList<activePlug> plugs = mainController.getBackEnd().getActivePlugsBetter();
 //        ArrayList<activeRotor> rotors = mainController.getBackEnd().getActiveRotorsBeter();
+        System.out.println(activePlugsList);
+        System.out.println(activeRotorsList);
         settingsController.updateSettings();
         encryptTabController.updateSettings();
+
     }
 
 

@@ -176,8 +176,9 @@ public class EditSettingsPaneController {
                     mainController.getBackEnd().setPlugBoardViaUserBetter(preSetTableList.stream().collect(Collectors.toList()));
                     mainController.getBackEnd().setRotorsViaUserBetter(preSetRotors.stream().collect(Collectors.toList()));
                     mainController.getBackEnd().setReflectorViaUser((String) refselect.getSelectionModel().getSelectedItem());
-                    mainController.getActiveRotorsList().setAll(preSetRotors);
                     mainController.getActivePlugsList().setAll(preSetTableList);
+                    mainController.getActiveRotorsList().setAll(preSetRotors);
+
 //                  mainController.Sync();
                 }
             } catch (Exception ex) {

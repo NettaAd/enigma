@@ -7,6 +7,7 @@ import components.settings.SettingsController;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -17,7 +18,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
 
@@ -80,31 +85,89 @@ public class ShowSettingsPaneController {
 //        activePlugToCol.setCellValueFactory(new PropertyValueFactory<activePlug, String>("to"));
 
         plugPane.setHgap(25);
-        ObservableList list = plugPane.getChildren();
-        list.clear();
+        plugPane.setVgap(10);
+
+        ObservableList<StackPane> ObsPluglist = FXCollections.observableArrayList();
+        ObsPluglist.clear();
         Random rand = new Random(System.currentTimeMillis());
+        String[] nonActivePlugs = mainController.getBackEnd().getAbc().getAbc().split("");
+        Color[] plugsColor = new Color[mainController.getActivePlugsList().size()];
+        for (int i = 0; i < mainController.getActivePlugsList().size(); i++) {
 
-        for (activePlug p:mainController.getActivePlugsList()) {
-            StackPane plugHole = new StackPane();
-            Text fromLabel = new Text();
-            fromLabel.setBoundsType(TextBoundsType.VISUAL);
-            fromLabel.setText(p.getFrom());
-            Circle from = new Circle(30.0f,13.0f,10.0f);
-            Circle to = new Circle(30.0f,13.0f,10.0f);
-
-            plugHole.getChildren().addAll(from,fromLabel);
             int red = rand.nextInt(255);
             int green = rand.nextInt(255);
             int blue = rand.nextInt(255);
-            from.setFill(Color.rgb(red, green, blue, .99));
+            plugsColor[i]=Color.rgb(red, green, blue, .99);
 
-            to.setFill(Color.rgb(red, green, blue, .99));
 
-            list.add(from);
-            list.add(to);
+        }
+        int colorCount= 0;
+        int pairCount= 0;
+        for (int i = 0; i < nonActivePlugs.length; i++) {
+            StackPane plugHole = new StackPane();
+            Text plugText = new Text();
+            plugText.setFont(new Font(20));
+            plugText.setBoundsType(TextBoundsType.VISUAL);
+            plugText.setText(nonActivePlugs[i]);
+            Circle plugCon = new Circle(50.0f,20.0f,15.0f);
+            plugCon.setFill(Color.GRAY);
+            int index =0;
+                for (activePlug p : mainController.getActivePlugsList()) {
+                    String to = p.getTo();
+                    String from = p.getFrom();
+                    System.out.println(to+" "+from);
+                    if(nonActivePlugs[i].equals(to)|| nonActivePlugs[i].equals(from)){
+                        System.out.println("color!->"+plugsColor[index]);
+                        plugCon.setFill(plugsColor[index]);
+                    }
+
+                    index++;
+                }
+
+            plugHole.getChildren().addAll(plugCon,plugText);
+            ObsPluglist.add(plugHole);
         }
 
+//        mainController.getBackEnd().getUnActivePlugs().forEach(p->{
+//            StackPane plugHole = new StackPane();
+//            Text plugText = new Text();
+//            plugText.setFont(new Font(25));
+//            plugText.setBoundsType(TextBoundsType.VISUAL);
+//            plugText.setText(p);
+//            Circle plugCon = new Circle(60.0f,26.0f,20.0f);
+//            plugCon.setFill(Color.GRAY);
+//            plugHole.getChildren().addAll(plugCon,plugText);
+//            ObsPluglist.add(plugHole);
+//        });
+//        for (activePlug p:mainController.getActivePlugsList()) {
+//
+//            StackPane plugHoleFrom = new StackPane();
+//            StackPane plugHoleTo = new StackPane();
+//            Text fromLabel = new Text();
+//            fromLabel.setFont(new Font(25));
+//            fromLabel.setBoundsType(TextBoundsType.VISUAL);
+//            fromLabel.setText(p.getFrom());
+//            Text toLabel = new Text();
+//            toLabel.setFont(new Font(25));
+//            toLabel.setBoundsType(TextBoundsType.VISUAL);
+//            toLabel.setText(p.getTo());
+//            Circle from = new Circle(60.0f,26.0f,20.0f);
+//            Circle to = new Circle(60.0f,26.0f,20.0f);
+//
+//            int red = rand.nextInt(255);
+//            int green = rand.nextInt(255);
+//            int blue = rand.nextInt(255);
+//            from.setFill(Color.rgb(red, green, blue, .99));
+//            to.setFill(Color.rgb(red, green, blue, .99));
+//            plugHoleFrom.getChildren().addAll(from,fromLabel);
+//            plugHoleTo.getChildren().addAll(to,toLabel);
+//            ObsPluglist.add(plugHoleFrom);
+//            ObsPluglist.add(plugHoleTo);
+//
+//        }
+        plugPane.getChildren().setAll(ObsPluglist);
 
+        activeRotorsCon.setSpacing(15.0);
         for (activeRotor rotor: mainController.getActiveRotorsList()  ) {
             ListView<String> posList = new ListView<>();
             posList.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
@@ -116,7 +179,18 @@ public class ShowSettingsPaneController {
                 }
             });
 
-//            VBox rotorEditCon = new VBox();
+            VBox rotorEditCon = new VBox();
+            Rectangle rectangle = new Rectangle(10, 10, 20, 100);
+            StackPane rotorBox = new StackPane();
+            Label rotorId = new Label();
+            rotorId.setText(rotor.getPosition());
+            rectangle.setFill(Color.GRAY);
+            rotorBox.getStyleClass().add("rotorWindow");
+            rotorId.setTextFill(Color.WHEAT);
+            rotorId.setFont(Font.font(20));
+            rotorBox.getChildren().addAll(rectangle,rotorId);
+
+            activeRotorsCon.getChildren().add(rotorBox);
 //            Label rotorIdLabel = new Label();
 //            Label rotorPosLabel = new Label();
 //            rotorPosLabel.setTextFill(Color.BLACK);
@@ -130,7 +204,7 @@ public class ShowSettingsPaneController {
 //            ArrayList<String> currRotor = mainController.getBackEnd().getRotorPositions(Integer.valueOf(rotor.getId()));
 //            System.out.println(currRotor);
 //            currRotor.stream().forEach(r -> RotorPositions.add(r));
-//            activeRotorsCon.getChildren().add(rotorEditCon);
+
 //            posList.getSelectionModel().select(rotor.getPosition());
 //            posList.scrollTo(rotor.getPosition());
 

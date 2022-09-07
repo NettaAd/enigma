@@ -11,6 +11,13 @@
     -fx-border-color: white;
 }
 
+<<<<<<< HEAD
+=======
+.whiteBorder TableColumn{
+    -fx-border-color: white;
+
+}
+>>>>>>> 6c41c6a15ed31aad3c57bfe79844d8b0215ecfbb
 .greyBtn{
     -fx-border-color: lightgrey;
     -fx-background-color: black;

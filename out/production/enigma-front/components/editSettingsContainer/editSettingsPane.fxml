@@ -14,7 +14,7 @@
 
    <Button fx:id="randomBtn" layoutX="29.0"  layoutY="365.0"  mnemonicParsing = "false"  text="Random"     styleClass="greenBtn"/>
    <Button fx:id="submitBtn" layoutX="370.0" layoutY="365.0"  mnemonicParsing = "false"  text="Set Code"   styleClass="greenBtn"/>
-   <TableView fx:id = "plugsTablePreSet"     layoutX="222.0"  layoutY="125.0" prefHeight="153.0" prefWidth="100.0" styleClass="whiteBorder">
+   <TableView fx:id = "plugsTablePreSet"     layoutX="222.0"  layoutY="125.0" prefHeight="153.0" prefWidth="200.0" styleClass="whiteBorder">
       <columns>
          <TableColumn fx:id = "activePlugFromColPreSet" prefWidth="75.0" text="From" styleClass="whiteBorder" />
          <TableColumn fx:id = "activePlugToColPreSet"   prefWidth="75.0" text="To"  styleClass="whiteBorder" />

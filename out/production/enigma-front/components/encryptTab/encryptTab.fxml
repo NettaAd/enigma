@@ -32,12 +32,12 @@
                                  </font>
                               </Label>
                               <TextField fx:id="EncryptInputTextField" prefHeight="34.0" prefWidth="397.0" />
-                              <Label styleClass="errorHelper" fx:id="errorHelper" text="" visible="true"/>
+                              <Label fx:id="errorHelper" styleClass="errorHelper" text="" visible="true" />
                            </children>
                         </VBox>
                         <VBox  prefHeight="235.0" prefWidth="209.0" style="-fx-background-color: black;" styleClass="configWindow">
                            <children>
-                              <Button fx:id="encryptBtn" layoutX="14.0" layoutY="198.0" mnemonicParsing="false" text="Encrypt" />
+                              <Button fx:id="encryptBtn" layoutX="14.0" layoutY="198.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="170.0" text="Encrypt" />
                               <Button fx:id="toggleEncryptTypeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="71.0" prefWidth="170.0" text="Stream mode" />
                            </children>
                         </VBox>
