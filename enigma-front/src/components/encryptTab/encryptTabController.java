@@ -6,16 +6,12 @@ import common_models.activePlug;
 import common_models.activeRotor;
 import components.main.MainController;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,8 +21,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -96,7 +90,7 @@ public class encryptTabController {
                 String toDecode=EncryptInputTextField.getText();
                 toDecode = toDecode.toUpperCase();
                 try {
-                    mainController.getBackEnd().testAgent(toDecode);
+                    mainController.getBackEnd().testAgent();
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -105,7 +99,7 @@ public class encryptTabController {
                     String res = backend.DecodeString(toDecode,true);
 //                end = System.nanoTime();
                     encryptOutPut.set(res);
-                    mainController.getActiveRotorsList().setAll(backend.getActiveRotorsBeter());
+                    mainController.getActiveRotorsList().setAll(backend.getActiveRotorsBetter());
                     encryptInPut.set("");
                 }catch (Exception err){
                     System.out.println("ERROR"+err);
@@ -113,7 +107,7 @@ public class encryptTabController {
             }else{
                 System.out.println("streaming");
                 backend.addMsgCount(EncryptInputTextField.getText(),encryptOutPut.get());
-                mainController.getActiveRotorsList().setAll(backend.getActiveRotorsBeter());
+                mainController.getActiveRotorsList().setAll(backend.getActiveRotorsBetter());
 
             }
 
@@ -169,7 +163,7 @@ public class encryptTabController {
                         plugHole.getChildren().addAll(plugCon,plugText);
                         keyBoardPane.getChildren().add(plugHole);
                     }
-                    mainController.getActiveRotorsList().setAll(backend.getActiveRotorsBeter());
+                    mainController.getActiveRotorsList().setAll(backend.getActiveRotorsBetter());
 
                 } catch (Exception err) {
                     System.out.println("ERROR" + err);
@@ -260,7 +254,7 @@ public class encryptTabController {
 
 
 
-        ArrayList<activeRotor> rotors =  backend.getActiveRotorsBeter();
+        ArrayList<activeRotor> rotors =  backend.getActiveRotorsBetter();
         HBox con = new HBox();
         con.getStyleClass().add("rotorPosCon");
         configPane.setCenterShape(true);

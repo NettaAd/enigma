@@ -3,17 +3,8 @@ package enigma.ui;
 import Machine.SpinningRotor;
 import backend.BackEndMain;
 import backend.SavedEncode;
-import dataHandler.dataHandler;
-
-
-import javax.sound.midi.ControllerEventListener;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-
-
-
-
 
 public class Ui {
 
@@ -21,17 +12,14 @@ public class Ui {
     boolean firstSet;
     Scanner userInput = new Scanner(System.in);
     BackEndMain backend = new BackEndMain();
-
-    dataHandler dto = new dataHandler(backend);
-
     String[] menuOptions = new String[] {   "Load Machine settings via XML file"
             , "Show Machine settings"
             , "Set up machine settings"
             , "Random machine settings"
             , "Encode"
             , "Reset settings"
-            , "Stats and history ",
-            "TEST47"
+            , "Stats and history "
+            , "TEST47"
          };
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -182,7 +170,7 @@ public class Ui {
 
             case 8: System.out.println("<<<<<<<<  GOODBYE! :D  >>>>>>>>"); break; // Exit
 
-//            case 4: backend.testAgent();
+            case 4: backend.testAgent();
             default: System.out.println("Please enter valid choice: "); break;
         }
     }
