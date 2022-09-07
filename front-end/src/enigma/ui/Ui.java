@@ -30,7 +30,8 @@ public class Ui {
             , "Random machine settings"
             , "Encode"
             , "Reset settings"
-            , "Stats and history "
+            , "Stats and history ",
+            "TEST47"
          };
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +51,7 @@ public class Ui {
             System.out.println(i + 1 + ": " + menuOptions[i]);
         }
     }
-    public void runApp() {
+    public void runApp() throws Exception {
 
         int exit = 8;
         System.out.println("Hey there!");
@@ -161,7 +162,7 @@ public class Ui {
 
     //////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void menuSwitch(int menuItem) {
+    public void menuSwitch(int menuItem) throws Exception {
 
         switch (menuItem) {
 
@@ -171,7 +172,7 @@ public class Ui {
 
             case 3: getMachineSettings();    break;                    // Set up machine settings
 
-            case 4: randomMachine();      break;               // Random machine settings
+//            case 4: randomMachine();      break;               // Random machine settings
 
             case 5: decode();    break;                                // Decode
 
@@ -181,7 +182,7 @@ public class Ui {
 
             case 8: System.out.println("<<<<<<<<  GOODBYE! :D  >>>>>>>>"); break; // Exit
 
-//            case 9: backend.saveStateToMachine();
+            case 4: backend.testAgent();
             default: System.out.println("Please enter valid choice: "); break;
         }
     }

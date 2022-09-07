@@ -30,3 +30,24 @@
     -fx-background-color: black;
     -fx-font-size: 12px;
 }
+
+.encryptCon *{
+    -fx-text-fill: white;
+    -fx-background-color: black;
+
+}
+
+.encryptCon Button{
+    -fx-background-color: gray;
+
+}
+
+.keyBoardPane{
+    -fx-border-color: lightgrey;
+    /*-fx-background-color: white;*/
+}
+
+.plugBoard{
+    -fx-border-color: red;
+
+}

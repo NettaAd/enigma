@@ -21,6 +21,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -29,11 +30,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class MainController {
 
     private BackEndMain backend = new BackEndMain();
+
+    @FXML private VBox mainCon;
 
     @FXML private  AnchorPane encryptTab;
 
@@ -66,6 +70,8 @@ public class MainController {
 
     private SimpleStringProperty selectedFileProperty;
 
+    private Color[] plugColors;
+
 
     private ObservableList<activePlug> activePlugsList = FXCollections.observableArrayList();
 
@@ -83,6 +89,7 @@ public class MainController {
         isSettings=new SimpleBooleanProperty(false);
         isFileSelected = new SimpleBooleanProperty(false);
         triggerUpdate= new SimpleBooleanProperty(false);
+
 
 
     }
@@ -109,6 +116,7 @@ public class MainController {
     @FXML
     private void initialize() {
         selectedFileName.textProperty().bind(selectedFileProperty);
+        settings.minWidthProperty().bind(mainCon.widthProperty());
 
         downPane.disableProperty().bind(isFileSelected.not());
         activeRotorsList.addListener((ListChangeListener<? super activeRotor>) e->{
@@ -131,8 +139,7 @@ public class MainController {
     public void Sync(){
         if(backend.getAmountOfActiveRotors()>2){
         }
-//        activePlugsList.setAll(backend.getActivePlugsBetter());
-//        activeRotorsList.setAll(backend.getActiveRotorsBeter());
+
 //        ArrayList<activePlug> plugs = mainController.getBackEnd().getActivePlugsBetter();
 //        ArrayList<activeRotor> rotors = mainController.getBackEnd().getActiveRotorsBeter();
         System.out.println(activePlugsList);
@@ -152,6 +159,9 @@ public class MainController {
         this.primaryStage = primaryStage;
     }
 
+    public Color[] getPlugsColor(){
+        return plugColors;
+    }
 
     @FXML
     public void openFileButtonAction()  {
@@ -169,6 +179,18 @@ public class MainController {
             backend.setXmlData(absolutePath);
             activeRotorsList.clear();
             activePlugsList.clear();
+            Random rand = new Random(System.currentTimeMillis());
+            Color[] newPlugsColor = new Color[backend.getUnActivePlugs().size()];
+            for (int i = 0; i < backend.getUnActivePlugs().size(); i++) {
+
+                int red = rand.nextInt(255);
+                int green = rand.nextInt(255);
+                int blue = rand.nextInt(255);
+                newPlugsColor[i]=Color.rgb(red, green, blue, .99);
+
+
+            }
+            plugColors = newPlugsColor;
             settingsController.clearAll();
             settingsController.setParent(this);
             encryptTabController.setParent(this);
@@ -179,5 +201,12 @@ public class MainController {
         catch (JAXBException e){
             e.printStackTrace();
         }
+    }
+
+    public void resetMachine() {
+        backend.resetMachine();
+        activePlugsList.setAll(backend.getActivePlugsBetter());
+        activeRotorsList.setAll(backend.getActiveRotorsBeter());
+        Sync();
     }
 }

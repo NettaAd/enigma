@@ -4,16 +4,23 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="638.0" prefWidth="1003.0" stylesheets="@encryptStyle.css" xmlns="http://javafx.com/javafx/8.0.341" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.encryptTab.encryptTabController">
+<AnchorPane prefHeight="638.0" prefWidth="1003.0" styleClass="encryptCon" stylesheets="@encryptStyle.css" xmlns="http://javafx.com/javafx/8.0.341" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.encryptTab.encryptTabController">
    <children>
       <VBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Pane fx:id="configPane" prefHeight="95.0" prefWidth="960.0" styleClass="configWindow" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Pane fx:id="configPane" prefHeight="97.0" prefWidth="476.0" styleClass="configWindow" />
+                  <FlowPane fx:id="plugPane" styleClass="plugBoard" prefWidth="528.0" />
+               </children>
+            </HBox>
             <HBox prefHeight="239.0" prefWidth="1003.0" styleClass="inputWindow">
                <children>
                   <HBox prefHeight="235.0" prefWidth="587.0">
@@ -35,8 +42,10 @@
                               <Label fx:id="errorHelper" styleClass="errorHelper" text="" visible="true" />
                            </children>
                         </VBox>
-                        <VBox  prefHeight="235.0" prefWidth="209.0" style="-fx-background-color: black;" styleClass="configWindow">
+                        <VBox prefHeight="235.0" prefWidth="209.0" style="-fx-background-color: black;" styleClass="configWindow">
                            <children>
+                              <Button fx:id="resetBtn" layoutX="14.0" layoutY="198.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="170.0" text="reset" />
+
                               <Button fx:id="encryptBtn" layoutX="14.0" layoutY="198.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="170.0" text="Encrypt" />
                               <Button fx:id="toggleEncryptTypeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="71.0" prefWidth="170.0" text="Stream mode" />
                            </children>
@@ -45,8 +54,18 @@
                   </HBox>
                   <VBox fx:id="historyPane" prefHeight="235.0" prefWidth="453.0" style="-fx-background-color: black;" styleClass="configWindow" />
                </children></HBox>
-            <AnchorPane prefHeight="152.0" prefWidth="1003.0" />
-            <AnchorPane prefHeight="159.0" prefWidth="1003.0" />
+            <AnchorPane prefHeight="152.0" prefWidth="1003.0">
+               <children>
+                  <FlowPane fx:id="keyBoardPane" layoutX="73.0" layoutY="25.0" prefHeight="100.0" prefWidth="857.0" styleClass="keyBoardPane">
+
+      </FlowPane>
+               </children></AnchorPane>
+            <AnchorPane prefHeight="159.0" prefWidth="1003.0">
+               <children>
+                  <FlowPane fx:id="keyBoardPaneShow" layoutX="73.0" layoutY="12.0" prefHeight="100.0" prefWidth="857.0" styleClass="keyBoardPane">
+
+                  </FlowPane>
+               </children></AnchorPane>
          </children>
       </VBox>
    </children>

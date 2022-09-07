@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane stylesheets="@editSettingsStyle.css" prefHeight="500.0" prefWidth="500.0"
+<AnchorPane fx:id="editSettingsCon" stylesheets="@editSettingsStyle.css" prefHeight="500.0" prefWidth="500.0"
             xmlns = "http://javafx.com/javafx/8.0.341" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="components.editSettingsContainer.EditSettingsPaneController">
 

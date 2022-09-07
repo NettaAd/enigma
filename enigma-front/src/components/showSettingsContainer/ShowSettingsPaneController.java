@@ -91,16 +91,17 @@ public class ShowSettingsPaneController {
         ObsPluglist.clear();
         Random rand = new Random(System.currentTimeMillis());
         String[] nonActivePlugs = mainController.getBackEnd().getAbc().getAbc().split("");
-        Color[] plugsColor = new Color[mainController.getActivePlugsList().size()];
-        for (int i = 0; i < mainController.getActivePlugsList().size(); i++) {
+        Color[] plugsColor = mainController.getPlugsColor();
 
-            int red = rand.nextInt(255);
-            int green = rand.nextInt(255);
-            int blue = rand.nextInt(255);
-            plugsColor[i]=Color.rgb(red, green, blue, .99);
-
-
-        }
+//        for (int i = 0; i < mainController.getActivePlugsList().size(); i++) {
+//
+//            int red = rand.nextInt(255);
+//            int green = rand.nextInt(255);
+//            int blue = rand.nextInt(255);
+//            plugsColor[i]=Color.rgb(red, green, blue, .99);
+//
+//
+//        }
         int colorCount= 0;
         int pairCount= 0;
         for (int i = 0; i < nonActivePlugs.length; i++) {
@@ -115,9 +116,7 @@ public class ShowSettingsPaneController {
                 for (activePlug p : mainController.getActivePlugsList()) {
                     String to = p.getTo();
                     String from = p.getFrom();
-                    System.out.println(to+" "+from);
                     if(nonActivePlugs[i].equals(to)|| nonActivePlugs[i].equals(from)){
-                        System.out.println("color!->"+plugsColor[index]);
                         plugCon.setFill(plugsColor[index]);
                     }
 

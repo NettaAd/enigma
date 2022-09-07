@@ -1027,6 +1027,34 @@ return;
 
 
     }
+
+    public void testAgent() throws Exception {
+        setReflectorViaUser("I");
+        Machine newMachine = myEnigma;
+
+        int[] plugInit = new int[abc.getSize()];
+        for( int i=0 ; i < abc.getSize() ; i++ ){
+
+            plugInit[i]=i;
+        }
+        PlugBoard p = new PlugBoard(plugInit);
+        newMachine.setPlugBoard(p);
+        ArrayList<String> posMsg = new ArrayList<>();
+        posMsg.add("HELLO");
+        posMsg.add("WORLD");
+        ArrayList<activeRotor> initRotors = new ArrayList<>();
+
+        initRotors.add(new activeRotor("1",0,"E",3));
+        initRotors.add(new activeRotor("2",1,"E",2));
+        setRotorsViaUserBetter(initRotors);
+        String input = DecodeString("HELLO",false);
+        ArrayList<activeRotor> rotors = new ArrayList<>();
+        rotors.add(new activeRotor("1",0,"A",17));
+        rotors.add(new activeRotor("2",1,"A",5));
+
+        agent testboy = new agent(0,newMachine,input,rotors,"1",5,posMsg,abc);
+        testboy.run();
+    }
 //
 //    public void saveStateToMachine(){
 //        System.out.println("wowwww");

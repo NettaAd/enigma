@@ -19,6 +19,10 @@ import java.net.URL;
 public class SettingsController {
 
     @FXML private  AnchorPane showMachinePane;
+
+    @FXML private HBox editPane;
+
+    @FXML private VBox settingsCon;
     @FXML showMachinePaneController showMachinePaneController;
     @FXML private AnchorPane showSettingsPane;
     @FXML private ShowSettingsPaneController showSettingsPaneController;
@@ -33,7 +37,9 @@ public class SettingsController {
         editSettingsPaneController.setParent(this);
         showSettingsPaneController.setParent(this);
         showMachinePaneController.setParent(this);
-        System.out.println(this.isMachineSetProperty().get());
+        editPane.minWidthProperty().bind(settingsCon.widthProperty());
+//        editSettingsPane.setScaleY().bind(settingsCon.widthProperty());
+//        System.out.println(this.isMachineSetProperty().get());
     }
     public SimpleBooleanProperty isMachineSetProperty() {
 
@@ -63,7 +69,8 @@ public class SettingsController {
     }
     public MainController getMainController() {
 
-        System.out.println(mainController);
         return mainController;
     }
+
+
 }

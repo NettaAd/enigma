@@ -22,7 +22,6 @@ public class showMachinePaneController {
 
         BackEndMain backend = mainController.getBackEnd();
         int activeRotorsNum = mainController.getActiveRotorsList().size();
-        System.out.println("got to size"+activeRotorsNum);
         //  TODO -SHOULD BE IN MAIN AS WELL?
         int rotorsNum = backend.getAmountOfRotors();
         activeRotorsLabel.setText(activeRotorsNum+"/"+rotorsNum);

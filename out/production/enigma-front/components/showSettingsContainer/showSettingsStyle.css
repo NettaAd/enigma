@@ -12,3 +12,11 @@
     /*-fx-background-radius:30px;*/
 
 }
+
+#plugPane{
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image:  url("wood.jpg");
+    -fx-alignment: center;
+}

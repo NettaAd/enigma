@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -24,6 +25,8 @@ import java.util.stream.Collectors;
 public class EditSettingsPaneController {
 
     private SettingsController parentController;
+
+    @FXML private AnchorPane editSettingsCon;
     @FXML    private Button randomBtn;
     @FXML    private Button submitBtn;
     @FXML private  ComboBox<String> rotorsSelect;
@@ -171,7 +174,6 @@ public class EditSettingsPaneController {
         submitBtn.setOnMouseClicked(e->{
             try {
 //                TODO make this a function (maybe a service?)
-                System.out.println(preSetRotors.size());
                 if(preSetRotors.size()>=2  ) {
                     mainController.getBackEnd().setPlugBoardViaUserBetter(preSetTableList.stream().collect(Collectors.toList()));
                     mainController.getBackEnd().setRotorsViaUserBetter(preSetRotors.stream().collect(Collectors.toList()));
@@ -206,7 +208,6 @@ public class EditSettingsPaneController {
         preSetAddPlugButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println(toselect.getValue() + " " + fromselect.getValue());
                 String toNode = toselect.getValue();
                 String fromNode = fromselect.getValue();
                 if (toNode != null && fromNode != null && fromNode!=toNode) {
