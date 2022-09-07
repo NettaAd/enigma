@@ -10,20 +10,24 @@ public class Machine {
     private SpinningRotor[] rotors;
     private Reflector[] reflectors;
     private Reflector activeReflector;
+    private ABC abc;
 
-
+    /////////////////////////////////////////////
     public Machine() {}
-    public Machine(PlugBoard plugBoard,SpinningRotor[] activeRotors,Reflector[] reflectors) {
 
-        this.activeRotors = new ArrayList<> ();
-        this.plugBoard = plugBoard;
-        this.rotors=activeRotors;
-        this.reflectors = reflectors;
-        this.activeReflector=reflectors[0];
-    }
-
+    /////////////////////////////////////////////
 
     // ************ the machine getter's functions ************
+
+    public SpinningRotor[] getRotorsArr(){
+        return this.rotors;
+    }
+    public Reflector[] getReflectors(){
+        return this.reflectors;
+    }
+    public ABC getAbc() {
+        return this.abc;
+    }
     public SpinningRotor getRotor(int id) throws Exception {
 
         for ( int i = 0 ; i < rotors.length ; i++ ) {
@@ -56,7 +60,6 @@ public class Machine {
 
         return activeReflector;
     }
-
     public int getNumberOfActiveRotors() {
         return activeRotors.size();
     }
@@ -66,6 +69,12 @@ public class Machine {
 
     // ************ the machine setter's functions ************
 
+    public void setRotors(SpinningRotor[] rotors) {
+        this.rotors = rotors;
+    }
+    public void setABC(ABC abc){
+        this.abc = abc;
+    }
     public void setActiveRotors(ArrayList<SpinningRotor> arr, int size){
 
         this.numberOfActiveRotors = size;
@@ -79,8 +88,8 @@ public class Machine {
 
         this.plugBoard = p;
     }
-    public Reflector[] getReflectors() {
-        return reflectors;
+    public void setReflectors( Reflector[] reflectors) {
+        this.reflectors = reflectors;
     }
 
     // ************ the machine action's functions ************
@@ -144,7 +153,6 @@ public class Machine {
         // step 4: find out what char is the match of res in the plug board
         return getFromPlugBoard(res);
     }
-
     public ArrayList<SpinningRotor> getRotors() {
         ArrayList<SpinningRotor> rotorsList = new ArrayList<>();
         for (int i = 0; i < rotors.length; i++) {
@@ -152,4 +160,5 @@ public class Machine {
         }
         return  rotorsList;
     }
+
 }

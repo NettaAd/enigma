@@ -206,7 +206,7 @@ public class MainController {
     public void resetMachine() {
         backend.resetMachine();
         activePlugsList.setAll(backend.getActivePlugsBetter());
-        activeRotorsList.setAll(backend.getActiveRotorsBeter());
+        activeRotorsList.setAll(backend.getActiveRotorsBetter());
         Sync();
     }
 }

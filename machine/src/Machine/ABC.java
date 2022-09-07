@@ -5,16 +5,18 @@ import java.util.ArrayList;
 public class ABC {
     String chars;
 
+    ///////////////////////////////////
     public ABC(char[] chars) {
 
         this.chars = String.valueOf(chars);
     }
 
+    ///////////////////////////////////
+
     public String getAbc() {
 
        return chars;
     }
-
     public  ArrayList<Character> getAbcAsCollation() {
         ArrayList<Character> colc = new ArrayList<>();
         for (int i=0;i<chars.length();i++) {
@@ -24,7 +26,6 @@ public class ABC {
         return  colc;
 
     }
-
     public int getSize(){
 
         return chars.length();
@@ -41,19 +42,14 @@ public class ABC {
         }
         return badLetters;
     }
-
     public char toLetter(int input){
 
         return chars.charAt(input);
     }
-
-
-
     public int toIndex(char input){
 
         return chars.indexOf(input);
     }
-
     public int toIndex(String input){
 
         return chars.indexOf(input.charAt(0));

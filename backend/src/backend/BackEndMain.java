@@ -1,5 +1,4 @@
 package backend;
-
 import Machine.*;
 import common_models.activePlug;
 import jaxb.schema.generated.CTEEnigma;
@@ -7,14 +6,11 @@ import jaxb.schema.generated.CTEReflect;
 import jaxb.schema.generated.CTEReflector;
 import jaxb.schema.generated.CTERotor;
 import common_models.activeRotor;
-
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
 import java.util.*;
-
 
 public class BackEndMain {
 
@@ -22,8 +18,6 @@ public class BackEndMain {
     String LETTER_IS_NOT_IN_ABC="the next letter are not allowed with the curr settings ";
     private Machine first;
     String firstSettings;
-
-
     private Machine myEnigma;
     private ABC abc;
     private Reflector[] reflectors;
@@ -40,13 +34,13 @@ public class BackEndMain {
     }
 
     ///////////////////////       getters       ///////////////////////
+
     public int getMessagesCount() {
         return messagesCount;
     }
     public Reflector[] getReflectors() {
         return reflectors;
     }
-
     public ArrayList<String> getReflectorsIds() {
         ArrayList<String> tempReflectors = new ArrayList<>();
         for (int i = 0; i <reflectors.length; i++) {
@@ -67,7 +61,6 @@ public class BackEndMain {
     public ArrayList<SpinningRotor> getRotorsArr(){
         return myEnigma.getActiveRotors();
     }
-
     public ArrayList<String> getRotorPositions(int id){
         ArrayList<String> positions = new ArrayList<>();
         Letter[] tempPoss = myEnigma.getRotors().get(id-1).getRightArr();
@@ -76,7 +69,6 @@ public class BackEndMain {
         }
         return positions;
     }
-
     public ArrayList<SpinningRotor> getAllRotorsArr(){
         return myEnigma.getRotors();
     }
@@ -103,6 +95,7 @@ public class BackEndMain {
                 "<" + this.activePlugBoardStateDisplay() + ">" ;
     }
 
+
     ///////////////////////       setters       ///////////////////////
 
     public void setReflectorViaUser(String r){
@@ -114,7 +107,9 @@ public class BackEndMain {
             }
         }
     }
+
     public void setPlugBoardViaUserBetter(List<activePlug> plugs){
+
         int[] letters = new int[abc.getSize()];
         for(int i = 0 ; i < abc.getSize() ; i++){
 
@@ -157,6 +152,7 @@ public class BackEndMain {
 
         myEnigma.setPlugBoard(p);
     }
+
     public void setRotorsViaUserBetter (List<activeRotor> rotors) throws Exception {
 
         ArrayList<SpinningRotor> newRotors = new ArrayList<>();
@@ -202,10 +198,12 @@ public class BackEndMain {
         myEnigma.setActiveRotors(newRotors, rotorsId.length);
 
     }
+
     public void setFirstMachine(){
 
         firstSettings = getFormatStats();
     }
+
 
     ///////////////////////       4 random       ///////////////////////
     private ArrayList<Integer> usedId;
@@ -429,7 +427,9 @@ return;
         addEncode(rawString, res,settings);
     }
 
+
     ///////////////////////       5 encode       ///////////////////////
+
     public String DecodeString(String rawString,boolean finished) throws Exception {
 
         if ( myEnigma.getActiveRotors().size() == 0 ) {
@@ -470,15 +470,20 @@ return;
             throw new Exception(LETTER_IS_NOT_IN_ABC+resStr);
         }
     }
-    public void resetMachine(){
-    try {
-        for (int i = 0; i < myEnigma.getActiveRotors().size(); i++) {
 
-            myEnigma.getActiveRotors().get(i).setRotor(rotorsInitState[i]);
+    ///////////////////////       6 reset       ///////////////////////
+
+    public void resetMachine(){
+        try {
+            for (int i = 0; i < myEnigma.getActiveRotors().size(); i++) {
+
+                myEnigma.getActiveRotors().get(i).setRotor(rotorsInitState[i]);
+            }
         }
-    }catch (Exception e){
-        e.printStackTrace();
-    }
+        catch (Exception e){
+
+            e.printStackTrace();
+        }
     }
 
     ///////////////////////      7 stats and history       ///////////////////////
@@ -512,7 +517,9 @@ return;
         machineSettings.clear();
     }
 
+
     ///////////////////////      2 display       ///////////////////////
+
     public String activeRotorsDisplay(){
 
         StringBuilder res = new StringBuilder();
@@ -589,7 +596,6 @@ return;
 
         return myEnigma.getActiveReflector().getId();
     }
-
     //    not sure about that one
     public boolean isRotorExist(int id){
         try {
@@ -601,7 +607,6 @@ return;
             return  false;
         }
     }
-
     public ArrayList<String> getUnActivePlugs(){
         ArrayList<String> unActivePlugs = new ArrayList<>();
         myEnigma.getPlugBoard().getPlugs().entrySet().stream().filter(p->p.getKey()==p.getValue()).forEach(p->unActivePlugs.add(String.valueOf(abc.toLetter(p.getValue()))));
@@ -632,9 +637,10 @@ return;
         return res.toString();
     }
 
+
     ///////////////////////       1 file       ///////////////////////
 
-    ///////////    xml staff    ///////////////
+    // xml staff    ///////////////
     public static CTEEnigma deserializeFrom(InputStream in) throws JAXBException {
 
         JAXBContext jc=JAXBContext.newInstance("jaxb.schema.generated");
@@ -655,7 +661,7 @@ return;
         }
         return plugList;
     }
-    public ArrayList<activeRotor> getActiveRotorsBeter(){
+    public ArrayList<activeRotor> getActiveRotorsBetter(){
         ArrayList<activeRotor> rotorList = new ArrayList<>();
         myEnigma.getActiveRotors().stream().forEach(e->{
             SpinningRotor currRef = e;
@@ -821,7 +827,11 @@ return;
             }
             PlugBoard plugBoard = new PlugBoard(plugInit);
 
-            myEnigma = new Machine(plugBoard,machineRotors,reflectors);
+            myEnigma = new Machine();
+            myEnigma.setRotors(machineRotors);
+            myEnigma.setPlugBoard(plugBoard);
+            myEnigma.setReflectors(reflectors);
+            myEnigma.setABC(abc);
             myEnigma.setReflector(reflectors[0]);
 
         }
@@ -834,7 +844,7 @@ return;
         return "ok";
     }
 
-    ///////////    validation check    ///////////
+    // validation check    ///////////
     private static final int NO_FILE = 0;
     private static final int CORRECT = 2;
     private static final int INCORRECT = 3;
@@ -1002,7 +1012,6 @@ return;
 
 
     }
-
     public int checkDuplicateRefMapping(List<CTEReflect> all, int size) throws Exception {
         if(all.size()>size){
             throw  new Exception(REFLECTOR_TO_MUCH_MAPPING);
@@ -1027,67 +1036,49 @@ return;
 
 
     }
-
     public void testAgent() throws Exception {
-        setReflectorViaUser("I");
-        Machine newMachine = myEnigma;
 
+        /*
+
+        // set machine
+        Machine newMachine = new Machine();
+
+        // set rotors
+        newMachine.setRotors(myEnigma.getRotorsArr());
+        newMachine.setActiveRotors(myEnigma.);
+
+        // set reflectors
+        newMachine.setReflectors(myEnigma.getReflectors());
+
+        // set empty plugs
         int[] plugInit = new int[abc.getSize()];
-        for( int i=0 ; i < abc.getSize() ; i++ ){
-
-            plugInit[i]=i;
-        }
+        for( int i=0 ; i < abc.getSize() ; i++ ){ plugInit[i] = i; }
         PlugBoard p = new PlugBoard(plugInit);
         newMachine.setPlugBoard(p);
-        ArrayList<String> posMsg = new ArrayList<>();
-        posMsg.add("HELLO");
-        posMsg.add("WORLD");
-        ArrayList<activeRotor> initRotors = new ArrayList<>();
+*/
+        // create new copy of my enigma
+        // set the active rotors and the active ref
+        // set the current agent poss
+        // init plugs
 
-        initRotors.add(new activeRotor("1",0,"E",3));
-        initRotors.add(new activeRotor("2",1,"E",2));
-        setRotorsViaUserBetter(initRotors);
-        String input = DecodeString("HELLO",false);
-        ArrayList<activeRotor> rotors = new ArrayList<>();
-        rotors.add(new activeRotor("1",0,"A",17));
-        rotors.add(new activeRotor("2",1,"A",5));
+        ///////////////////////////////////////////////////////////////
 
-        agent testboy = new agent(0,newMachine,input,rotors,"1",5,posMsg,abc);
-        testboy.run();
+        // set dictionary
+        ArrayList<String> Dictionary = new ArrayList<>();
+        String words = "encapsulation german poland kombat waffele whom? leg character terms else camel rabbit fire text if they element sky item robot! past dune dolphine then it am quality eye moon system folder light letter number# notch allies dog word hash why? gun pink what? yellow sea see noon file top does ear can't table foot hand a strike black i electricity pistol kill boat democracy off battle single fly component blue watch reflector future machine progress atom under inferno voice rotor tonight mouce door won't data use doom sign screen do bomb red later whale white hello? than which england morning! dirt tree thrown water trash ranch she sand squad desk present where? magenta game code enigma plural death vegtable fruit for their privacy back house fox not hair napkin and street cat now of iteration class trike fight mortal live how? on patrol keyboard midnight or green umbrella wheel saw orange airplane window front he";
+        String[] wordsArr = words.split(" ");
+        for (String word: wordsArr) {
+            Dictionary.add(word);
+        }
+
+        String input = "S?LPO?M'E FRQWVO";
+        /////////////////////////////////////////
+
+        // set testBoy
+        agent testBoy = new agent(2, input ,10);
+        testBoy.setMachine(myEnigma, rotorsInitState);
+        testBoy.setDictionary(Dictionary);
+
+        testBoy.run();
     }
-//
-//    public void saveStateToMachine(){
-//        System.out.println("wowwww");
-//
-//        StringBuilder rotorsState = new StringBuilder();
-//        int size = myEnigma.getActiveRotors().size();
-//        rotorsState.append(size+",");
-//        for (int i = 0 ; i < size ; i++){
-//
-//            SpinningRotor rotor = myEnigma.getActiveRotors().get(i);
-//            res.append(rotor.getId());
-//            res.append(rotor.getRightArr()[rotor.getPos()].theLetter());
-//
-//
-//            if (i != size - 1) {
-//                res.append(",");
-//            }
-//
-//        }
-//        System.out.println(res);
-////        try {
-////            FileWriter myWriter = new FileWriter("filename.txt");
-////            myWriter.write("Files in Java might be tricky, but it is fun enough!");
-////            myWriter.close();
-////            System.out.println("Successfully wrote to the file.");
-////        } catch (IOException e) {
-////            System.out.println("An error occurred.");
-////            e.printStackTrace();
-////        }
-//
-//    }
-
-
-
-    //////////////////////////////////////////////////////////////////////////////////////
 }
